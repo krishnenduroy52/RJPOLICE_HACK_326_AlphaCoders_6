@@ -1,4 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { userDetailsRoute } from "../../Utils/APIRoutes";
+import axios from 'axios'
+import bcrypt from "bcryptjs";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const DetailsForm = () => {
   const [progress, setProgress] = useState(1);
@@ -14,24 +20,55 @@ const DetailsForm = () => {
         state: "",
         district: "",
         zip: "",
-        country: "",
+        country: "abcd",
       },
     },
     camera: {
-      cameraModel: "", 
-      cameraQuality: "", 
-      cameraSerialNo: "", 
+      cameraModel: "",
+      cameraQuality: "",
+      cameraSerialNo: "",
       cameraMacAddress: "",
-      cameraLatitude: "", 
-      cameraLongitude: "", 
+      cameraLatitude: "",
+      cameraLongitude: "",
       cameraViewLeft: "",
       cameraViewRight: "",
     },
   });
-  const handelSubmit = () => {
-    // Indrajit do it
+
+  const handleSubmit = async () => {
+    // Validate each field before proceeding
     console.log(form)
+    if (
+      Object.values(form.user).some(value => value === "") ||
+      Object.values(form.user.address).some(value => value === "") ||
+      Object.values(form.camera).some(value => value === "")
+    ) {
+      toast.error("Please fill in all fields.");
+      return;
+    }
+
+    // Hash the password using bcryptjs before sending it to the backend
+    const hashedPassword = await bcrypt.hash(form.user.password, 10);
+
+    // Update the form with the hashed password
+    setForm(prevForm => ({
+      ...prevForm,
+      user: {
+        ...prevForm.user,
+        password: hashedPassword,
+      },
+    }));
+
+    try {
+      const res = await axios.post(userDetailsRoute, form);
+      console.log(res);
+      toast.success("User details successfully added.");
+    } catch (error) {
+      console.error('There is some error', error);
+      toast.error("Internal Server Error");
+    }
   };
+
 
   const handelUserChange = (e) => {
     const { name, value } = e.target;
@@ -60,25 +97,22 @@ const DetailsForm = () => {
         <div className="px-[300px] sm:px-[150px]">
           <div className="flex justify-around mb-4">
             <div
-              className={`w-6 h-6 ${
-                progress == 1 ? "bg-green-700" : "bg-blue-400"
-              } rounded-full flex items-center justify-center block uppercase tracking-wide font-bold`}
+              className={`w-6 h-6 ${progress == 1 ? "bg-green-700" : "bg-blue-400"
+                } rounded-full flex items-center justify-center block uppercase tracking-wide font-bold`}
               onClick={() => setProgress(1)}
             >
               1
             </div>
             <div
-              className={`w-6 h-6 ${
-                progress == 2 ? "bg-green-700" : "bg-blue-400"
-              } rounded-full flex items-center justify-center block uppercase tracking-wide font-bold`}
+              className={`w-6 h-6 ${progress == 2 ? "bg-green-700" : "bg-blue-400"
+                } rounded-full flex items-center justify-center block uppercase tracking-wide font-bold`}
               onClick={() => setProgress(2)}
             >
               2
             </div>
             <div
-              className={`w-6 h-6 ${
-                progress == 3 ? "bg-green-700" : "bg-blue-400"
-              } rounded-full flex items-center justify-center block uppercase tracking-wide font-bold`}
+              className={`w-6 h-6 ${progress == 3 ? "bg-green-700" : "bg-blue-400"
+                } rounded-full flex items-center justify-center block uppercase tracking-wide font-bold`}
               onClick={() => setProgress(3)}
             >
               3
@@ -92,10 +126,10 @@ const DetailsForm = () => {
                 {progress == 1
                   ? "User Details"
                   : progress == 2
-                  ? "Camera Details"
-                  : progress == 3
-                  ? "Image Sample"
-                  : "Thank You"}
+                    ? "Camera Details"
+                    : progress == 3
+                      ? "Image Sample"
+                      : "Thank You"}
               </h1>
             </div>
             <div>
@@ -108,7 +142,7 @@ const DetailsForm = () => {
                           className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                           htmlFor="grid-first-name"
                         >
-                          First Name
+                          First Name <span className="text-red-500">*</span>
                         </label>
                         <input
                           className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -118,6 +152,7 @@ const DetailsForm = () => {
                           name="firstname"
                           onChange={(e) => handelUserChange(e)}
                           value={form.user.firstname}
+                          required
                         />
                       </div>
                       <div className="w-full md:w-1/2 px-3">
@@ -125,7 +160,7 @@ const DetailsForm = () => {
                           className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                           htmlFor="grid-last-name"
                         >
-                          Last Name
+                          Last Name <span className="text-red-500">*</span>
                         </label>
                         <input
                           className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -144,7 +179,7 @@ const DetailsForm = () => {
                           className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                           htmlFor="grid-password"
                         >
-                          Email ID
+                          Email ID <span className="text-red-500">*</span>
                         </label>
                         <input
                           className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -163,7 +198,7 @@ const DetailsForm = () => {
                           className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                           htmlFor="grid-password"
                         >
-                          Password
+                          Password <span className="text-red-500">*</span>
                         </label>
                         <input
                           className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -182,7 +217,7 @@ const DetailsForm = () => {
                           className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                           htmlFor="grid-password"
                         >
-                          phone Number
+                          Phone Number <span className="text-red-500">*</span>
                         </label>
                         <input
                           className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -201,7 +236,7 @@ const DetailsForm = () => {
                           className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                           htmlFor="grid-password"
                         >
-                          City
+                          City <span className="text-red-500">*</span>
                         </label>
                         <input
                           className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -220,7 +255,7 @@ const DetailsForm = () => {
                           className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                           htmlFor="grid-state"
                         >
-                          State
+                          State <span className="text-red-500">*</span>
                         </label>
                         <div className="relative">
                           <select
@@ -250,7 +285,7 @@ const DetailsForm = () => {
                           className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                           htmlFor="grid-state"
                         >
-                          DISTRICT
+                          DISTRICT <span className="text-red-500">*</span>
                         </label>
                         <div className="relative">
                           <select
@@ -280,7 +315,7 @@ const DetailsForm = () => {
                           className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                           htmlFor="grid-zip"
                         >
-                          Zip
+                          Zip <span className="text-red-500">*</span>
                         </label>
                         <input
                           className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -479,7 +514,7 @@ const DetailsForm = () => {
                   </form>
                   <button
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    onClick={handelSubmit}
+                    onClick={handleSubmit}
                   >
                     Submit
                   </button>
@@ -495,4 +530,9 @@ const DetailsForm = () => {
   );
 };
 
-export default DetailsForm;
+export default () => (
+  <>
+    <ToastContainer position="bottom-right" theme="colored" />
+    <DetailsForm />
+  </>
+);
