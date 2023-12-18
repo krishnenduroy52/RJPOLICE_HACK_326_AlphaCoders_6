@@ -18,18 +18,19 @@ const DetailsForm = () => {
       },
     },
     camera: {
-      camera: "",
-      cameraModel: "",
-      cameraSerialNo: "",
+      cameraModel: "", 
+      cameraQuality: "", 
+      cameraSerialNo: "", 
       cameraMacAddress: "",
-      cameraLatitude: "",
-      cameraLongitude: "",
+      cameraLatitude: "", 
+      cameraLongitude: "", 
       cameraViewLeft: "",
       cameraViewRight: "",
     },
   });
   const handelSubmit = () => {
     // Indrajit do it
+    console.log(form)
   };
 
   const handelUserChange = (e) => {
@@ -57,7 +58,7 @@ const DetailsForm = () => {
     <div className="mt-12">
       <div>
         <div className="px-[300px] sm:px-[150px]">
-          <div className="flex justify-between">
+          <div className="flex justify-around mb-4">
             <div
               className={`w-6 h-6 ${
                 progress == 1 ? "bg-green-700" : "bg-blue-400"
@@ -206,7 +207,7 @@ const DetailsForm = () => {
                           className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                           id="grid-city"
                           type="text"
-                          placeholder="Rajathan"
+                          placeholder="Rajasthan"
                           name="city"
                           onChange={(e) => handelUserAddressChange(e)}
                           value={form.user.address.city}
