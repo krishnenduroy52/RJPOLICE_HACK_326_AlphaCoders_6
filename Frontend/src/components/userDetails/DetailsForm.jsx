@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+// Location data extraction library
+import exifr from "exifr";
 
 const DetailsForm = () => {
   const [progress, setProgress] = useState(1);
@@ -49,9 +51,33 @@ const DetailsForm = () => {
     setForm({ ...form, camera: { ...form.camera, [name]: value } });
   };
 
-  //   useEffect(() => {
-  //     console.log(form);
-  //   }, [form]);
+  // Location data extraction
+  const [locationData, setLocationData] = useState(null);
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      try {
+        const exifData = await exifr.parse(file);
+        setLocationData(exifData);
+        setForm({
+          ...form,
+          camera: {
+            ...form.camera,
+            cameraLatitude: exifData.latitude,
+            cameraLongitude: exifData.longitude,
+          },
+        });
+      } catch (error) {
+        console.error("Error extracting EXIF data:", error);
+      }
+    }
+  };
+
+  // useEffect(() => {
+  //   console.log(form);
+  // }, [form]);
 
   return (
     <div className="mt-12">
@@ -384,6 +410,16 @@ const DetailsForm = () => {
                         />
                       </div>
                     </div>
+                    <div className="flex flex-wrap -mx-3 mb-4">
+                      <div className="w-full px-3">
+                        <label htmlFor="name">Sample Image</label>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleImageUpload}
+                        />
+                      </div>
+                    </div>
                     <div className="flex flex-wrap -mx-3 mb-6">
                       <div className="w-full md:w-1/2 px-3 mb-4 md:mb-0">
                         <label
@@ -475,9 +511,21 @@ const DetailsForm = () => {
               ) : progress === 3 ? (
                 <div>
                   <form>
-                    <label htmlFor="name">Form 3</label>
-                    <input type="text" id="name" />
+                    <label htmlFor="name">Sample Image</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                    />
                   </form>
+                  {locationData && (
+                    <div>
+                      <h3>Location Information:</h3>
+                      <p>Latitude: {locationData?.latitude}</p>
+                      <p>Longitude: {locationData?.longitude}</p>
+                      {/* Add more location information as needed */}
+                    </div>
+                  )}
                   <button
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     onClick={handelSubmit}
