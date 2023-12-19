@@ -57,25 +57,27 @@ const DetailsForm = () => {
     <div className="mt-12">
       <div>
         <div className="px-[300px] sm:px-[150px]">
-          <div className="flex justify-between">
+          <div className="flex justify-between items-center">
             <div
-              className={`w-6 h-6 ${
+              className={`px-2 ${
                 progress == 1 ? "bg-green-700" : "bg-blue-400"
               } rounded-full flex items-center justify-center block uppercase tracking-wide font-bold`}
               onClick={() => setProgress(1)}
             >
               1
             </div>
+            <div className="bg-black w-full h-[1px]"></div>
             <div
-              className={`w-6 h-6 ${
+              className={`px-2 ${
                 progress == 2 ? "bg-green-700" : "bg-blue-400"
               } rounded-full flex items-center justify-center block uppercase tracking-wide font-bold`}
               onClick={() => setProgress(2)}
             >
               2
             </div>
+            <div className="bg-black w-full h-[1px]"></div>
             <div
-              className={`w-6 h-6 ${
+              className={`px-2 ${
                 progress == 3 ? "bg-green-700" : "bg-blue-400"
               } rounded-full flex items-center justify-center block uppercase tracking-wide font-bold`}
               onClick={() => setProgress(3)}
