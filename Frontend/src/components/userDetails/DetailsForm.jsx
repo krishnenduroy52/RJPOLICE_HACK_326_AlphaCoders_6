@@ -41,26 +41,26 @@ const DetailsForm = () => {
   const handleSubmit = async () => {
     // Validate each field before proceeding
     console.log(form);
-    // if (
-    //   Object.values(form.user).some(value => value === "") ||
-    //   Object.values(form.user.address).some(value => value === "") ||
-    //   Object.values(form.camera).some(value => value === "")
-    // ) {
-    //   toast.error("Please fill in all fields.");
-    //   return;
-    // }
+    if (
+      Object.values(form.user).some(value => value === "") ||
+      Object.values(form.user.address).some(value => value === "") ||
+      Object.values(form.camera).some(value => value === "")
+    ) {
+      toast.error("Please fill in all fields.");
+      return;
+    }
 
     // Hash the password using bcryptjs before sending it to the backend
-    // const hashedPassword = await bcrypt.hash(form.user.password, 10);
+    const hashedPassword = await bcrypt.hash(form.user.password, 10);
 
     // Update the form with the hashed password
-    // setForm((prevForm) => ({
-    //   ...prevForm,
-    //   user: {
-    //     ...prevForm.user,
-    //     password: hashedPassword,
-    //   },
-    // }));
+    setForm((prevForm) => ({
+      ...prevForm,
+      user: {
+        ...prevForm.user,
+        password: hashedPassword,
+      },
+    }));
 
     try {
       const res = await axios.post(userDetailsRoute, form);
