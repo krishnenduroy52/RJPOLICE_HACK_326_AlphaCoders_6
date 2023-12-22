@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { userDetailsRoute } from "../../Utils/APIRoutes";
-import axios from 'axios'
+import axios from "axios";
 import bcrypt from "bcryptjs";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -40,7 +40,7 @@ const DetailsForm = () => {
 
   const handleSubmit = async () => {
     // Validate each field before proceeding
-    console.log(form)
+    console.log(form);
     if (
       Object.values(form.user).some(value => value === "") ||
       Object.values(form.user.address).some(value => value === "") ||
@@ -54,7 +54,7 @@ const DetailsForm = () => {
     const hashedPassword = await bcrypt.hash(form.user.password, 10);
 
     // Update the form with the hashed password
-    setForm(prevForm => ({
+    setForm((prevForm) => ({
       ...prevForm,
       user: {
         ...prevForm.user,
@@ -67,11 +67,10 @@ const DetailsForm = () => {
       console.log(res);
       toast.success("User details successfully added.");
     } catch (error) {
-      console.error('There is some error', error);
+      console.error("There is some error", error);
       toast.error("Internal Server Error");
     }
   };
-
 
   const handelUserChange = (e) => {
     const { name, value } = e.target;
@@ -158,10 +157,10 @@ const DetailsForm = () => {
                 {progress == 1
                   ? "User Details"
                   : progress == 2
-                    ? "Camera Details"
-                    : progress == 3
-                      ? "Image Sample"
-                      : "Thank You"}
+                  ? "Camera Details"
+                  : progress == 3
+                  ? "Image Sample"
+                  : "Thank You"}
               </h1>
             </div>
             <div>

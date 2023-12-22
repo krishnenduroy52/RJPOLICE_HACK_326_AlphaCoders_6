@@ -12,37 +12,35 @@ app.use(cors());
 
 const DB = process.env.VITE_APP_MONGO_SERVER;
 mongoose
-    .connect(DB, {
-    })
-    .then(() => {
-        console.log("MongoDB connected");
-    })
-    .catch((error) => {
-        console.log("Error in connecting to server", error);
-    });
+  .connect(DB, {})
+  .then(() => {
+    console.log("MongoDB connected");
+  })
+  .catch((error) => {
+    console.log("Error in connecting to server", error);
+  });
 
-
-const UserDetails = require("./Models/UserDetailsModel")
+const UserDetails = require("./Models/UserDetailsModel");
 
 app.get("/", (req, res) => {
-    res.send("Hello, world!");
+  res.send("Hello, world!");
 });
 
-app.post('/userDetails', async (req, res) => {
-    try {
-        const data = req.body;
-        const userDetails = new UserDetails(data);
-        await userDetails.save();
-        console.log(data);
-        res.send('Success');
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Internal Server Error');
-    }
+app.post("/userDetails", async (req, res) => {
+  try {
+    const data = req.body;
+    const hashedPassword = await bcrypt.hash(data.user.password, 10);
+    data.user.password = hashedPassword;
+    const userDetails = new UserDetails(data);
+    await userDetails.save();
+    res.send("Success");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 const port = 3001;
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+  console.log(`Server is running on port ${port}`);
 });
-
