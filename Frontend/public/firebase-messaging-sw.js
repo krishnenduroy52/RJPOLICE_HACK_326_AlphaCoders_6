@@ -2,7 +2,7 @@ importScripts("https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js");
 importScripts("https://www.gstatic.com/firebasejs/8.10.0/firebase-messaging.js");
 
 const firebaseConfig = {
-    apiKey: "",
+    apiKey: "AIzaSyBY-PXD09ZyOLdsjLVc3Aby6W43BlPdcEo",
     authDomain: "rajasthan-hackathon-project.firebaseapp.com",
     projectId: "rajasthan-hackathon-project",
     storageBucket: "rajasthan-hackathon-project.appspot.com",
