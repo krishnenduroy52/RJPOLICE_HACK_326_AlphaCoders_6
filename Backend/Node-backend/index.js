@@ -10,6 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
+
 const DB = process.env.VITE_APP_MONGO_SERVER;
 mongoose
   .connect(DB, {})
@@ -21,10 +22,22 @@ mongoose
   });
 
 const UserDetails = require("./Models/UserDetailsModel");
+const { sendNotification } = require("./notificationModule")
 
-app.get("/", (req, res) => {
+
+app.get("/", async (req, res) => {
   res.send("Hello, world!");
 });
+
+app.get("/sendnotification", async (req, res) => {
+  try {
+    await sendNotification();
+    res.send('Success')
+  } catch (error) {
+    console.log("Error");
+    res.send("Error")
+  }
+})
 
 app.post("/userDetails", async (req, res) => {
   try {
