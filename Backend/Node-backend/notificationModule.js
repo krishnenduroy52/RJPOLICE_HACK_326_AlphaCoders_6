@@ -7,6 +7,7 @@ admin.initializeApp({
 });
 
 const sendNotification = async () => {
+
   const registrationToken =
     "djz0ZpmVruhrkmdgbiEFvk:APA91bEaNb4c2TdEOXtXs7Oo89CAD4A10QTPZxnedOQjNWDP1qQblAP7qARRiCAHgaRiMDhSHryjwemAFOuoxUIiN3GsEtwSjyiwrguhXtLpaRsb54U67BxsMtKrAN0WRWPraS292JpZ";
 

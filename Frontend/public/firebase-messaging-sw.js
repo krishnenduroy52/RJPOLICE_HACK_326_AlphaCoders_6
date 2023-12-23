@@ -1,7 +1,7 @@
-importScripts("https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js");
-importScripts(
-  "https://www.gstatic.com/firebasejs/8.10.0/firebase-messaging.js"
-);
+importScripts("https://www.gstatic.com/firebasejs/9.14.0/firebase-app-compat.js");
+importScripts("https://www.gstatic.com/firebasejs/9.14.0/firebase-messaging-compat.js");
+
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyBY-PXD09ZyOLdsjLVc3Aby6W43BlPdcEo",
@@ -16,20 +16,31 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
+// Indrajit changes...
+self.addEventListener('notificationclick', function (event) {
+    const clickedNotification = event.notification;
+    clickedNotification.close();
+    event.waitUntil(
+        clients.openWindow(notificationPayload.fcmOptions.link)
+    );
+});
+
 messaging.onBackgroundMessage((payload) => {
-  console.log(messaging);
-  console.log(
-    "[firebase-messaging-sw.js] Received background message ",
-    payload
-  );
+    console.log(
+        "[firebase-messaging-sw.js] Received background message ",
+        payload
+    );
 
-  const notificationTitle = payload.notification.title;
-  const notificationOptions = {
-    body: payload.notification.body,
-    icon: payload.notification.icon,
-    sound: payload.notification.sound,
-    click_action: payload.notification.click_action,
-  };
+    const notificationTitle = payload.notification.title;
+    const notificationOptions = {
+        body: payload.notification.body,
+        icon: payload.notification.icon,
+        image: payload.notification.image,
+        sound: payload.notification.sound,
+        click_action: payload.notification.click_action,
+    };
+    notificationPayload = payload
 
-  self.registration.showNotification(notificationTitle, notificationOptions);
+    self.registration.showNotification(notificationTitle, notificationOptions);
+
 });
