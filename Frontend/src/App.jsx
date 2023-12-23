@@ -14,8 +14,7 @@ function App() {
     const permission = await Notification.requestPermission();
     if (permission === "granted") {
       const deviceToken = await getToken(messaging, {
-        vapidKey:
-          "BHnKjohhTwqxGmmcgVw6VNb5FCZH0rsggroROCIEWBrjS4EAk4WSlakKIKM3xnLh_z3BIDQPD0pi7QP-NtQWooU",
+        vapidKey: import.meta.env.VITE_APP_VAPID_KEY,
       });
       console.log(deviceToken);
     } else if (permission === "denied") {
