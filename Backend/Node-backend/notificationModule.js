@@ -7,7 +7,7 @@ admin.initializeApp({
 });
 
 const sendNotification = async () => {
-    const registrationToken = 'fQ2yJxlpr026qOZX6B9CZk:APA91bE1W86niLrGWuPv5m1_3ZK2Cwo_dko1DXPXZjfvJwBNuemdsfIfdkMFjQBI7CQy_xPRkFqiQy78CgleBPDC0FJErshCLIkGoH92bJoVAP6lPCkKCI9cMANFOZBOUaZ9iuUVy9R2';
+    const registrationToken = 'cNKrydZHw_IioHT9z7Sz6V:APA91bGp41GyCNV2bhieTRAot1bDcIPkaa3X5frIiVcAh51BnAkTFKqaWwNE_RoTd3JU90MChlvfpxqUMrqtmQKl_JaVjwbYcLXOqEQxjZ0y7OSV_cRhdI0EZVyH4ZXAxYFRYSbfVUhX';
 
     const message = {
         data: {
@@ -17,9 +17,10 @@ const sendNotification = async () => {
             "notification": {
                 "title": 'Demo Notification',
                 "body": 'Notification from Node.js script',
+                "image": 'https://cdn.pixabay.com/photo/2016/11/19/12/24/path-1839000_1280.jpg',
                 "icon": 'https://cdn.pixabay.com/photo/2016/11/19/12/24/path-1839000_1280.jpg',
                 "click_action": 'https://www.google.com.',
-                "sound": 'https://cdn.jsdelivr.net/npm/whatsapp-notification-sound@1.0.0/notification.mp3'
+                "sound": 'https://cdn.jsdelivr.net/npm/whatsapp-notification-sound@1.0.0/notification.mp3',
             },
         },
         token: registrationToken,
