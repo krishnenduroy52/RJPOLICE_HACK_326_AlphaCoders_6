@@ -40,6 +40,16 @@ app.post("/userDetails", async (req, res) => {
   }
 });
 
+// User Login
+app.post("/user/login", async (req, res) => {
+  const { email, password } = req.body;
+  const user = await UserDetails.findOne({ "user.email": email });
+  if (!user || !bcrypt.compareSync(password, user.user.password)) {
+    return res.status(401).json({ message: "Invalid credentials" });
+  }
+  res.json(user);
+});
+
 const port = 3001;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
