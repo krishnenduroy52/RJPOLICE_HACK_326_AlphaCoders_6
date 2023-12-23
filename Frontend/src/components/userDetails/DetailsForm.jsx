@@ -40,15 +40,14 @@ const DetailsForm = () => {
 
   const handleSubmit = async () => {
     // Validate each field before proceeding
-    console.log(form);
-    if (
-      Object.values(form.user).some(value => value === "") ||
-      Object.values(form.user.address).some(value => value === "") ||
-      Object.values(form.camera).some(value => value === "")
-    ) {
-      toast.error("Please fill in all fields.");
-      return;
-    }
+    // if (
+    //   Object.values(form.user).some(value => value === "") ||
+    //   Object.values(form.user.address).some(value => value === "") ||
+    //   Object.values(form.camera).some(value => value === "")
+    // ) {
+    //   toast.error("Please fill in all fields.");
+    //   return;
+    // }
 
     // Hash the password using bcryptjs before sending it to the backend
     const hashedPassword = await bcrypt.hash(form.user.password, 10);
@@ -122,12 +121,12 @@ const DetailsForm = () => {
     <ToastContainer position="bottom-right" theme="colored" />
     <div className="mt-12">
       <div>
-        <div className="px-[300px] sm:px-[150px]">
+        <div className="md:px-[300px] sm:px-[50px]">
           <div className="flex justify-between items-center">
             <div
               className={`px-2 ${
                 progress == 1 ? "bg-green-700" : "bg-blue-400"
-              } rounded-full flex items-center justify-center block uppercase tracking-wide font-bold`}
+              } rounded-full items-center justify-center block uppercase tracking-wide font-bold`}
               onClick={() => setProgress(1)}
             >
               1
@@ -136,7 +135,7 @@ const DetailsForm = () => {
             <div
               className={`px-2 ${
                 progress == 2 ? "bg-green-700" : "bg-blue-400"
-              } rounded-full flex items-center justify-center block uppercase tracking-wide font-bold`}
+              } rounded-full items-center justify-center block uppercase tracking-wide font-bold`}
               onClick={() => setProgress(2)}
             >
               2
@@ -145,7 +144,7 @@ const DetailsForm = () => {
             <div
               className={`px-2 ${
                 progress == 3 ? "bg-green-700" : "bg-blue-400"
-              } rounded-full flex items-center justify-center block uppercase tracking-wide font-bold`}
+              } rounded-full items-center justify-center block uppercase tracking-wide font-bold`}
               onClick={() => setProgress(3)}
             >
               3
@@ -541,7 +540,7 @@ const DetailsForm = () => {
                     </div>
                   </form>
                   <div className="flex justify-between">
-                  <button
+                    <button
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                       onClick={() => setProgress(progress - 1)}
                     >
