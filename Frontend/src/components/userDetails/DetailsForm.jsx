@@ -207,7 +207,7 @@ const DetailsForm = () => {
                       <div className="w-full px-3">
                         <label
                           className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                          htmlFor="grid-password"
+                          htmlFor="grid-email"
                         >
                           Email ID <span className="text-red-500">*</span>
                         </label>
@@ -219,6 +219,7 @@ const DetailsForm = () => {
                           name="email"
                           onChange={(e) => handelUserChange(e)}
                           value={form.user.email}
+                          autoComplete="username"
                         />
                       </div>
                     </div>
@@ -237,6 +238,7 @@ const DetailsForm = () => {
                           placeholder="******************"
                           name="password"
                           onChange={(e) => handelUserChange(e)}
+                          autoComplete="current-password"
                           value={form.user.password}
                         />
                       </div>
@@ -245,13 +247,13 @@ const DetailsForm = () => {
                       <div className="w-full px-3">
                         <label
                           className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                          htmlFor="grid-password"
+                          htmlFor="grid-number"
                         >
                           Phone Number <span className="text-red-500">*</span>
                         </label>
                         <input
                           className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                          id="grid-password"
+                          id="grid-number"
                           type="number"
                           placeholder="9000770099"
                           name="phoneno"
@@ -264,7 +266,7 @@ const DetailsForm = () => {
                       <div className="w-full px-3">
                         <label
                           className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                          htmlFor="grid-password"
+                          htmlFor="grid-city"
                         >
                           City <span className="text-red-500">*</span>
                         </label>
@@ -313,14 +315,14 @@ const DetailsForm = () => {
                       <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                         <label
                           className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                          htmlFor="grid-state"
+                          htmlFor="grid-district"
                         >
                           DISTRICT <span className="text-red-500">*</span>
                         </label>
                         <div className="relative">
                           <select
                             className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="grid-state"
+                            id="grid-district"
                             name="district"
                             onChange={(e) => handelUserAddressChange(e)}
                             value={form.user.address.district}
@@ -395,13 +397,13 @@ const DetailsForm = () => {
                       <div className="w-full md:w-1/2 px-3">
                         <label
                           className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                          htmlFor="grid-last-name"
+                          htmlFor="grid-camera-quality"
                         >
                           Camera Quality (MP)
                         </label>
                         <input
                           className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                          id="grid-last-name"
+                          id="grid-camera-quality"
                           type="text"
                           placeholder="4"
                           name="cameraQuality"
@@ -414,13 +416,13 @@ const DetailsForm = () => {
                       <div className="w-full px-3">
                         <label
                           className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                          htmlFor="grid-password"
+                          htmlFor="grid-camera-serial-no"
                         >
                           Camera Serial No.
                         </label>
                         <input
                           className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                          id="gird-emailid"
+                          id="grid-camera-serial-no"
                           type="text"
                           placeholder="123412345231"
                           name="cameraSerialNo"
@@ -482,13 +484,13 @@ const DetailsForm = () => {
                       <div className="w-full md:w-1/2 px-3">
                         <label
                           className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                          htmlFor="grid-last-name"
+                          htmlFor="grid-camera-longitude"
                         >
                           Camera Location (Longitude)
                         </label>
                         <input
                           className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                          id="grid-last-name"
+                          id="grid-camera-longitude"
                           type="text"
                           placeholder="12.100"
                           name="cameraLongitude"
@@ -527,7 +529,7 @@ const DetailsForm = () => {
                         </label>
                         <input
                           className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                          id="grid-last-name"
+                          id="grid-camera-right-view"
                           type="text"
                           placeholder="19.100, 18.001"
                           name="cameraViewRight"

@@ -9,7 +9,7 @@ import DetailsForm from "./components/userDetails/DetailsForm";
 import { useEffect, useState } from "react";
 
 function App() {
-  const [notificationPayload, setNotificationPayload] = useState([]);
+  const [notificationPayload, setNotificationPayload] = useState("");
   async function requestNotifyFunction() {
     const permission = await Notification.requestPermission();
     if (permission === "granted") {
@@ -27,8 +27,8 @@ function App() {
     const messagingResolve = await messaging;
     if (messagingResolve) {
       onMessage(messagingResolve, (payload) => {
-        setNotificationPayload([{ data: payload, open: true }]);
-        setTimeout(() => setNotificationPayload([{ open: false }]), 6000);
+        setNotificationPayload(payload);
+        // setTimeout(() => setNotificationPayload([{ open: false }]), 6000);
       });
     }
   })();
@@ -39,11 +39,9 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (notificationPayload.length > 0) {
-      alert(
-        notificationPayload[notificationPayload.length - 1].data.notification
-          .body
-      );
+    if (notificationPayload !== "") {
+      alert(notificationPayload?.notification?.title);
+      setNotificationPayload("");
     }
   }, [notificationPayload]);
   return (
