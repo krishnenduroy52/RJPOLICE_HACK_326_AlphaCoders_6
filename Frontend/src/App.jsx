@@ -1,3 +1,5 @@
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import 'sweetalert2/src/sweetalert2.scss'
 import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -33,14 +35,28 @@ function App() {
     }
   })();
   //
-
+  
   useEffect(() => {
     requestNotifyFunction();
   }, []);
 
   useEffect(() => {
     if (notificationPayload !== "") {
-      alert(notificationPayload?.notification?.title);
+      // alert(notificationPayload?.notification?.title);
+      Swal.fire({
+        title: `${notificationPayload?.notification?.title}`,
+        text: `${notificationPayload?.notification?.body}`,
+        width: 600,
+        padding: "3em",
+        color: "",
+        background: "#fff url(/images/trees.png)",
+        backdrop: `
+          rgba(0,0,123,0.4)
+          url("https://media1.tenor.com/m/yfUbUdT-mi8AAAAC/dangerous-hours.gif")
+          center center
+          repeat
+        `
+      });
       setNotificationPayload("");
     }
   }, [notificationPayload]);
