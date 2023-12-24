@@ -26,7 +26,7 @@ const { sendNotification } = require("./notificationModule")
 
 
 app.get("/", async (req, res) => {
-  res.send("Hello, world!");
+  res.send("Hello, world!. Backend server of rajasthan hackathon app");
 });
 
 app.get("/sendnotification", async (req, res) => {
