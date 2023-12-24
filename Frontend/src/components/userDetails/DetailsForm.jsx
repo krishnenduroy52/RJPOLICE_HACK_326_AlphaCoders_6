@@ -124,7 +124,7 @@ const DetailsForm = () => {
             <div
               className={`px-2 ${
                 progress == 1 ? "bg-green-700" : "bg-blue-400"
-              } rounded-full flex items-center justify-center block uppercase tracking-wide font-bold`}
+              } rounded-full items-center justify-center block uppercase tracking-wide font-bold`}
               onClick={() => setProgress(1)}
             >
               1
@@ -133,7 +133,7 @@ const DetailsForm = () => {
             <div
               className={`px-2 ${
                 progress == 2 ? "bg-green-700" : "bg-blue-400"
-              } rounded-full flex items-center justify-center block uppercase tracking-wide font-bold`}
+              } rounded-full items-center justify-center block uppercase tracking-wide font-bold`}
               onClick={() => setProgress(2)}
             >
               2
@@ -142,7 +142,7 @@ const DetailsForm = () => {
             <div
               className={`px-2 ${
                 progress == 3 ? "bg-green-700" : "bg-blue-400"
-              } rounded-full flex items-center justify-center block uppercase tracking-wide font-bold`}
+              } rounded-full items-center justify-center block uppercase tracking-wide font-bold`}
               onClick={() => setProgress(3)}
             >
               3
