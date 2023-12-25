@@ -15,6 +15,7 @@ const userSchema = new mongoose.Schema({
     password: String,
     phoneno: String,
     address: addressSchema,
+    isAdmin: Boolean,
 });
 
 const cameraSchema = new mongoose.Schema({
