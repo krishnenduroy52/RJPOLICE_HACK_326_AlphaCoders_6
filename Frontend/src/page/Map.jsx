@@ -232,8 +232,8 @@ const Map = () => {
           <p>Longitude: <span className="lng_lat">{targetRef.current && targetRef.current.getLngLat().lng}</span></p>
         </div>
         <div>
-        <button onClick={getCoordinates}>Add target</button>
-        <button onClick={reset}>Reset</button>
+        <button className="map_form_button" onClick={getCoordinates}>Add target</button>
+        <button className="map_form_button" onClick={reset}>Reset</button>
         </div>
       </div>
     </div>
