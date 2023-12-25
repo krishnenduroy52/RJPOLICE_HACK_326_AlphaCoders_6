@@ -11,6 +11,50 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 
+const http = require('http');
+const { Server } = require('socket.io');
+const server = http.createServer(app);
+app.use(cors());
+const io = new Server(server, {
+    cors: {
+        origin: 'http://localhost:5173',
+        methods: ['GET', 'POST'],
+    },
+});
+
+
+// Handle socket connection
+io.on('connection', (socket) => {
+    console.log('A user connected');
+
+    // Handle offers from other users
+    socket.on('offer', (data) => {
+        console.log('Received offer:', data);
+        // Broadcast the offer to other users
+        socket.broadcast.emit('offer', data);
+    });
+
+    // Handle answers from other users
+    socket.on('answer', (data) => {
+        console.log('Received answer:', data);
+        // Broadcast the answer to other users
+        socket.broadcast.emit('answer', data);
+    });
+
+    // Handle ICE candidates from other users
+    socket.on('ice-candidate', (data) => {
+        console.log('Received ICE candidate:', data);
+        // Broadcast the ICE candidate to other users
+        socket.broadcast.emit('ice-candidate', data);
+    });
+
+    // Handle disconnection
+    socket.on('disconnect', () => {
+        console.log('User disconnected');
+        // Handle cleanup or notification logic if needed
+    });
+});
+
 const DB = process.env.VITE_APP_MONGO_SERVER;
 mongoose
   .connect(DB, {})
@@ -63,7 +107,12 @@ app.post("/user/login", async (req, res) => {
   res.json(user);
 });
 
+const socketioport = 8000;
 const port = 3001;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
+});
+
+server.listen(socketioport, () => {
+  console.log(`Server is listening on port ${socketioport}`);
 });
