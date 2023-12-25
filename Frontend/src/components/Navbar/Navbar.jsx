@@ -11,7 +11,7 @@ const Navbar = () => {
 
   return (
     <>
-      <header className="bg-red font-[Poppins]">
+      <header className="bg-red font-[Poppins] pb-4">
         <nav className="mt-5 flex justify-between items-center w-[92%] mx-auto">
           <div>
             <Link to="/">
@@ -29,7 +29,7 @@ const Navbar = () => {
               <li className="hover:text-gray-500">Home</li>
               <li className="hover:text-gray-500">Home</li>
               <li className="hover:text-gray-500">Home</li>
-              <li className="hover:text-gray-500">Home</li>
+              <li className="hover:text-gray-500"> <Link to="/view/CCTV">CCTV Footage</Link> </li>
             </ul>
           </div>
 
