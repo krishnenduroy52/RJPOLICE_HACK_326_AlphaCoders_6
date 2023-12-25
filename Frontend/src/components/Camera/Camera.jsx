@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { io } from "socket.io-client";
+import { useNavigate } from "react-router-dom";
 import "./camera.css";
 
 const socket = io("http://localhost:8000"); // Adjust the server URL accordingly
@@ -8,6 +9,20 @@ const Camera = () => {
   const [localStream, setLocalStream] = useState(null);
   const [remoteStream, setRemoteStream] = useState(null);
   const [peerConnection, setPeerConnection] = useState(null);
+  const [user, setUser] = useState(null);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const user = localStorage.getItem("isAdmin");
+    if (!user) {
+      navigate("/");
+    } else {
+      setUser((user) => {
+        return user;
+      });
+    }
+  }, []);
 
   useEffect(() => {
     const initializeMediaStream = async () => {
@@ -107,52 +122,53 @@ const Camera = () => {
       <h1 className="text-3xl flex justify-center font-[Poppins] font-semibold">
         Click to view a camera footage
       </h1>
-      <div className="all-cams">
-        <button
-          className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-          id="startButton"
-          onClick={startCall}
-          disabled={!localStream}
-        >
-          View CCTV
-        </button>
-        <button
-          className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-          id=""
-          onClick={startCall}
-          disabled={!localStream}
-        >
-          View CCTV
-        </button>
-        <button
-          className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-          id=""
-          onClick={startCall}
-          disabled={!localStream}
-        >
-          View CCTV
-        </button>
-        <button
-          className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-          id=""
-          onClick={startCall}
-          disabled={!localStream}
-        >
-          View CCTV
-        </button>
-        <button
-          className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-          id=""
-          onClick={startCall}
-          disabled={!localStream}
-        >
-          View CCTV
-        </button>
-      </div>
+      {user != null && user ? (
+        <div className="all-cams">
+          <button
+            className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+            id="startButton"
+            onClick={startCall}
+            disabled={!localStream}
+          >
+            View CCTV
+          </button>
+          <button
+            className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+            id=""
+            onClick={startCall}
+            disabled={!localStream}
+          >
+            View CCTV
+          </button>
+          <button
+            className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+            id=""
+            onClick={startCall}
+            disabled={!localStream}
+          >
+            View CCTV
+          </button>
+          <button
+            className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+            id=""
+            onClick={startCall}
+            disabled={!localStream}
+          >
+            View CCTV
+          </button>
+          <button
+            className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+            id=""
+            onClick={startCall}
+            disabled={!localStream}
+          >
+            View CCTV
+          </button>
+        </div>
+      ) : null}
 
-      {/* Local Video Stream Disabled */}
       {/* <video id="localVideo" style={{ height: '80%', width: '80%' }} autoPlay muted ref={(video) => { if (video) video.srcObject = localStream; }}></video> */}
-      {false ? (
+      {user != null && user ? (
         <video
           className="flex justify-center"
           style={{ height: "80%", width: "80%", paddingLeft: "16px" }}
@@ -167,6 +183,7 @@ const Camera = () => {
       {/* Hangup Button disabled */}
       {/* <button id="hangupButton" onClick={hangUp} disabled={!peerConnection}>Hang Up</button> */}
     </div>
+
     // <div>
     //     <video id="localVideo" autoPlay muted ref={(video) => { if (video) video.srcObject = localStream; }}></video>
     //     <video id="remoteVideo" autoPlay ref={(video) => { if (video) video.srcObject = remoteStream; }}></video>
