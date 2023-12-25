@@ -16,33 +16,32 @@ const server = http.createServer(app);
 app.use(cors());
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:5173',
-    methods: ['GET', 'POST'],
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"],
   },
 });
 
+io.on("connection", (socket) => {
+  console.log("A user connected");
 
-io.on('connection', (socket) => {
-  console.log('A user connected');
-
-  socket.on('offer', (data) => {
-    console.log('Received offer:', data);
-    socket.broadcast.emit('offer', data);
+  socket.on("offer", (data) => {
+    console.log("Received offer:", data);
+    socket.broadcast.emit("offer", data);
   });
 
-  socket.on('answer', (data) => {
-    console.log('Received answer:', data);
-    socket.broadcast.emit('answer', data);
+  socket.on("answer", (data) => {
+    console.log("Received answer:", data);
+    socket.broadcast.emit("answer", data);
   });
 
-  socket.on('ice-candidate', (data) => {
-    console.log('Received ICE candidate:', data);
-    socket.broadcast.emit('ice-candidate', data);
+  socket.on("ice-candidate", (data) => {
+    console.log("Received ICE candidate:", data);
+    socket.broadcast.emit("ice-candidate", data);
   });
 
   // Handle disconnection
-  socket.on('disconnect', () => {
-    console.log('User disconnected');
+  socket.on("disconnect", () => {
+    console.log("User disconnected");
     // Handle cleanup or notification logic if needed
   });
 });
@@ -61,7 +60,9 @@ const UserDetails = require("./Models/UserDetailsModel");
 const { sendNotification } = require("./notificationModule");
 
 app.get("/", async (req, res) => {
-  res.send("Hello, world!. Backend server of rajasthan hackathon app");
+  const data = await UserDetails.find();
+  res.json(data);
+  // res.send("Hello, world!. Backend server of rajasthan hackathon app");
 });
 
 app.get("/sendnotification", async (req, res) => {
