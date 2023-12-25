@@ -35,7 +35,7 @@ const Navbar = () => {
 
           <div className="flex items-center gap-6">
             <button className="text-xl bg-blue-500 bg-opacity-75 text-white px-5 py-2 hover:bg-blue-700 rounded-3xl">
-              Sign in
+              <Link to='/auth/signin' >Sign In</Link>
             </button>
             <GiHamburgerMenu
               className="text-3xl cursor-pointer md:hidden"

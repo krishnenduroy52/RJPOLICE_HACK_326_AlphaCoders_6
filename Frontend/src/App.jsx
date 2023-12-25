@@ -11,6 +11,7 @@ import DetailsForm from "./components/userDetails/DetailsForm";
 import { useEffect, useState } from "react";
 import Camera from './components/Camera/Camera';
 import Map from "./page/Map";
+import SignIn from './page/SignIn';
 
 function App() {
   const [notificationPayload, setNotificationPayload] = useState("");
@@ -71,6 +72,7 @@ function App() {
           <Route path="/user/details" element={<DetailsForm />} />
           <Route path='/view/cctv' element={<Camera />} />
           <Route path="/map" element={<Map/>}/>
+          <Route path='/auth/signin' element={<SignIn/>} />
         </Routes>
       </Router>
     </>
