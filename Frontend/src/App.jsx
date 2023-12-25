@@ -1,3 +1,5 @@
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import 'sweetalert2/src/sweetalert2.scss'
 import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -10,7 +12,7 @@ import { useEffect, useState } from "react";
 import Map from "./page/Map";
 
 function App() {
-  const [notificationPayload, setNotificationPayload] = useState([]);
+  const [notificationPayload, setNotificationPayload] = useState("");
   async function requestNotifyFunction() {
     const permission = await Notification.requestPermission();
     if (permission === "granted") {
@@ -28,23 +30,35 @@ function App() {
     const messagingResolve = await messaging;
     if (messagingResolve) {
       onMessage(messagingResolve, (payload) => {
-        setNotificationPayload([{ data: payload, open: true }]);
-        setTimeout(() => setNotificationPayload([{ open: false }]), 6000);
+        setNotificationPayload(payload);
+        // setTimeout(() => setNotificationPayload([{ open: false }]), 6000);
       });
     }
   })();
   //
-
+  
   useEffect(() => {
     requestNotifyFunction();
   }, []);
 
   useEffect(() => {
-    if (notificationPayload.length > 0) {
-      alert(
-        notificationPayload[notificationPayload.length - 1].data.notification
-          .body
-      );
+    if (notificationPayload !== "") {
+      // alert(notificationPayload?.notification?.title);
+      Swal.fire({
+        title: `${notificationPayload?.notification?.title}`,
+        text: `${notificationPayload?.notification?.body}`,
+        width: 600,
+        padding: "3em",
+        color: "",
+        background: "#fff url(/images/trees.png)",
+        backdrop: `
+          rgba(0,0,123,0.4)
+          url("https://media1.tenor.com/m/yfUbUdT-mi8AAAAC/dangerous-hours.gif")
+          center center
+          repeat
+        `
+      });
+      setNotificationPayload("");
     }
   }, [notificationPayload]);
   return (
