@@ -16,39 +16,33 @@ const server = http.createServer(app);
 app.use(cors());
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
-    methods: ["GET", "POST"],
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST'],
   },
 });
 
-// Handle socket connection
-io.on("connection", (socket) => {
-  console.log("A user connected");
 
-  // Handle offers from other users
-  socket.on("offer", (data) => {
-    console.log("Received offer:", data);
-    // Broadcast the offer to other users
-    socket.broadcast.emit("offer", data);
+io.on('connection', (socket) => {
+  console.log('A user connected');
+
+  socket.on('offer', (data) => {
+    console.log('Received offer:', data);
+    socket.broadcast.emit('offer', data);
   });
 
-  // Handle answers from other users
-  socket.on("answer", (data) => {
-    console.log("Received answer:", data);
-    // Broadcast the answer to other users
-    socket.broadcast.emit("answer", data);
+  socket.on('answer', (data) => {
+    console.log('Received answer:', data);
+    socket.broadcast.emit('answer', data);
   });
 
-  // Handle ICE candidates from other users
-  socket.on("ice-candidate", (data) => {
-    console.log("Received ICE candidate:", data);
-    // Broadcast the ICE candidate to other users
-    socket.broadcast.emit("ice-candidate", data);
+  socket.on('ice-candidate', (data) => {
+    console.log('Received ICE candidate:', data);
+    socket.broadcast.emit('ice-candidate', data);
   });
 
   // Handle disconnection
-  socket.on("disconnect", () => {
-    console.log("User disconnected");
+  socket.on('disconnect', () => {
+    console.log('User disconnected');
     // Handle cleanup or notification logic if needed
   });
 });
@@ -101,7 +95,7 @@ app.post("/user/login", async (req, res) => {
   if (!user || !bcrypt.compare(password, user.user.password)) {
     return res.status(401).json({ message: "Invalid credentials" });
   }
-  res.json(user);
+  res.json({ message: "Login successful", user: user });
 });
 
 const socketioport = 8000;
