@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { userDetailsRoute } from "../../Utils/APIRoutes";
 import axios from "axios";
@@ -117,6 +117,8 @@ const DetailsForm = () => {
   // }, [form]);
 
   return (
+    <>
+    <ToastContainer position="bottom-right" theme="colored" />
     <div className="mt-12">
       <div>
         <div className="md:px-[300px] sm:px-[50px]">
@@ -586,13 +588,8 @@ const DetailsForm = () => {
           </div>
         </div>
       </div>
-    </div>
+    </div></>
   );
 };
 
-export default () => (
-  <>
-    <ToastContainer position="bottom-right" theme="colored" />
-    <DetailsForm />
-  </>
-);
+export default DetailsForm;
