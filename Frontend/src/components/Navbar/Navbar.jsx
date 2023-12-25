@@ -26,7 +26,7 @@ const Navbar = () => {
           >
             <ul className="flex md:flex-row flex-col md:items-center md:gap-[4vw] gap-8">
               <li className="hover:text-gray-500"> <Link to="/user/details">Register User</Link></li>
-              <li className="hover:text-gray-500">Home</li>
+              <li className="hover:text-gray-500"><Link to="/map">Map</Link></li>
               <li className="hover:text-gray-500">Home</li>
               <li className="hover:text-gray-500">Home</li>
               <li className="hover:text-gray-500">Home</li>

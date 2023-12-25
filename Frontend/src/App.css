@@ -1,0 +1,66 @@
+.main_map {
+    height: 100%;
+    width: 100%;
+}
+
+.map_container {
+    display: flex;
+    height: 80vh;
+    width: 100%;
+    z-index: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+.map_container > div.map_wrapper {
+    height: 100%;
+    width: 100%;
+}
+
+.map_container > div.form_container {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.map_container > div button {
+    padding: 10px;
+    margin: 10px;
+    width: 100%;
+    border-radius: 5px;
+    border: 3px solid #0364c6;
+    background-color: #0364c6;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.5s ease;
+}
+
+.map_container > div button:hover {
+    background-color: #fff;
+    color: #0364c6;
+}
+
+.lng_lat {
+    padding: 5px;
+    margin: 5px;
+    width: max(200px, 300px, 2vw) !important;
+    font-size: 1.2rem;
+    border: 2px solid #70757ba4;
+}
+
+.lng_lat_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.lng_lat_container > p {
+    margin: 10px;
+    font-size: 1.2rem;
+}

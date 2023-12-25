@@ -7,6 +7,7 @@ import { messaging } from "./firebase";
 import Home from "./page/Home";
 import DetailsForm from "./components/userDetails/DetailsForm";
 import { useEffect, useState } from "react";
+import Map from "./page/Map";
 
 function App() {
   const [notificationPayload, setNotificationPayload] = useState([]);
@@ -53,6 +54,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/user/details" element={<DetailsForm />} />
+          <Route path="/map" element={<Map/>}/>
         </Routes>
       </Router>
     </>
