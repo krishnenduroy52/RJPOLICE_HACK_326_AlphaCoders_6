@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema({
     password: String,
     phoneno: String,
     address: addressSchema,
+    isAdmin: {
+        type: Boolean,
+        default: 0,
+    },
 });
 
 const cameraSchema = new mongoose.Schema({
