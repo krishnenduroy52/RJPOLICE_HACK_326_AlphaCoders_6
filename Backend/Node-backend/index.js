@@ -60,9 +60,7 @@ const UserDetails = require("./Models/UserDetailsModel");
 const { sendNotification } = require("./notificationModule");
 
 app.get("/", async (req, res) => {
-  const data = await UserDetails.find();
-  res.json(data);
-  // res.send("Hello, world!. Backend server of rajasthan hackathon app");
+  res.send("Hello, world!. Backend server of rajasthan hackathon app");
 });
 
 app.get("/sendnotification", async (req, res) => {

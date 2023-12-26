@@ -13,16 +13,16 @@ const Camera = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const user = localStorage.getItem("isAdmin");
-    if (!user) {
-      navigate("/");
-    } else {
-      setUser((user) => {
-        return user;
-      });
-    }
-  }, []);
+  // useEffect(() => {
+  //   const user = localStorage.getItem("isAdmin");
+  //   if (!user) {
+  //     navigate("/");
+  //   } else {
+  //     setUser((user) => {
+  //       return user;
+  //     });
+  //   }
+  // }, []);
 
   useEffect(() => {
     const initializeMediaStream = async () => {
@@ -178,7 +178,17 @@ const Camera = () => {
             if (video) video.srcObject = remoteStream;
           }}
         ></video>
-      ) : null}
+      ) : (
+        <video
+          className="flex justify-center"
+          style={{ height: "200px" }}
+          id="remoteVideo"
+          autoPlay
+          ref={(video) => {
+            if (video) video.srcObject = localStream;
+          }}
+        ></video>
+      )}
 
       {/* Hangup Button disabled */}
       {/* <button id="hangupButton" onClick={hangUp} disabled={!peerConnection}>Hang Up</button> */}
