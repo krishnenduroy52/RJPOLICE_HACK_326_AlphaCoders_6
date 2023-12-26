@@ -125,7 +125,7 @@ const Camera = () => {
       <h1 className="text-3xl flex justify-center font-[Poppins] font-semibold">
         Click to view a camera footage
       </h1>
-      {user ? (
+      {/* {user ? (
         <div className="all-cams">
           <button
             className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
@@ -168,7 +168,7 @@ const Camera = () => {
             View CCTV
           </button>
         </div>
-      ) : null}
+      ) : null} */}
 
       {/* <video id="localVideo" style={{ height: '80%', width: '80%' }} autoPlay muted ref={(video) => { if (video) video.srcObject = localStream; }}></video> */}
       {user ? (
