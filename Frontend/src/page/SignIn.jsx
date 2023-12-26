@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { userLoginRoute } from "../Utils/APIRoutes";
 import { ToastContainer, toast } from "react-toastify";
@@ -9,6 +9,8 @@ const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isAdmin, setIsAdmin] = useState("");
+
+  const navigate = useNavigate();
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -45,7 +47,14 @@ const SignIn = () => {
       console.log("done");
       localStorage.setItem("isAdmin", JSON.stringify(user.user.isAdmin));
       console.log(response.data.user);
-      toast.success(response.data.message);
+
+      if (user.user.isAdmin === 1) {
+        toast.success(response.data.message);
+        navigate("/admin/dashboard");
+      } else {
+        toast.success(response.data.message);
+        navigate("/");
+      }
     } catch (error) {
       console.log("Internal server error", error);
       toast.error("Incorrect username / password", {
