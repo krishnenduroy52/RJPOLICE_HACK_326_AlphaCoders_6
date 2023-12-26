@@ -59,6 +59,7 @@ const Camera = () => {
 
         // Create FormData and append the Blob
         const formData = new FormData();
+        
         formData.append("video", blob, "localStream.webm");
 
         // Send localStream to the Flask backend API
