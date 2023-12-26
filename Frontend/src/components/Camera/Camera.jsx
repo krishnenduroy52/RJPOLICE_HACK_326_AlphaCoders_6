@@ -13,16 +13,16 @@ const Camera = () => {
 
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const user = localStorage.getItem("isAdmin");
-  //   if (!user) {
-  //     navigate("/");
-  //   } else {
-  //     setUser((user) => {
-  //       return user;
-  //     });
-  //   }
-  // }, []);
+  useEffect(() => {
+    const user = localStorage.getItem("isAdmin");
+    if (!user) {
+      navigate("/");
+    } else {
+      setUser((user) => {
+        return user;
+      });
+    }
+  }, []);
 
   useEffect(() => {
     const initializeMediaStream = async () => {
@@ -54,6 +54,20 @@ const Camera = () => {
       .createOffer()
       .then((offer) => newPeerConnection.setLocalDescription(offer))
       .then(() => {
+        // Create a Blob from the localStream
+        const blob = new Blob([localStream], { type: "video/webm" });
+
+        // Create FormData and append the Blob
+        const formData = new FormData();
+        formData.append("video", blob, "localStream.webm");
+
+        // Send localStream to the Flask backend API
+        return fetch("http://127.0.0.1:5000/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        // Emit offer to the socket server
         socket.emit("offer", { offer: newPeerConnection.localDescription });
       });
   };
