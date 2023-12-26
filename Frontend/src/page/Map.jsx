@@ -22,12 +22,13 @@ const Map = () => {
     { lng: 88.416, lat: 22.6345 },
     { lng: 88.4144, lat: 22.6317 },
     { lng: 88.4153, lat: 22.6335 },
-    { lng: 87.062078, lat: 23.246138},
-    { lng: 87.062365, lat: 23.246037},
-    { lng: 87.062140, lat: 23.246288},
-    { lng: 87.062458, lat: 23.246318},
-    { lng: 87.062565, lat: 23.245067},
-    { lng: 87.063150, lat: 23.246485},
+    { lng: 87.062078, lat: 23.246138 },
+    { lng: 87.062365, lat: 23.246037 },
+    { lng: 87.06214, lat: 23.246288 },
+    { lng: 87.062458, lat: 23.246318 },
+    { lng: 87.062565, lat: 23.245067 },
+    { lng: 87.06315, lat: 23.246485 },
+    { lng: 88.46183375040255, lat: 22.972515018816125 },
   ]);
 
   const [markers, setMarkers] = useState([]);
@@ -224,7 +225,7 @@ const Map = () => {
     clear();
     makeMarkers(camLoc, 0);
     targetRef.current && targetRef.current.remove();
-  }
+  };
 
   return (
     <div className="map_container">
@@ -234,12 +235,22 @@ const Map = () => {
       <div className="form_container">
         <h3>Click on the map and set target to get closest camera</h3>
         <div className="lng_lat_container">
-          <p>Latitude: <span className="lng_lat">{targetRef.current && targetRef.current.getLngLat().lat}</span></p>
-          <p>Longitude: <span className="lng_lat">{targetRef.current && targetRef.current.getLngLat().lng}</span></p>
+          <p>
+            Latitude:{" "}
+            <span className="lng_lat">
+              {targetRef.current && targetRef.current.getLngLat().lat}
+            </span>
+          </p>
+          <p>
+            Longitude:{" "}
+            <span className="lng_lat">
+              {targetRef.current && targetRef.current.getLngLat().lng}
+            </span>
+          </p>
         </div>
         <div>
-        <button className="map_form_button" onClick={getCoordinates}>Add target</button>
-        <button className="map_form_button" onClick={reset}>Reset</button>
+          <button className="map_form_button" onClick={getCoordinates}>Add target</button>
+          <button className="map_form_button" onClick={reset}>Reset</button>
         </div>
       </div>
     </div>
