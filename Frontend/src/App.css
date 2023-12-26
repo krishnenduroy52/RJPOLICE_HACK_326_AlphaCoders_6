@@ -40,9 +40,9 @@
   transition: all 0.5s ease;
 }
 
-.map_container > div button:hover {
-  background-color: #fff;
-  color: #0364c6;
+.map_form_button {
+    background-color: #fff;
+    color: #0364c6;
 }
 
 .lng_lat {
