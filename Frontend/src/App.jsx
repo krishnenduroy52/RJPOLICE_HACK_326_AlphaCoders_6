@@ -12,8 +12,17 @@ import { useEffect, useState } from "react";
 import Camera from "./components/Camera/Camera";
 import Map from "./page/Map";
 import SignIn from "./page/SignIn";
+import Error from "./page/Error";
 
 function App() {
+  const [isAdmin, setIsAdmin] = useState(localStorage.getItem('isAdmin') === 'true');
+
+  useEffect(() => {
+    const admin = localStorage.getItem('isAdmin');
+    setIsAdmin(admin === 'true');
+  }, []);
+  
+
   const [notificationPayload, setNotificationPayload] = useState("");
   async function requestNotifyFunction() {
     const permission = await Notification.requestPermission();
@@ -66,12 +75,12 @@ function App() {
   return (
     <>
       <Router>
-        <Navbar />
+        <Navbar isAdmin={isAdmin} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/user/details" element={<DetailsForm />} />
           <Route path="/view/cctv" element={<Camera />} />
-          {false ? <Route path="/map" element={<Map />} /> : null}
+          {isAdmin ? <Route path="/map" element={<Map />} /> :<Route path="/map" element={<Error />} />}
           <Route path="/auth/signin" element={<SignIn />} />
         </Routes>
       </Router>
