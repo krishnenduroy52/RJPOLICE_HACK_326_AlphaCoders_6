@@ -1,5 +1,5 @@
-import Swal from 'sweetalert2/dist/sweetalert2.js'
-import 'sweetalert2/src/sweetalert2.scss'
+import Swal from "sweetalert2/dist/sweetalert2.js";
+import "sweetalert2/src/sweetalert2.scss";
 import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -9,9 +9,9 @@ import { messaging } from "./firebase";
 import Home from "./page/Home";
 import DetailsForm from "./components/userDetails/DetailsForm";
 import { useEffect, useState } from "react";
-import Camera from './components/Camera/Camera';
+import Camera from "./components/Camera/Camera";
 import Map from "./page/Map";
-import SignIn from './page/SignIn';
+import SignIn from "./page/SignIn";
 
 function App() {
   const [notificationPayload, setNotificationPayload] = useState("");
@@ -38,7 +38,7 @@ function App() {
     }
   })();
   //
-  
+
   useEffect(() => {
     requestNotifyFunction();
   }, []);
@@ -58,7 +58,7 @@ function App() {
           url("https://media1.tenor.com/m/yfUbUdT-mi8AAAAC/dangerous-hours.gif")
           center center
           repeat
-        `
+        `,
       });
       setNotificationPayload("");
     }
@@ -70,9 +70,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/user/details" element={<DetailsForm />} />
-          <Route path='/view/cctv' element={<Camera />} />
-          <Route path="/map" element={<Map/>}/>
-          <Route path='/auth/signin' element={<SignIn/>} />
+          <Route path="/view/cctv" element={<Camera />} />
+          {false ? <Route path="/map" element={<Map />} /> : null}
+          <Route path="/auth/signin" element={<SignIn />} />
         </Routes>
       </Router>
     </>

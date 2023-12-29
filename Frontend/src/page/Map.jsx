@@ -28,7 +28,7 @@ const Map = () => {
     { lng: 87.062458, lat: 23.246318 },
     { lng: 87.062565, lat: 23.245067 },
     { lng: 87.06315, lat: 23.246485 },
-    { lng: 88.46183375040255, lat: 22.972515018816125 },
+    { lng: 88.46151927985295, lat: 22.97254978998012 },
   ]);
 
   const [markers, setMarkers] = useState([]);
@@ -111,7 +111,7 @@ const Map = () => {
           className: "map_marker_popup",
         })
           .setLngLat(loc)
-          .setHTML("<h1>Hi it's popup</h1>")
+          .setHTML("<div><a href='/view/CCTV' ><h1>View CCTV</h1></a></div>")
           .addTo(map);
         const marker = new tt.Marker()
           .setPopup(popup)
@@ -170,7 +170,7 @@ const Map = () => {
           offset: popupOffsets,
           className: "map_marker_popup",
         })
-          .setHTML("<h1>Hi from user</h1>")
+          .setHTML("<h1><a href='/view/CCTV' ><h1>View CCTV</h1></a></h1>")
           .addTo(map);
         const marker = new tt.Marker({ color: "#13EC88", clickTolerance: "20" })
           .setPopup(popup)
@@ -182,7 +182,7 @@ const Map = () => {
           offset: popupOffsets,
           className: "map_marker_popup",
         })
-          .setHTML("<h1>Hi from user</h1>")
+          .setHTML("<h1></h1>")
           .addTo(map);
         const marker = new tt.Marker({ clickTolerance: "20" })
           .setPopup(popup)
@@ -249,8 +249,12 @@ const Map = () => {
           </p>
         </div>
         <div>
-          <button onClick={getCoordinates}>Add target</button>
-          <button onClick={reset}>Reset</button>
+          <button className="map_form_button" onClick={getCoordinates}>
+            Add target
+          </button>
+          <button className="map_form_button" onClick={reset}>
+            Reset
+          </button>
         </div>
       </div>
     </div>
