@@ -14,8 +14,18 @@ import Map from "./page/Map";
 import SignIn from "./page/SignIn";
 import CameraUser from "./page/CameraUser";
 import CameraAdmin from "./page/CameraAdmin";
+import Error from "./page/Error";
+
 
 function App() {
+  const [isAdmin, setIsAdmin] = useState(localStorage.getItem('isAdmin') === 'true');
+
+  useEffect(() => {
+    const admin = localStorage.getItem('isAdmin');
+    setIsAdmin(admin === 'true');
+  }, []);
+  
+
   const [notificationPayload, setNotificationPayload] = useState("");
   async function requestNotifyFunction() {
     const permission = await Notification.requestPermission();
@@ -68,7 +78,7 @@ function App() {
   return (
     <>
       <Router>
-        <Navbar />
+        <Navbar isAdmin={isAdmin} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/user/details" element={<DetailsForm />} />
@@ -77,7 +87,7 @@ function App() {
           {/* Camera user and admin */}
           <Route path="/cameratest" element={<CameraUser />} />
           <Route path="/admin" element={<CameraAdmin />} />
-
+          {isAdmin ? <Route path="/map" element={<Map />} /> :<Route path="/map" element={<Error />} />}
           <Route path="/auth/signin" element={<SignIn />} />
         </Routes>
       </Router>
