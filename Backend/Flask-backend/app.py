@@ -15,7 +15,7 @@ global count
 count = 0
 
 
-api_url = "http://localhost:3001/sendnotification"
+api_url = "http://localhost:8000/sendnotification"
 
 # Model With classes
 model = YOLO("best.pt")
@@ -58,6 +58,7 @@ def upload():
                     try:
                         if current_time - last_notification_time > 60:
                             print("Notification sent successfully")
+                            response = requests.get(api_url)
                     except Exception as e:
                         print(f"Error sending notification: {e}")
 
