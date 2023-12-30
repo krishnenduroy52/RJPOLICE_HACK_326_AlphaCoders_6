@@ -16,3 +16,8 @@
   background-color: rgba(0, 218, 102, 0.973) !important;
   color: white;
 }
+
+
+.arrows{
+    filter: invert();
+}
