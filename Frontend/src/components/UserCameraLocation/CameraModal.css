@@ -1,0 +1,8 @@
+.location_btns{
+    margin: .5rem;
+    background-color: rgba(29, 97, 255, 0.773) !important;
+    border-radius: 30px;
+    padding: .3rem .7rem;
+    color: white;
+    font-size: small;
+}

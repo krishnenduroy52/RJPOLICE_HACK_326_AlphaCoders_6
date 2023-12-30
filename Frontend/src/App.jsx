@@ -75,7 +75,7 @@ function App() {
       setNotificationPayload("");
     }
   }, [notificationPayload]);
-  return (
+  return (  
     <>
       <Router>
         <Navbar isAdmin={isAdmin} />

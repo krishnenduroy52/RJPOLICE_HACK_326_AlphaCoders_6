@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 // Location data extraction library
 import exifr from "exifr";
+import CameraModal from "../UserCameraLocation/CameraModal";
 
 const DetailsForm = () => {
   const [progress, setProgress] = useState(1);
@@ -452,7 +453,10 @@ const DetailsForm = () => {
                         />
                       </div>
                     </div>
-                    <div className="flex flex-wrap -mx-3 mb-4">
+                    <div className="camera-location mb-3">
+                      <CameraModal/>
+                    </div>
+                    {/* <div className="flex flex-wrap -mx-3 mb-4">
                       <div className="w-full px-3">
                         <label htmlFor="name">Sample Image</label>
                         <input
@@ -461,7 +465,7 @@ const DetailsForm = () => {
                           onChange={handleImageUpload}
                         />
                       </div>
-                    </div>
+                    </div> */}
                     <div className="flex flex-wrap -mx-3 mb-6">
                       <div className="w-full md:w-1/2 px-3 mb-4 md:mb-0">
                         <label
