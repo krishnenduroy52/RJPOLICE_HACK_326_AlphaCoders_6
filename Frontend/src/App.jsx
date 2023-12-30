@@ -16,15 +16,15 @@ import CameraUser from "./page/CameraUser";
 import CameraAdmin from "./page/CameraAdmin";
 import Error from "./page/Error";
 
-
 function App() {
-  const [isAdmin, setIsAdmin] = useState(localStorage.getItem('isAdmin') === 'true');
+  const [isAdmin, setIsAdmin] = useState(
+    localStorage.getItem("isAdmin") === "true"
+  );
 
   useEffect(() => {
-    const admin = localStorage.getItem('isAdmin');
-    setIsAdmin(admin === 'true');
+    const admin = localStorage.getItem("isAdmin");
+    setIsAdmin(admin === "true");
   }, []);
-  
 
   const [notificationPayload, setNotificationPayload] = useState("");
   async function requestNotifyFunction() {
@@ -33,7 +33,7 @@ function App() {
       const deviceToken = await getToken(messaging, {
         vapidKey: import.meta.env.VITE_APP_VAPID_KEY,
       });
-      console.log(deviceToken);
+      console.log("deviceID", deviceToken);
     } else if (permission === "denied") {
       alert("You have denied notification permission");
     }
@@ -75,7 +75,7 @@ function App() {
       setNotificationPayload("");
     }
   }, [notificationPayload]);
-  return (  
+  return (
     <>
       <Router>
         <Navbar isAdmin={isAdmin} />
@@ -87,7 +87,11 @@ function App() {
           {/* Camera user and admin */}
           <Route path="/cameratest" element={<CameraUser />} />
           <Route path="/admin" element={<CameraAdmin />} />
-          {isAdmin ? <Route path="/map" element={<Map />} /> :<Route path="/map" element={<Error />} />}
+          {isAdmin ? (
+            <Route path="/map" element={<Map />} />
+          ) : (
+            <Route path="/map" element={<Error />} />
+          )}
           <Route path="/auth/signin" element={<SignIn />} />
         </Routes>
       </Router>

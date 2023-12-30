@@ -127,7 +127,7 @@ const CameraUser = () => {
       socket.emit("sendWebcamStream", userStream);
     };
 
-    const intervalId = setInterval(captureAndSend, 100); // Send stream every second
+    const intervalId = setInterval(captureAndSend, 10); // Send stream every second
 
     return () => {
       clearInterval(intervalId);
