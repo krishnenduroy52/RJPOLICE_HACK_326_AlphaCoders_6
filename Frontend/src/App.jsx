@@ -85,8 +85,8 @@ function App() {
           <Route path="/view/cctv" element={<Camera />} />
           {false ? <Route path="/map" element={<Map />} /> : null}
           {/* Camera user and admin */}
-          <Route path="/cameratest" element={<CameraUser />} />
-          <Route path="/admin" element={<CameraAdmin />} />
+          <Route path="/user/camera" element={<CameraUser />} />
+          <Route path="/admin/camera" element={<CameraAdmin />} />
           {isAdmin ? (
             <Route path="/map" element={<Map />} />
           ) : (

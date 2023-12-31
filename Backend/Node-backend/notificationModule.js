@@ -6,7 +6,7 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
 
-const sendNotification = async () => {
+const sendNotification = async (props) => {
   const registrationToken = process.env.DEVICE_TOKEN;
 
   const message = {
@@ -15,7 +15,7 @@ const sendNotification = async () => {
     },
     webpush: {
       notification: {
-        title: "Gun Detected in the area",
+        title: `${props.object} Detected in the area`,
         body: "Please check the live feed",
         icon: "https://cdn.pixabay.com/photo/2016/11/19/12/24/path-1839000_1280.jpg",
         click_action: "https://www.google.com.",
