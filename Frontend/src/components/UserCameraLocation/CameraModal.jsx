@@ -65,9 +65,7 @@ const CameraModal = () => {
     };
 
     const addTarget = (e) => {
-        const marker = new tt.Marker({ clickTolerance: "20", height: "20", width: "20" })
-            .setLngLat(e.lngLat)
-            .addTo(map);
+
         const customMarker = new tt.Marker({
             element: createCustomMarkerElement(),
             anchor: "center",
@@ -77,6 +75,9 @@ const CameraModal = () => {
             .setLngLat(e.lngLat)
             .addTo(map);
 
+        const marker = new tt.Marker({ clickTolerance: "20", height: "20", width: "20" })
+            .setLngLat(e.lngLat)
+            .addTo(map);
         targetRef.current = customMarker;
         defaultMarkerRef.current = marker;
 
