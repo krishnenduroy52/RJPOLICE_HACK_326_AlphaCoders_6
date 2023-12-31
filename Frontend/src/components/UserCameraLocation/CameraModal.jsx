@@ -3,7 +3,7 @@ import tt from "@tomtom-international/web-sdk-maps";
 import "@tomtom-international/web-sdk-maps/dist/maps.css";
 import "./CameraModal.css";
 
-import customMarkerImage from "./marker1.png"; // Replace with the actual path
+import customMarkerImage from "./marker2.png"; // Replace with the actual path
 import rightArrowImage from "../../assets/right-arrow.png"
 import leftArrowImage from "../../assets/left-arrow.png"
 
@@ -75,7 +75,7 @@ const CameraModal = () => {
             .setLngLat(e.lngLat)
             .addTo(map);
 
-        const marker = new tt.Marker({ clickTolerance: "20", height: "20", width: "20" })
+        const marker = new tt.Marker({ clickTolerance: "20", height: "22", width: "18" })
             .setLngLat(e.lngLat)
             .addTo(map);
         targetRef.current = customMarker;
@@ -95,14 +95,14 @@ const CameraModal = () => {
 
     const rotateMarkerClockwise = () => {
         if (targetRef.current) {
-            rotationRef.current += 15;
+            rotationRef.current += 30;
             targetRef.current.setRotation(rotationRef.current);
         }
     };
 
     const rotateMarkerAnticlockwise = () => {
         if (targetRef.current) {
-            rotationRef.current -= 15;
+            rotationRef.current -= 30;
             targetRef.current.setRotation(rotationRef.current);
         }
     };
@@ -121,9 +121,13 @@ const CameraModal = () => {
     useEffect(() => {
         const handleZoomChange = () => {
             const currentZoom = map.getZoom();
+            console.log(currentZoom);
+
             if (targetRef.current) {
-                // Adjust the size of the custom marker based on the zoom level
-                const newSize = 100 * (currentZoom / 18); // Adjust 18 based on your initial zoom level
+                console.log(targetRef.current.getElement().style.width, targetRef.current.getElement().style.height)
+                let newSize = parseFloat(targetRef.current.getElement().style.width)-0.3; 
+                // console.log("new size", newSize)
+                if(newSize < 0.00000000001) newSize = 0;
                 targetRef.current.getElement().style.width = `${newSize}px`;
                 targetRef.current.getElement().style.height = `${newSize}px`;
             }
