@@ -176,9 +176,11 @@ app.get("/", async (req, res) => {
   res.send("Hello, world!. Backend server of the Rajasthan hackathon app");
 });
 
-app.get("/sendnotification", async (req, res) => {
+app.get("/sendnotification/:object", async (req, res) => {
+  const object = req.params.object;
+
   try {
-    await sendNotification();
+    await sendNotification(object);
     res.send("Success");
   } catch (error) {
     console.log("Error");
