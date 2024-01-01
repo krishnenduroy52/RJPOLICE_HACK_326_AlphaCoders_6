@@ -120,7 +120,8 @@ const SignIn = () => {
           </form>
           <div className="form-section">
             <p>
-              Don't have an account? <Link to="/user/details">Create One</Link>{" "}
+              Don't have an account?{" "}
+              <Link to="/auth/registation">Create One</Link>{" "}
             </p>
           </div>
         </div>
