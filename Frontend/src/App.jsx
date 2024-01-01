@@ -7,7 +7,6 @@ import { messaging } from "./firebase";
 // Page element imports
 import Home from "./page/Home/Home";
 import Navbar from "./components/Navbar/Navbar";
-import DetailsForm from "./components/userDetails/DetailsForm";
 import { useEffect, useState } from "react";
 import Camera from "./components/Camera/Camera";
 import Map from "./page/Map";
@@ -15,6 +14,7 @@ import SignIn from "./page/SignIn";
 import CameraUser from "./page/CameraUser";
 import CameraAdmin from "./page/CameraAdmin";
 import Error from "./page/Error";
+import DetailsForm from "./page/userDetails/DetailsForm";
 
 function App() {
   const [isAdmin, setIsAdmin] = useState(
@@ -82,13 +82,13 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/auth/registation" element={<DetailsForm />} />
-          <Route path="/view/cctv" element={<Camera />} />
+          {/* <Route path="/admin/cctv" element={<Camera />} /> */}
           {false ? <Route path="/map" element={<Map />} /> : null}
           {/* Camera user and admin */}
           <Route path="/user/camera" element={<CameraUser />} />
-          <Route path="/admin/camera" element={<CameraAdmin />} />
+          <Route path="/admin/view/cctv" element={<CameraAdmin />} />
           {isAdmin ? (
-            <Route path="/map" element={<Map />} />
+            <Route path="/admin/control" element={<Map />} />
           ) : (
             <Route path="/map" element={<Error />} />
           )}

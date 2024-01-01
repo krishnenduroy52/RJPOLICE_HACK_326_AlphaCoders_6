@@ -3,8 +3,7 @@ import styles from "./Navbar.module.css";
 import { Link } from "react-router-dom";
 import { DetailsContext } from "../../context/DetailsContext";
 const Navbar = () => {
-  const { test, user } = useContext(DetailsContext);
-  console.log(test);
+  const { user, isAdmin } = useContext(DetailsContext);
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -12,25 +11,25 @@ const Navbar = () => {
     setUser(null);
   };
 
-  console.log(user);
-
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
         <div>
-          <a href="/">SafeLens</a>
+          <Link to="/">SafeLens</Link>
         </div>
       </div>
       <div className={styles.nav_wrapper}>
         <div className={styles.nav}>
+          {isAdmin ? (
+            <li>
+              <Link to="/admin/control">Admin</Link>
+            </li>
+          ) : null}
           <li>
-            <a href="/">Services</a>
+            <Link to="/about-us">About</Link>
           </li>
           <li>
-            <a href="/about-us">About</a>
-          </li>
-          <li>
-            <a href="/contact-us">Contact Us</a>
+            <Link to="/contact-us">Contact Us</Link>
           </li>
         </div>
       </div>
