@@ -31,18 +31,18 @@ const Map = () => {
     // { lng: 88.46151927985295, lat: 22.97254978998012 },
     // { lng: 87.06213715563548, lat: 23.247591673681136 },
 
-    { lng: 87.06229004645155 , lat:23.24609364561834 },
-    { lng: 87.06237813671609 , lat:23.246071958068956 },
-    { lng: 87.06244262319764 , lat:23.246012706600133 },
-    { lng: 87.0624662267955 , lat:23.245931767631046 },
-    { lng: 87.06244262301246 , lat:23.24585082871107 },
-    { lng: 87.06237813653094 , lat:23.245791577340473 },
-    { lng: 87.06229004645155 , lat:23.245769889840208 },
-    { lng: 87.06220195637215 , lat:23.245791577340473 },
-    { lng: 87.06213746989063 , lat:23.24585082871107 },
-    { lng: 87.0621138661076 , lat:23.245931767631046 },
-    { lng: 87.06213746970545 , lat:23.246012706600133 },
-    { lng: 87.062201956187 , lat:23.246071958068956 }
+    { lng: 87.06229004645155, lat: 23.24609364561834 },
+    { lng: 87.06237813671609, lat: 23.246071958068956 },
+    { lng: 87.06244262319764, lat: 23.246012706600133 },
+    { lng: 87.0624662267955, lat: 23.245931767631046 },
+    { lng: 87.06244262301246, lat: 23.24585082871107 },
+    { lng: 87.06237813653094, lat: 23.245791577340473 },
+    { lng: 87.06229004645155, lat: 23.245769889840208 },
+    { lng: 87.06220195637215, lat: 23.245791577340473 },
+    { lng: 87.06213746989063, lat: 23.24585082871107 },
+    { lng: 87.0621138661076, lat: 23.245931767631046 },
+    { lng: 87.06213746970545, lat: 23.246012706600133 },
+    { lng: 87.062201956187, lat: 23.246071958068956 },
   ]);
 
   const [markers, setMarkers] = useState([]);
@@ -125,7 +125,9 @@ const Map = () => {
           className: "map_marker_popup",
         })
           .setLngLat(loc)
-          .setHTML("<div><a href='/view/CCTV' ><h1>View CCTV</h1></a></div>")
+          .setHTML(
+            "<div><a href='/admin/view/cctv' ><h1>View CCTV</h1></a></div>"
+          )
           .addTo(map);
         const marker = new tt.Marker()
           .setPopup(popup)
@@ -152,9 +154,9 @@ const Map = () => {
     const a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.cos(toRadians(coord1.lat)) *
-      Math.cos(toRadians(coord2.lat)) *
-      Math.sin(dLng / 2) *
-      Math.sin(dLng / 2);
+        Math.cos(toRadians(coord2.lat)) *
+        Math.sin(dLng / 2) *
+        Math.sin(dLng / 2);
 
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
@@ -184,7 +186,9 @@ const Map = () => {
           offset: popupOffsets,
           className: "map_marker_popup",
         })
-          .setHTML("<h1><a href='/view/CCTV' ><h1>View CCTV</h1></a></h1>")
+          .setHTML(
+            "<h1><a href='/admin/view/cctv' ><h1>View CCTV</h1></a></h1>"
+          )
           .addTo(map);
         const marker = new tt.Marker({ color: "#13EC88", clickTolerance: "20" })
           .setPopup(popup)
@@ -196,7 +200,9 @@ const Map = () => {
           offset: popupOffsets,
           className: "map_marker_popup",
         })
-          .setHTML("<h1></h1>")
+          .setHTML(
+            "<h1><a href='/admin/view/cctv' ><h1>View CCTV</h1></a></h1>"
+          )
           .addTo(map);
         const marker = new tt.Marker({ clickTolerance: "20" })
           .setPopup(popup)

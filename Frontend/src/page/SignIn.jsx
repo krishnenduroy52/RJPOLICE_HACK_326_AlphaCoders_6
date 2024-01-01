@@ -43,17 +43,15 @@ const SignIn = () => {
       const user = response.data.user;
 
       localStorage.setItem("user", JSON.stringify(user));
-
-      console.log("done");
       localStorage.setItem("isAdmin", JSON.stringify(user.user.isAdmin));
       console.log(response.data.user);
 
       if (user.user.isAdmin === 1) {
         toast.success(response.data.message);
-        navigate("/admin/dashboard");
+        window.location.href = "/admin/control";
       } else {
         toast.success(response.data.message);
-        navigate("/");
+        window.location.href = "/";
       }
     } catch (error) {
       console.log("Internal server error", error);

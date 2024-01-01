@@ -11,7 +11,9 @@ import styles from "./DetailsForm.module.css";
 
 // Location data extraction library
 import exifr from "exifr";
-import CameraModal from "../UserCameraLocation/CameraModal";
+
+// camera modal
+import CameraModal from "../../components/UserCameraLocation/CameraModal";
 
 const DetailsForm = () => {
   const [progress, setProgress] = useState(1);
