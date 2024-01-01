@@ -3,6 +3,10 @@
   height: 400px;
   color: black;
 }
+.card:hover {
+  transform: scale(1.05);
+  transition: transform 0.5s;
+}
 
 .cardTop {
   height: 50px;
@@ -34,11 +38,7 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-}
-
-.image {
-  width: max-content;
-  height: max-content;
+  padding: 10px;
 }
 
 .text {

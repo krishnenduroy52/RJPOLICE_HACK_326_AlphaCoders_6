@@ -5,6 +5,7 @@ import style from "./userDashboard.module.css";
 
 // Image import
 import cctv from "../../assets/cctv.png";
+import CameraUser from "../CameraUser";
 
 const UserDashboard = () => {
   return (
@@ -14,12 +15,13 @@ const UserDashboard = () => {
         padding: "4rem 1rem",
         borderRadius: "30px 30px 30px 30px",
       }}
+      className={style.container}
     >
-      <h1>User Dashboard</h1>
-      <div className={style.cards}>
-        <Card1 imageLink={cctv} text="CCTV Surveillance" />
-        <Card1 text="CCTV Location" />
-        <Card1 text="Crime Evidence" />
+      <div className={style.wrapper}>
+        <h1 className={style.heading}>User Dashboard</h1>
+        <div className={style.camera}>
+          <CameraUser />
+        </div>
       </div>
     </div>
   );

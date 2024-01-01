@@ -248,7 +248,14 @@ const Map = () => {
   };
 
   return (
-    <div className="map_container">
+    <div
+      className="map_container"
+      style={{
+        backgroundColor: "white",
+        padding: "4rem 1rem",
+        borderRadius: "30px 30px 30px 30px",
+      }}
+    >
       <div className="map_wrapper">
         <div ref={mapRef} className="main_map"></div>
       </div>
