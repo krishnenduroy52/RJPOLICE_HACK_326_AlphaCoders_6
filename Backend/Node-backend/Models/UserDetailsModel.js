@@ -30,6 +30,7 @@ const cameraSchema = new mongoose.Schema({
     cameraLongitude: String,
     cameraViewLeft: String,
     cameraViewRight: String,
+    cameraRotation: Number
 });
 
 const userDetailsSchema = new mongoose.Schema({

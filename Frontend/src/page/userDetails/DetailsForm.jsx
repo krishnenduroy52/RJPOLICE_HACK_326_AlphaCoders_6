@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState, useEffect } from "react";
 
 import { userDetailsRoute } from "../../Utils/APIRoutes";
 import axios from "axios";
@@ -14,9 +14,11 @@ import exifr from "exifr";
 
 // camera modal
 import CameraModal from "../../components/UserCameraLocation/CameraModal";
+import {DetailsContext} from "../../context/DetailsContext";
 
 const DetailsForm = () => {
   const [progress, setProgress] = useState(1);
+  const { locationValues } = useContext(DetailsContext);
   const [form, setForm] = useState({
     user: {
       firstname: "",
@@ -41,8 +43,24 @@ const DetailsForm = () => {
       cameraLongitude: "",
       cameraViewLeft: "",
       cameraViewRight: "",
+      cameraAngle: ""
     },
   });
+
+  useEffect(() => {
+    if (locationValues){
+      setForm((prevForm) => ({
+        ...prevForm,
+        camera: {
+          ...prevForm.camera,
+          cameraLatitude: locationValues[0][0],
+          cameraLongitude: locationValues[0][1],  
+          cameraAngle: locationValues[1],
+        },
+      }));
+      console.log(form)
+    }
+  }, [locationValues])
 
   const handleSubmit = async () => {
     // Validate each field before proceeding
