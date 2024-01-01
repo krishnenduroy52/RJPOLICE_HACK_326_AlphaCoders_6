@@ -1,3 +1,10 @@
+body {
+  margin: 0;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: black;
+}
+
 .main_map {
   height: 100%;
   width: 100%;
@@ -146,54 +153,4 @@
 
 .form button:hover {
   background-color: #005ce6;
-}
-
-
-/* Home Page CSS */
-
-.hero {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  justify-content: center; 
-  align-items: center; 
-  height: 90vh; 
-  background-color: #bdeeff;
-}
-
-.hero_img {
-  /* width: 90vw; */
-  /* height: 50%; */
-  /* margin: 1rem; */
-  /* object-fit: cover; */
-}
-
-.hero_image {
-  height: 70%;
-  width: 70%;
-  border-bottom-left-radius: 1rem; 
-  border-bottom-right-radius: 1rem;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.hero_text {
-  color: #380e00;
-  font-family: 'Poppins', sans-serif;
-  text-align: center;
-}
-
-.hero_text h1 {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  font-weight: bold;
-}
-
-.hero_text h3 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.hero_text p {
-  font-size: 1rem;
-  line-height: 1.5;
 }

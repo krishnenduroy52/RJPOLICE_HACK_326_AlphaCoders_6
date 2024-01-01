@@ -1,50 +1,31 @@
-import React, { useState } from "react";
-import { GiHamburgerMenu, GiTireIronCross } from "react-icons/gi";
-import { Link } from "react-router-dom";
-
-const Navbar = ( { isAdmin } ) => {
-  const [isMenuOpen, setMenuOpen] = useState(false);
-
-  const onToggleMenu = () => {
-    setMenuOpen(!isMenuOpen);
-  };
-
+import styles from "./Navbar.module.css";
+const Navbar = () => {
   return (
-    <>
-      <header className="bg-red font-[Poppins] pb-4">
-        <nav className="mt-5 flex justify-between items-center w-[92%] mx-auto">
-          <div>
-            <Link to="/">
-              <h1 className="text-2xl font-bold">Rajasthan</h1>
-            </Link>
-          </div>
-          <div
-            className={`nav-links duration-500 md:static absolute bg-white md:min-h-full min-h-[60vh] left-0 top-[-100%] md:w-auto  w-full flex items-center px-5 ${
-              isMenuOpen ? "top-[9%]" : "top-[-100%]"
-            }
-                            `}
-          >
-            <ul className="flex md:flex-row flex-col md:items-center md:gap-[4vw] gap-8">
-              <li className="hover:text-gray-500"> <Link to="/user/details">Register User</Link></li>
-              {isAdmin && <li className="hover:text-gray-500"><Link to="/map">Map</Link></li>}
-              <li className="hover:text-gray-500">Home</li>
-              <li className="hover:text-gray-500">Home</li>
-              {isAdmin && <li className="hover:text-gray-500"> <Link to="/view/CCTV">CCTV Footage</Link> </li>}
-            </ul>
-          </div>
-
-          <div className="flex items-center gap-6">
-            <button className="text-xl bg-blue-500 bg-opacity-75 text-white px-5 py-2 hover:bg-blue-700 rounded-3xl">
-              <Link to='/auth/signin' >Sign In</Link>
-            </button>
-            <GiHamburgerMenu
-              className="text-3xl cursor-pointer md:hidden"
-              onClick={onToggleMenu}
-            />
-          </div>
-        </nav>
-      </header>
-    </>
+    <header className={styles.header}>
+      <div className={styles.logo}>
+        <div>
+          <a href="/">SafeLens</a>
+        </div>
+      </div>
+      <div className={styles.nav_wrapper}>
+        <div className={styles.nav}>
+          <li>
+            <a href="/">Services</a>
+          </li>
+          <li>
+            <a href="/about-us">About</a>
+          </li>
+          <li>
+            <a href="/contact-us">Contact Us</a>
+          </li>
+        </div>
+      </div>
+      <div className={styles.login}>
+        <div>
+          <a href="/login">Login / Sign Up</a>
+        </div>
+      </div>
+    </header>
   );
 };
 
