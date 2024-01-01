@@ -1,5 +1,19 @@
+import { useContext, useEffect, useState } from "react";
 import styles from "./Navbar.module.css";
+import { Link } from "react-router-dom";
+import { DetailsContext } from "../../context/DetailsContext";
 const Navbar = () => {
+  const { test, user } = useContext(DetailsContext);
+  console.log(test);
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("isAdmin");
+    setUser(null);
+  };
+
+  console.log(user);
+
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
@@ -21,9 +35,15 @@ const Navbar = () => {
         </div>
       </div>
       <div className={styles.login}>
-        <div>
-          <a href="/login">Login / Sign Up</a>
-        </div>
+        {!user ? (
+          <div>
+            <Link to="/auth/signin">Login / Sign Up</Link>
+          </div>
+        ) : (
+          <div>
+            <Link onClick={handleLogout}>Logout</Link>
+          </div>
+        )}
       </div>
     </header>
   );
