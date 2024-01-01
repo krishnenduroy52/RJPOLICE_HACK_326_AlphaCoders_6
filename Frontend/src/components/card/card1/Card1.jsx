@@ -1,10 +1,7 @@
 import React from "react";
 import styles from "./Card1.module.css";
 
-// Image imports
-import cctv from "../../../assets/cctv.png";
-
-const Card1 = () => {
+const Card1 = ({ text, imageLink }) => {
   return (
     <div>
       <div className={styles.card}>
@@ -13,8 +10,8 @@ const Card1 = () => {
           <div className={styles.emptyRight}></div>
         </div>
         <div className={styles.cardBottom}>
-          <img src={cctv} className={styles.image} />
-          <p className={styles.text}>CCTV Surveillance</p>
+          <img src={imageLink} className={styles.image} />
+          <p className={styles.text}>{text}</p>
         </div>
       </div>
     </div>
