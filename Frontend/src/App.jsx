@@ -85,9 +85,9 @@ function App() {
         <Navbar isAdmin={isAdmin} />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/auth/registation" element={<DetailsForm />} />
+          <Route path="/auth/registration" element={<DetailsForm />} />
           {/* <Route path="/admin/cctv" element={<Camera />} /> */}
-          {false ? <Route path="/map" element={<Map />} /> : null}
+          {true ? <Route path="/map" element={<Map />} /> : null}
           {/* Camera user and admin */}
           <Route path="/user/camera" element={<CameraUser />} />
           <Route path="/admin/view/cctv" element={<CameraAdmin />} />

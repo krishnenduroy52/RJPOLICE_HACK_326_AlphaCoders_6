@@ -53,9 +53,11 @@ const DetailsForm = () => {
         ...form,
         camera: {
           ...form.camera,
-          cameraLatitude: locationValues.latitude,
-          cameraLongitude: locationValues.longitude,
+          cameraLatitude: locationValues.latitude.toFixed(6),
+          cameraLongitude: locationValues.longitude.toFixed(6),
           cameraAngle: parseInt(locationValues.angle),
+          cameraViewLeft: [locationValues.point60Degrees.lat.toFixed(4), locationValues.point60Degrees.lng.toFixed(4)],
+          cameraViewRight: [locationValues.point300Degrees.lat.toFixed(4), locationValues.point300Degrees.lng.toFixed(4)],
         },
       });
     }

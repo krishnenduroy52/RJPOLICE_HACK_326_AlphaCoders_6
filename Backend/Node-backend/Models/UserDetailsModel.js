@@ -28,8 +28,8 @@ const cameraSchema = new mongoose.Schema({
   cameraMacAddress: String,
   cameraLatitude: String,
   cameraLongitude: String,
-  cameraViewLeft: String,
-  cameraViewRight: String,
+  cameraViewLeft: [String],
+  cameraViewRight: [String],
   cameraAngle: Number,
 });
 
