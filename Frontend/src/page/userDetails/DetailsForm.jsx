@@ -14,7 +14,7 @@ import exifr from "exifr";
 
 // camera modal
 import CameraModal from "../../components/UserCameraLocation/CameraModal";
-import {DetailsContext} from "../../context/DetailsContext";
+import { DetailsContext } from "../../context/DetailsContext";
 
 const DetailsForm = () => {
   const [progress, setProgress] = useState(1);
@@ -43,24 +43,23 @@ const DetailsForm = () => {
       cameraLongitude: "",
       cameraViewLeft: "",
       cameraViewRight: "",
-      cameraAngle: ""
+      cameraAngle: "",
     },
   });
 
   useEffect(() => {
-    if (locationValues){
-      setForm((prevForm) => ({
-        ...prevForm,
+    if (locationValues) {
+      setForm({
+        ...form,
         camera: {
-          ...prevForm.camera,
-          cameraLatitude: locationValues[0][0],
-          cameraLongitude: locationValues[0][1],  
-          cameraAngle: locationValues[1],
+          ...form.camera,
+          cameraLatitude: locationValues.latitude,
+          cameraLongitude: locationValues.longitude,
+          cameraAngle: parseInt(locationValues.angle),
         },
-      }));
-      console.log(form)
+      });
     }
-  }, [locationValues])
+  }, [locationValues]);
 
   const handleSubmit = async () => {
     // Validate each field before proceeding
