@@ -15,16 +15,22 @@ const Navbar = () => {
     <header className={styles.header}>
       <div className={styles.logo}>
         <div>
-          <Link to="/">SafeLens</Link>
+          <Link to="/">
+            SAFE<span style={{ color: "#00c8ff" }}>LENS</span>
+          </Link>
         </div>
       </div>
       <div className={styles.nav_wrapper}>
         <div className={styles.nav}>
           {isAdmin ? (
             <li>
-              <Link to="/admin/control">Admin</Link>
+              <Link to="/admin/dashboard">Admin</Link>
             </li>
-          ) : null}
+          ) : (
+            <li>
+              <Link to="/user/dashboard">Dashboard</Link>
+            </li>
+          )}
           <li>
             <Link to="/about-us">About</Link>
           </li>

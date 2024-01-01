@@ -16,6 +16,10 @@ import CameraAdmin from "./page/CameraAdmin";
 import Error from "./page/Error";
 import DetailsForm from "./page/userDetails/DetailsForm";
 
+// dashboard
+import UserDashboard from "./page/dashboard/UserDashboard";
+import AdminDashboard from "./page/dashboard/AdminDashboard";
+
 function App() {
   const [isAdmin, setIsAdmin] = useState(
     localStorage.getItem("isAdmin") === "true"
@@ -88,10 +92,12 @@ function App() {
           <Route path="/user/camera" element={<CameraUser />} />
           <Route path="/admin/view/cctv" element={<CameraAdmin />} />
           {isAdmin ? (
-            <Route path="/admin/control" element={<Map />} />
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
           ) : (
-            <Route path="/map" element={<Error />} />
+            <Route path="/user/dashboard" element={<UserDashboard />} />
           )}
+
+          {/* Auth */}
           <Route path="/auth/signin" element={<SignIn />} />
         </Routes>
       </Router>
