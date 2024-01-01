@@ -9,11 +9,9 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "st-bk": "cd ../Backend/Node-backend && npm start",
-    "st-fl": "cd ../Backend/Flask-backend && ./venv/Scripts/activate && python app.py", 
+    "st-fl": "cd ../Backend/Flask-backend && /venv/Scripts/activate && python app.py",
     "st1": "concurrently \"npm run st-bk\" \"npm run dev\" \"npm run st-fl\"",
     "st2": "concurrently \"npm run st-bk\" \"npm run dev\""
-
-    
   },
   "dependencies": {
     "@tomtom-international/web-sdk-maps": "^6.25.0",
