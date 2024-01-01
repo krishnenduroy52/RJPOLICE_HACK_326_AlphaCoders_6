@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { userLoginRoute } from "../Utils/APIRoutes";
-import { ToastContainer, toast } from "react-toastify";
+
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const SignIn = () => {
@@ -68,8 +69,14 @@ const SignIn = () => {
 
   return (
     <>
-      <ToastContainer position="bottom-right" theme="colored" />
-      <div className="wrapper flex items-center justify-center">
+      <div
+        className="wrapper flex items-center justify-center"
+        style={{
+          backgroundColor: "white",
+          padding: "4rem 1rem",
+          borderRadius: "30px 30px 30px 30px",
+        }}
+      >
         <div className="form-box mt-20">
           <form className="form" onSubmit={handleSubmit}>
             <span className="title font-[Poppins] uppercase">Sign in</span>

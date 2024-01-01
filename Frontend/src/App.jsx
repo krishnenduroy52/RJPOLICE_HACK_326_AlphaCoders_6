@@ -20,6 +20,11 @@ import DetailsForm from "./page/userDetails/DetailsForm";
 import UserDashboard from "./page/dashboard/UserDashboard";
 import AdminDashboard from "./page/dashboard/AdminDashboard";
 
+// toast
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function App() {
   const [isAdmin, setIsAdmin] = useState(
     localStorage.getItem("isAdmin") === "true"
@@ -81,21 +86,22 @@ function App() {
   }, [notificationPayload]);
   return (
     <>
+      <ToastContainer position="bottom-right" theme="colored" />
       <Router>
         <Navbar isAdmin={isAdmin} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/auth/registration" element={<DetailsForm />} />
           {/* <Route path="/admin/cctv" element={<Camera />} /> */}
-          {true ? <Route path="/map" element={<Map />} /> : null}
-          {/* Camera user and admin */}
-          <Route path="/user/camera" element={<CameraUser />} />
-          <Route path="/admin/view/cctv" element={<CameraAdmin />} />
           {isAdmin ? (
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
           ) : (
             <Route path="/user/dashboard" element={<UserDashboard />} />
           )}
+
+          {/* Admin Route */}
+          <Route path="/admin/map" element={<Map />} />
+          <Route path="/admin/view/cctv" element={<CameraAdmin />} />
 
           {/* Auth */}
           <Route path="/auth/signin" element={<SignIn />} />

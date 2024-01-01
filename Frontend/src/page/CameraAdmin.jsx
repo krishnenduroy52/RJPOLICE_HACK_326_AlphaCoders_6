@@ -93,7 +93,13 @@ const CameraAdmin = () => {
   }, []);
 
   return (
-    <div>
+    <div
+      style={{
+        backgroundColor: "white",
+        padding: "4rem 1rem",
+        borderRadius: "30px 30px 30px 30px",
+      }}
+    >
       <h2>Admin Page</h2>
       {webcamStream && <img src={webcamStream} alt="Webcam stream" />}
     </div>

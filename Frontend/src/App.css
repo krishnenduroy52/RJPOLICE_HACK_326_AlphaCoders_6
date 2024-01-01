@@ -20,6 +20,7 @@ body {
 }
 
 .map_container > div.map_wrapper {
+  border: 1px solid #70757ba4;
   height: 100%;
   width: 100%;
 }
@@ -48,8 +49,8 @@ body {
 }
 
 .map_form_button:hover {
-    background-color: #fff;
-    color: #0364c6;
+  background-color: #fff;
+  color: #0364c6;
 }
 
 .lng_lat {
