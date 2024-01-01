@@ -91,10 +91,8 @@ function App() {
         <Navbar isAdmin={isAdmin} />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/auth/registation" element={<DetailsForm />} />
+          <Route path="/auth/registration" element={<DetailsForm />} />
           {/* <Route path="/admin/cctv" element={<Camera />} /> */}
-
-          
           {isAdmin ? (
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
           ) : (
