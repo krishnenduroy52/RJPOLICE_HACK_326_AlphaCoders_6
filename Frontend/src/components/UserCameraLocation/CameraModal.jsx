@@ -15,8 +15,10 @@ const CameraModal = () => {
     const [map, setMap] = useState(null);
     const targetRef = useRef(null);
     const [val, setVal] = useState(0);
-    const rotationRef = useRef(0);
+    const rotationRef = useRef(360);
     const defaultMarkerRef = useRef(null);
+    const [zoomLevel, setZoomLevel] = useState(18);
+    const baseVisibility = 200
 
     useEffect(() => {
         if (navigator.geolocation) {
@@ -47,7 +49,7 @@ const CameraModal = () => {
                 key: API_Key,
                 container: mapRef.current,
                 center: currentLocation,
-                zoom: 18,
+                zoom: zoomLevel,
             });
             setMap(mp);
         } catch (error) {
@@ -85,24 +87,34 @@ const CameraModal = () => {
     };
 
     const createCustomMarkerElement = () => {
+        const currentZoom = map.getZoom();
+        const baseSize = baseVisibility; 
+        const newSize = baseSize * (1 / (2 ** (zoomLevel - currentZoom)));
+        const markerWidth = Math.max(newSize, 0.00000000001);
+        const markerHeight = Math.max(newSize, 0.00000000001);
+    
         const markerElement = document.createElement("div");
         markerElement.style.backgroundImage = `url(${customMarkerImage})`;
-        markerElement.style.width = "100px";
-        markerElement.style.height = "100px";
+        markerElement.style.width = `${markerWidth}px`;
+        markerElement.style.height = `${markerHeight}px`;
         markerElement.style.backgroundSize = "cover";
+    
         return markerElement;
     };
+    
 
     const rotateMarkerClockwise = () => {
         if (targetRef.current) {
-            rotationRef.current += 30;
+            rotationRef.current = (rotationRef.current + 30) % 360;
+            console.log(rotationRef.current)
             targetRef.current.setRotation(rotationRef.current);
         }
     };
 
     const rotateMarkerAnticlockwise = () => {
         if (targetRef.current) {
-            rotationRef.current -= 30;
+            rotationRef.current = (rotationRef.current - 30) % 360;
+            console.log(rotationRef.current)
             targetRef.current.setRotation(rotationRef.current);
         }
     };
@@ -115,21 +127,19 @@ const CameraModal = () => {
             defaultMarkerRef.current = null;
             targetRef.current = null;
             rotationRef.current = null;
+
         }
     };
 
     useEffect(() => {
         const handleZoomChange = () => {
             const currentZoom = map.getZoom();
-            console.log(currentZoom);
+            const baseSize = baseVisibility; 
 
             if (targetRef.current) {
-                console.log(targetRef.current.getElement().style.width, targetRef.current.getElement().style.height)
-                let newSize = parseFloat(targetRef.current.getElement().style.width)-0.3; 
-                // console.log("new size", newSize)
-                if(newSize < 0.00000000001) newSize = 0;
-                targetRef.current.getElement().style.width = `${newSize}px`;
-                targetRef.current.getElement().style.height = `${newSize}px`;
+                const newSize = baseSize * (1 / (2 ** (zoomLevel - currentZoom)));
+                targetRef.current.getElement().style.width = `${Math.max(newSize, 0.00000000001)}px`;
+                targetRef.current.getElement().style.height = `${Math.max(newSize, 0.00000000001)}px`;
             }
         };
 
@@ -145,6 +155,7 @@ const CameraModal = () => {
             }
         };
     }, [map]);
+
 
     return (
         <div className="font-[Poppins]">
