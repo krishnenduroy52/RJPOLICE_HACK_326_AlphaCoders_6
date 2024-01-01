@@ -22,15 +22,15 @@ const Navbar = () => {
       </div>
       <div className={styles.nav_wrapper}>
         <div className={styles.nav}>
-          {isAdmin ? (
+          {isAdmin == true ? (
             <li>
               <Link to="/admin/dashboard">Admin</Link>
             </li>
-          ) : (
+          ) : isAdmin == false ? (
             <li>
               <Link to="/user/dashboard">Dashboard</Link>
             </li>
-          )}
+          ) : null}
           <li>
             <Link to="/about-us">About</Link>
           </li>
