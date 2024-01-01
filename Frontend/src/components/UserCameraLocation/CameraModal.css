@@ -1,0 +1,23 @@
+.location_btns {
+  margin: 0.5rem;
+  background-color: rgba(29, 97, 255, 0.773) !important;
+  border-radius: 30px;
+  padding: 0.3rem 0.7rem;
+  color: white;
+  font-size: small;
+}
+
+.location_btns:hover {
+  background-color: rgba(120, 145, 205, 0.973) !important;
+  color: white;
+}
+
+.active {
+  background-color: rgba(0, 218, 102, 0.973) !important;
+  color: white;
+}
+
+
+.arrows{
+    filter: invert();
+}
