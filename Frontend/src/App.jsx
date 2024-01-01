@@ -1,12 +1,12 @@
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import "sweetalert2/src/sweetalert2.scss";
 import "./App.css";
-import Navbar from "./components/Navbar/Navbar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { onMessage, getToken } from "firebase/messaging";
 import { messaging } from "./firebase";
 // Page element imports
-import Home from "./page/Home";
+import Home from "./page/Home/Home";
+import Navbar from "./components/Navbar/Navbar";
 import DetailsForm from "./components/userDetails/DetailsForm";
 import { useEffect, useState } from "react";
 import Camera from "./components/Camera/Camera";
