@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getToken, getMessaging, isSupported } from "firebase/messaging";
+import { getStorage } from "firebase/storage"
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_APP_FIREBASE_APIKEY,
@@ -13,6 +14,7 @@ const firebaseConfig = {
 
 export const firebaseApp = initializeApp(firebaseConfig);
 export const messaging = getMessaging(firebaseApp);
+export const storage = getStorage(firebaseApp);
 
 // Krishnendu fix firebase foreground notification
 // getOrRegisterServiceWorker function is used to try and get the service worker if it exists, otherwise it will register a new one.
