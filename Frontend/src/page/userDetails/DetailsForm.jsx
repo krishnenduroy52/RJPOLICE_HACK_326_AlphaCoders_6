@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 
 import { userDetailsRoute } from "../../Utils/APIRoutes";
 import axios from "axios";
@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { storage } from "../../firebase";
 import { uuidv4 } from "@firebase/util";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import uploadIcon from "../../assets/uploadIcon.png"
 
 // import module css
 import styles from "./DetailsForm.module.css";
@@ -21,6 +22,7 @@ import { DetailsContext } from "../../context/DetailsContext";
 
 const DetailsForm = () => {
   const [downloadImageUrl, setDownloadImageUrl] = useState(null);
+  const inputRef = useRef(null)
   const [progress, setProgress] = useState(1);
   const [file, setFile] = useState(null);
   const { locationValues } = useContext(DetailsContext);
@@ -80,9 +82,13 @@ const DetailsForm = () => {
           (snapshot) => {
             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             console.log('Upload is ' + progress + '% done');
+            if (progress === 100) {
+              toast.success("File uploaded successfully.")
+            }
           },
           (error) => {
             console.error('Error uploading file:', error);
+            toast.error("Error in uploading file .")
           }
         );
 
@@ -103,22 +109,20 @@ const DetailsForm = () => {
 
         const hashedPassword = await bcrypt.hash(form.user.password, 10);
 
-        setForm((prevForm) => ({
-          ...prevForm,
+        const updatedForm = {
+          ...form,
           user: {
-            ...prevForm.user,
+            ...form.user,
             password: hashedPassword,
           },
           camera: {
-            ...prevForm.camera,
+            ...form.camera,
             cameraInitialImage: downloadURL,
           },
-        }), () => {
-          console.log('Updated Form:', form);
-        });
+        };
 
         try {
-          const res = await axios.post(userDetailsRoute, form);
+          const res = await axios.post(userDetailsRoute, updatedForm);
           console.log(res);
           toast.success('User details successfully added.');
         } catch (error) {
@@ -135,6 +139,9 @@ const DetailsForm = () => {
     }
   };
 
+  const handleImageClick = () => {
+    inputRef.current.click();
+  }
 
   const handelUserChange = (e) => {
     const { name, value } = e.target;
@@ -625,19 +632,38 @@ const DetailsForm = () => {
                 ) : progress === 3 ? (
                   <div>
                     <form>
-                      <label htmlFor="name">Sample Image</label>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageUpload}
-                      />
+                      {/* <label htmlFor="name">Sample Image</label> */}
+                      <div onClick={handleImageClick}>
+                        {file ? (
+                          <img src={URL.createObjectURL(file)} alt="upload Image" style={{ cursor: "pointer", border: "3px dotted", borderRadius: "30px", margin: "1rem", height: "300px", width: "300px"}} />
+                        ) : (
+                          <img src={uploadIcon} alt="upload Image" style={{ cursor: "pointer", border: "3px dotted", borderRadius: "30px", margin: "1rem" }} />
+                        )}
+                        <input
+                          ref={inputRef}
+                          type="file"
+                          accept="image/*"
+                          onChange={handleImageUpload}
+                          style={{ display: "none" }}
+                        />
+                      </div>
+                      <p className="text-center pb-2 font-bold">Click to upload image</p>
                     </form>
-                    <button
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                      onClick={handleSubmit}
-                    >
-                      Submit
-                    </button>
+                    <div className="flex items-center justify-between">
+                      <button
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        onClick={() => setProgress(progress - 1)}
+                      >
+                        Previous
+                      </button>
+                      <button
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        onClick={handleSubmit}
+                      >
+                        Submit
+                      </button>
+                    </div>
+
                   </div>
                 ) : (
                   <div>Thank You</div>
