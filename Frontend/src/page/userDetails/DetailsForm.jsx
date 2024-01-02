@@ -635,9 +635,9 @@ const DetailsForm = () => {
                       {/* <label htmlFor="name">Sample Image</label> */}
                       <div onClick={handleImageClick}>
                         {file ? (
-                          <img src={URL.createObjectURL(file)} alt="upload Image" style={{ cursor: "pointer", border: "3px dotted", borderRadius: "30px", margin: "1rem", height: "300px", width: "300px"}} />
+                          <img src={URL.createObjectURL(file)} alt="upload Image" style={{ cursor: "pointer", border: "3px solid pink", borderRadius: "30px", margin: "1rem", height: "300px", width: "300px", padding: "10px"}} />
                         ) : (
-                          <img src={uploadIcon} alt="upload Image" style={{ cursor: "pointer", border: "3px dotted", borderRadius: "30px", margin: "1rem" }} />
+                          <img src={uploadIcon} alt="upload Image" style={{ cursor: "pointer", border: "3px solid", borderRadius: "30px", margin: "1rem" }} />
                         )}
                         <input
                           ref={inputRef}
