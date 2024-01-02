@@ -2,26 +2,29 @@ import tt from "@tomtom-international/web-sdk-maps";
 import "@tomtom-international/web-sdk-maps/dist/maps.css";
 
 import { useRef, useEffect, useState, useCallback, useMemo } from "react";
-
+import customMarkerImage from "../assets/marker2.png";
 const API_Key = import.meta.env.VITE_APP_TOMTOM_APIKEY;
 
-console.log(API_Key);
+// console.log(API_Key);
 const Map = () => {
+  const zoomLevel = 18;
+  const baseVisibility = 200;
   const [currentLoc, setCurrentLoc] = useState(null);
   const mapRef = useRef(null);
   const targetRef = useRef(null);
   const [camLoc, setCamLoc] = useState([
-    { lng: 88.4147, lat: 22.63296 },
-    { lng: 88.4132, lat: 22.6318 },
-    { lng: 88.4161, lat: 22.6342 },
-    { lng: 88.4155, lat: 22.6319 },
-    { lng: 88.4158, lat: 22.6339 },
-    { lng: 88.4138, lat: 22.6345 },
-    { lng: 88.4148, lat: 22.6338 },
-    { lng: 88.4136, lat: 22.6325 },
-    { lng: 88.416, lat: 22.6345 },
-    { lng: 88.4144, lat: 22.6317 },
-    { lng: 88.4153, lat: 22.6335 },
+    // { lng: 88.4147, lat: 22.63296 },
+    // { lng: 88.4132, lat: 22.6318 },
+    // { lng: 88.4161, lat: 22.6342 },
+    // { lng: 88.4155, lat: 22.6319 },
+    // { lng: 88.4158, lat: 22.6339 },
+    // { lng: 88.4138, lat: 22.6345 },
+    // { lng: 88.4148, lat: 22.6338 },
+    // { lng: 88.4136, lat: 22.6325 },
+    // { lng: 88.416, lat: 22.6345 },
+    // { lng: 88.4144, lat: 22.6317 },
+    // { lng: 88.4153, lat: 22.6335 },
+
     // { lng: 87.062078, lat: 23.246138 },
     // { lng: 87.062365, lat: 23.246037 },
     // { lng: 87.06214, lat: 23.246288 },
@@ -59,13 +62,13 @@ const Map = () => {
     // { lat: 23.245823802921475, lng: 87.06241995548359 }
 
     // center point
-    { lat: 23.24581974776096, lng: 87.06231163376515 },
+    { lat: 23.24581974776096, lng: 87.06231163376515 , angle: 30},
     // { lat: 23.245900686631824, lon: 87.0624642103831 },
     // { lat: 23.245900686631824, lon: 87.06215905714718 },
 
-    { lat: 23.246011691904293, lng: 87.0623834307344 },
+    { lat: 23.246011691904293, lng: 87.0623834307344, angle: 300 },
 
-    { lat: 23.245871501466382, lng: 87.0621191602453 }
+    { lat: 23.245871501466382, lng: 87.0621191602453, angle: 150 }
 
 
   ]);
@@ -123,7 +126,7 @@ const Map = () => {
       key: API_Key,
       container: mapRef.current,
       center: currentLoc,
-      zoom: 20,
+      zoom: 18,
     });
     setMap(mp);
     return () => mp.remove();
@@ -138,6 +141,23 @@ const Map = () => {
     console.log(lngLat);
     addCamera(lngLat.lat, lngLat.lng);
   }, []);
+
+  const createCustomMarkerElement = () => {
+    const currentZoom = map.getZoom();
+    const baseSize = baseVisibility;
+    const newSize = baseSize * (1 / 2 ** (zoomLevel - currentZoom));
+    const markerWidth = Math.max(newSize, 0.00000000001);
+    const markerHeight = Math.max(newSize, 0.00000000001);
+
+    const markerElement = document.createElement("div");
+    markerElement.style.backgroundImage = `url(${customMarkerImage})`;
+    markerElement.style.width = `${markerWidth}px`;
+    markerElement.style.height = `${markerHeight}px`;
+    markerElement.style.backgroundSize = "cover";
+    markerElement.style.opacity = 0.8;
+
+    return markerElement;
+  };
 
   useEffect(() => {
     map && map.on("click", addMarker);
@@ -154,18 +174,64 @@ const Map = () => {
             "<div><a href='/admin/view/cctv' ><h1>View CCTV</h1></a></div>"
           )
           .addTo(map);
-        const marker = new tt.Marker()
+        const customMarker = new tt.Marker({
+          element: createCustomMarkerElement(),
+          anchor: "center",
+          rotation: loc.angle,
+          clickTolerance: "20",
+        })
           .setPopup(popup)
           .setLngLat(loc)
           .addTo(map);
 
-        setMarkers((prev) => [...prev, marker]);
+        const marker = new tt.Marker({
+          // height: "22",
+          // width: "18",
+        })
+          .setPopup(popup)
+          .setLngLat(loc)
+          .addTo(map);
+
+        setMarkers((prev) => [...prev, customMarker]);
       });
     map && map.off("click", addMarker);
     return () => {
       map && map.off("click", addMarker);
     };
   }, [map, camLoc, addMarker, popupOffsets]);
+
+  useEffect(() => {
+    const handleZoomChange = () => {
+      const currentZoom = map.getZoom();
+
+      markers.forEach((marker) => {
+        const baseSize = baseVisibility;
+        const newSize = baseSize * (1 / 2 ** (zoomLevel - currentZoom));
+
+        // Update the size of both custom and default markers
+        if (marker.getElement()) {
+          marker.getElement().style.width = `${Math.max(
+            newSize,
+            0.00000000001
+          )}px`;
+          marker.getElement().style.height = `${Math.max(
+            newSize,
+            0.00000000001
+          )}px`;
+        }
+      });
+    };
+
+    if (map) {
+      map.on("zoom", handleZoomChange);
+    }
+
+    return () => {
+      if (map) {
+        map.off("zoom", handleZoomChange);
+      }
+    };
+  }, [map, markers]);
 
   function toRadians(degrees) {
     return (degrees * Math.PI) / 180;
@@ -215,11 +281,26 @@ const Map = () => {
             "<h1><a href='/admin/view/cctv' ><h1>View CCTV</h1></a></h1>"
           )
           .addTo(map);
-        const marker = new tt.Marker({ color: "#13EC88", clickTolerance: "20" })
+        const customMarker = new tt.Marker({
+          element: createCustomMarkerElement(),
+          anchor: "center",
+          rotation: locations[i].angle,
+          clickTolerance: "20",
+        })
           .setPopup(popup)
           .setLngLat(locations[i])
           .addTo(map);
-        setMarkers((prev) => [...prev, marker]);
+
+        const marker = new tt.Marker({
+          // height: "22",
+          // width: "18",
+          color: "#13EC88", clickTolerance: "20"
+        })
+          .setPopup(popup)
+          .setLngLat(locations[i])
+          .addTo(map);
+
+        setMarkers((prev) => [...prev, customMarker]);
       } else {
         const popup = new tt.Popup({
           offset: popupOffsets,
@@ -267,10 +348,11 @@ const Map = () => {
   };
 
   const reset = () => {
-    clear();
+    setMarkers((prevMarkers) => prevMarkers.filter((marker) => marker.getElement()));
     makeMarkers(camLoc, 0);
     targetRef.current && targetRef.current.remove();
   };
+
 
   return (
     <div
@@ -281,8 +363,8 @@ const Map = () => {
         borderRadius: "30px 30px 30px 30px",
       }}
     >
-      <div className="map_wrapper">
-        <div ref={mapRef} className="main_map"></div>
+      <div className="map_wrapper" style={{ borderRadius: "10px" }}>
+        <div ref={mapRef} className="main_map" style={{ borderRadius: "10px" }}></div>
       </div>
       <div className="form_container">
         <h3>Click on the map and set target to get closest camera</h3>

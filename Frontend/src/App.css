@@ -23,6 +23,7 @@ body {
   border: 1px solid #70757ba4;
   height: 100%;
   width: 100%;
+  border-radius: 10px;
 }
 
 .map_container > div.form_container {
