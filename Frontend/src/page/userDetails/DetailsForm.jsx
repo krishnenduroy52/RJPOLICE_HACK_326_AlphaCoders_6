@@ -5,6 +5,9 @@ import axios from "axios";
 import bcrypt from "bcryptjs";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { storage } from "../../firebase";
+import { uuidv4 } from "@firebase/util";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 // import module css
 import styles from "./DetailsForm.module.css";
@@ -17,7 +20,9 @@ import CameraModal from "../../components/UserCameraLocation/CameraModal";
 import { DetailsContext } from "../../context/DetailsContext";
 
 const DetailsForm = () => {
+  const [downloadImageUrl, setDownloadImageUrl] = useState(null);
   const [progress, setProgress] = useState(1);
+  const [file, setFile] = useState(null);
   const { locationValues } = useContext(DetailsContext);
   const [form, setForm] = useState({
     user: {
@@ -44,6 +49,7 @@ const DetailsForm = () => {
       cameraViewLeft: "",
       cameraViewRight: "",
       cameraAngle: "",
+      cameraInitialImage: "",
     },
   });
 
@@ -64,37 +70,71 @@ const DetailsForm = () => {
   }, [locationValues]);
 
   const handleSubmit = async () => {
-    // Validate each field before proceeding
-    // if (
-    //   Object.values(form.user).some(value => value === "") ||
-    //   Object.values(form.user.address).some(value => value === "") ||
-    //   Object.values(form.camera).some(value => value === "")
-    // ) {
-    //   toast.error("Please fill in all fields.");
-    //   return;
-    // }
-
-    // Hash the password using bcryptjs before sending it to the backend
-    const hashedPassword = await bcrypt.hash(form.user.password, 10);
-
-    // Update the form with the hashed password
-    setForm((prevForm) => ({
-      ...prevForm,
-      user: {
-        ...prevForm.user,
-        password: hashedPassword,
-      },
-    }));
-
     try {
-      const res = await axios.post(userDetailsRoute, form);
-      console.log(res);
-      toast.success("User details successfully added.");
+      if (file) {
+        const fileRef = ref(storage, `img/${file.name + uuidv4()}`);
+        const uploadFile = uploadBytesResumable(fileRef, file);
+
+        uploadFile.on(
+          'state_changed',
+          (snapshot) => {
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+          },
+          (error) => {
+            console.error('Error uploading file:', error);
+          }
+        );
+
+        await uploadFile;
+
+        const downloadURL = await getDownloadURL(uploadFile.snapshot.ref);
+        console.log('File available at', downloadURL);
+
+        // Validate each field before proceeding
+        // if (
+        //   Object.values(form.user).some(value => value === "") ||
+        //   Object.values(form.user.address).some(value => value === "") ||
+        //   Object.values(form.camera).some(value => value === "")
+        // ) {
+        //   toast.error("Please fill in all fields.");
+        //   return;
+        // }
+
+        const hashedPassword = await bcrypt.hash(form.user.password, 10);
+
+        setForm((prevForm) => ({
+          ...prevForm,
+          user: {
+            ...prevForm.user,
+            password: hashedPassword,
+          },
+          camera: {
+            ...prevForm.camera,
+            cameraInitialImage: downloadURL,
+          },
+        }), () => {
+          console.log('Updated Form:', form);
+        });
+
+        try {
+          const res = await axios.post(userDetailsRoute, form);
+          console.log(res);
+          toast.success('User details successfully added.');
+        } catch (error) {
+          console.error('There is some error', error);
+          toast.error('Internal Server Error');
+        }
+      } else {
+        toast.error('Please upload an image');
+      }
     } catch (error) {
-      console.error("There is some error", error);
-      toast.error("Internal Server Error");
+      console.error('Error in form submission:', error);
+      // Handle any specific error related to the form submission
+      toast.error('Error submitting the form');
     }
   };
+
 
   const handelUserChange = (e) => {
     const { name, value } = e.target;
@@ -113,28 +153,29 @@ const DetailsForm = () => {
     setForm({ ...form, camera: { ...form.camera, [name]: value } });
   };
 
-  // Location data extraction
-  const [locationData, setLocationData] = useState(null);
 
   const handleImageUpload = async (e) => {
-    const file = e.target.files[0];
+    const fileInput = e.target.files[0];
+    setFile(fileInput)
+    // send this file to firebase
 
-    if (file) {
-      try {
-        const exifData = await exifr.parse(file);
-        setLocationData(exifData);
-        setForm({
-          ...form,
-          camera: {
-            ...form.camera,
-            cameraLatitude: exifData.latitude,
-            cameraLongitude: exifData.longitude,
-          },
-        });
-      } catch (error) {
-        console.error("Error extracting EXIF data:", error);
-      }
-    }
+
+    // if (file) {
+    //   try {
+    //     const exifData = await exifr.parse(file);
+    //     setLocationData(exifData);
+    //     setForm({
+    //       ...form,
+    //       camera: {
+    //         ...form.camera,
+    //         cameraLatitude: exifData.latitude,
+    //         cameraLongitude: exifData.longitude,
+    //       },
+    //     });
+    //   } catch (error) {
+    //     console.error("Error extracting EXIF data:", error);
+    //   }
+    // }
   };
 
   // useEffect(() => {
@@ -149,27 +190,24 @@ const DetailsForm = () => {
           <div className="md:px-[300px] sm:px-[50px]">
             <div className="flex justify-between items-center">
               <div
-                className={`px-2 ${
-                  progress == 1 ? "bg-green-700" : "bg-blue-400"
-                } rounded-full items-center justify-center block uppercase tracking-wide font-bold`}
+                className={`px-2 ${progress == 1 ? "bg-green-700" : "bg-blue-400"
+                  } rounded-full items-center justify-center block uppercase tracking-wide font-bold`}
                 onClick={() => setProgress(1)}
               >
                 1
               </div>
               <div className="bg-black w-full h-[1px]"></div>
               <div
-                className={`px-2 ${
-                  progress == 2 ? "bg-green-700" : "bg-blue-400"
-                } rounded-full items-center justify-center block uppercase tracking-wide font-bold`}
+                className={`px-2 ${progress == 2 ? "bg-green-700" : "bg-blue-400"
+                  } rounded-full items-center justify-center block uppercase tracking-wide font-bold`}
                 onClick={() => setProgress(2)}
               >
                 2
               </div>
               <div className="bg-black w-full h-[1px]"></div>
               <div
-                className={`px-2 ${
-                  progress == 3 ? "bg-green-700" : "bg-blue-400"
-                } rounded-full items-center justify-center block uppercase tracking-wide font-bold`}
+                className={`px-2 ${progress == 3 ? "bg-green-700" : "bg-blue-400"
+                  } rounded-full items-center justify-center block uppercase tracking-wide font-bold`}
                 onClick={() => setProgress(3)}
               >
                 3
@@ -183,10 +221,10 @@ const DetailsForm = () => {
                   {progress == 1
                     ? "User Details"
                     : progress == 2
-                    ? "Camera Details"
-                    : progress == 3
-                    ? "Image Sample"
-                    : "Thank You"}
+                      ? "Camera Details"
+                      : progress == 3
+                        ? "Image Sample"
+                        : "Thank You"}
                 </h1>
               </div>
               <div>
@@ -594,14 +632,6 @@ const DetailsForm = () => {
                         onChange={handleImageUpload}
                       />
                     </form>
-                    {locationData && (
-                      <div>
-                        <h3>Location Information:</h3>
-                        <p>Latitude: {locationData?.latitude}</p>
-                        <p>Longitude: {locationData?.longitude}</p>
-                        {/* Add more location information as needed */}
-                      </div>
-                    )}
                     <button
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                       onClick={handleSubmit}
