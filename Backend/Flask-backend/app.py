@@ -38,8 +38,6 @@ last_notification_time = 0
 def upload():
     if 'image' in request.files:
         image = request.files['image']
-        # userId = _id
-        # Yolo Prediction
         img = cv2.imread(image)
         results = model(img, stream=True)
         download_link = None
