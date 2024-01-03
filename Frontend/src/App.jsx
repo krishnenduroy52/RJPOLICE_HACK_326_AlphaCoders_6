@@ -7,6 +7,7 @@ import { messaging } from "./firebase";
 // Page element imports
 import Home from "./page/Home/Home";
 import Navbar from "./components/Navbar/Navbar";
+import NavbarInMobile from "./components/Navbar/NavbarInMobile";
 import { useEffect, useState } from "react";
 import Camera from "./components/Camera/Camera";
 import Map from "./page/Map";
@@ -30,12 +31,23 @@ import AccidentDetection from "./page/AccidentDetection/AccidentDetection";
 import ViolenceDetection from "./page/ViolenceDetection/ViolenceDetection";
 
 
-
 // toast
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   const [isAdmin, setIsAdmin] = useState(
     localStorage.getItem("isAdmin") === "true"
   );
@@ -98,7 +110,11 @@ function App() {
     <>
       <ToastContainer position="bottom-right" theme="colored" />
       <Router>
-        <Navbar isAdmin={isAdmin} />
+        {isMobile ? (
+          <NavbarInMobile isAdmin={isAdmin} />
+        ) : (
+          <Navbar isAdmin={isAdmin} />
+        )}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/auth/registration" element={<DetailsForm />} />
