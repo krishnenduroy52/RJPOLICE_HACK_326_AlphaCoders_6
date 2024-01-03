@@ -19,9 +19,19 @@ import DetailsForm from "./page/userDetails/DetailsForm";
 // dashboard
 import UserDashboard from "./page/dashboard/UserDashboard";
 import AdminDashboard from "./page/dashboard/AdminDashboard";
+import NumPlateDetection from "./page/NumberPlateDetection/numPlateDetection";
+import CriminalDetection from "./page/CriminalDetection/criminalDetection";
+import GunDetection from "./page/GunDetection/gunDetection";
+import CrimeEvidence from "./page/Evidence/CrimeEvidence";
+import CrowdDetection from "./page/CrowdDetection/CrowdDetection";
+import FireDetection from "./page/FireDetection/FireDetection";
+import CameraDisplacement from "./page/CameraDisplacementDetection/CameraDisplacement";
+import AccidentDetection from "./page/AccidentDetection/AccidentDetection";
+import ViolenceDetection from "./page/ViolenceDetection/ViolenceDetection";
+
+
 
 // toast
-
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -102,6 +112,16 @@ function App() {
           {/* Admin Route */}
           <Route path="/admin/map" element={<Map />} />
           <Route path="/admin/view/cctv" element={<CameraAdmin />} />
+          <Route path="/admin/detection/number-plate" element={<NumPlateDetection />} />
+          <Route path="/admin/detection/criminal" element={<CriminalDetection />} />
+          <Route path="/admin/detection/gun" element={<GunDetection />} />
+          <Route path="/admin/evidence" element={<CrimeEvidence />} />
+          <Route path="/admin/detection/fire" element={<FireDetection />} />
+          <Route path="/admin/detection/crowd" element={<CrowdDetection />} />
+          <Route path="/admin/detection/camera-displacement" element={<CameraDisplacement />} />
+          <Route path="/admin/detection/accident" element={<AccidentDetection />} />
+          <Route path="/admin/detection/violence" element={<ViolenceDetection />} />
+
 
           {/* Auth */}
           <Route path="/auth/signin" element={<SignIn />} />
