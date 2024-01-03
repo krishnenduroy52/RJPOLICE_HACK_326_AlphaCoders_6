@@ -1,4 +1,4 @@
-.cards {
+/* .cards {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
@@ -10,6 +10,13 @@
   box-sizing: border-box;
   margin-top: 2rem;
   margin-bottom: 2rem;
+} */
+
+.cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 1rem;
+  padding: 0 10rem;
 }
 
 .wrapper {
@@ -29,4 +36,28 @@
 
 .cardsWrapper {
   width: 100%;
+}
+
+@media screen and (max-width: 1080px) {
+  .cards {
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 0 1rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .cards {
+    grid-template-columns: 1fr 1fr;
+    padding: 0 2rem;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .cards {
+    grid-template-columns: 1fr;
+    padding: 0 2rem;
+  }
+  .heading {
+    font-size: 1.5rem;
+  }
 }
