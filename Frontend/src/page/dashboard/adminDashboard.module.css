@@ -62,3 +62,13 @@
     font-size: 1.5rem;
   }
 }
+
+.category_heading{
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  text-align: center;
+  text-decoration: underline;
+}
