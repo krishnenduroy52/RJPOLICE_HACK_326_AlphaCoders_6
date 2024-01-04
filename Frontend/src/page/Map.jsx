@@ -203,48 +203,53 @@ const Map = () => {
     alert("Viewing CCTV...");
   }
 
+  function createCard(user) {
+    const card = document.createElement("div");
+    card.className = "marker";
+    card.style.border = "2px solid green";
+    card.style.borderRadius = "10px";
+    card.style.width = "200px";
+    card.style.height = "150px";
+    card.style.backgroundSize = "cover";
+    card.style.position = "relative";
+
+    const infoDiv = document.createElement("div");
+    infoDiv.style.padding = "5px";
+
+    const nameField = createField("Name", `${user.name}`);
+    const phoneField = createField("Phone", `${user.phone}`);
+    const cameraIdField = createField("CameraID", `${user.cameraId}`);
+
+    const viewCCTVButton = document.createElement("button");
+    viewCCTVButton.textContent = "View CCTV";
+    viewCCTVButton.style.marginTop = "10px";
+    viewCCTVButton.style.marginLeft = "10px";
+    viewCCTVButton.style.padding = "10px";
+    viewCCTVButton.style.position = "absolute";
+    viewCCTVButton.style.borderRadius = "10px";
+    viewCCTVButton.style.backgroundColor = "#13EC88";
+    viewCCTVButton.style.color = "white";
+    viewCCTVButton.style.border = "none";
+    viewCCTVButton.style.cursor = "pointer";
+    viewCCTVButton.style.outline = "none";
+
+    viewCCTVButton.addEventListener("click", onViewCCTVClick);
+
+    infoDiv.appendChild(nameField);
+    infoDiv.appendChild(phoneField);
+    infoDiv.appendChild(cameraIdField);
+    infoDiv.appendChild(viewCCTVButton);
+    card.appendChild(infoDiv);
+    return card;
+  }
+
   useEffect(() => {
     map && map.on("click", addMarker);
 
     map &&
-    userDetails &&
+      userDetails &&
       userDetails.forEach((user) => {
-        const card = document.createElement("div");
-        card.className = "marker";
-        card.style.border = "2px solid green";
-        card.style.borderRadius = "10px";
-        card.style.width = "200px";
-        card.style.height = "150px";
-        card.style.backgroundSize = "cover";
-        card.style.position = "relative";
 
-        const infoDiv = document.createElement("div");
-        infoDiv.style.padding = "5px";
-
-        const nameField = createField("Name", `${user.name}`);
-        const phoneField = createField("Phone",  `${user.phone}`);
-        const cameraIdField = createField("CameraID", `${user.cameraId}`);
-
-        const viewCCTVButton = document.createElement("button");
-        viewCCTVButton.textContent = "View CCTV";
-        viewCCTVButton.style.marginTop = "10px";
-        viewCCTVButton.style.marginLeft = "10px";
-        viewCCTVButton.style.padding = "10px"; 
-        viewCCTVButton.style.position = "absolute";
-        viewCCTVButton.style.borderRadius = "10px";
-        viewCCTVButton.style.backgroundColor = "#13EC88";
-        viewCCTVButton.style.color = "white";
-        viewCCTVButton.style.border = "none";
-        viewCCTVButton.style.cursor = "pointer";
-        viewCCTVButton.style.outline = "none";
-
-        viewCCTVButton.addEventListener("click", onViewCCTVClick);
-
-        infoDiv.appendChild(nameField);
-        infoDiv.appendChild(phoneField);
-        infoDiv.appendChild(cameraIdField);
-        infoDiv.appendChild(viewCCTVButton);
-        card.appendChild(infoDiv);
 
         let loc = { lng: user.lng, lat: user.lat, angle: user.angle };
         const popup = new tt.Popup({
@@ -252,7 +257,7 @@ const Map = () => {
           className: "map_marker_popup",
         })
           .setLngLat(loc)
-          .setDOMContent(card)
+          .setDOMContent(createCard(user))
           .addTo(map);
 
         const customMarker = new tt.Marker({
@@ -261,7 +266,6 @@ const Map = () => {
           rotation: loc.angle,
           clickTolerance: "20",
         })
-          .setPopup(popup)
           .setLngLat(loc)
           .addTo(map);
 
@@ -305,7 +309,8 @@ const Map = () => {
     return distance;
   }
 
-  function getClosestLocations(targetCoord, locations) {
+  // Need to be checked
+  function getClosestLocations(targetCoord, locations) { 
     const sortedLocations = locations.slice().sort((a, b) => {
       return (
         haversineDistance(targetCoord, a) - haversineDistance(targetCoord, b)
@@ -320,25 +325,25 @@ const Map = () => {
     setMarkers([]);
   };
 
-  const makeMarkers = (locations, numClosest) => {
-    for (let i = 0; i < locations.length; i++) {
+  const makeMarkers = (user, numClosest) => {
+    for (let i = 0; i < user.length; i++) {
       if (i < numClosest) {
+        let loc = { lng: user[i].lng, lat: user[i].lat };
         const popup = new tt.Popup({
           offset: popupOffsets,
           className: "map_marker_popup",
         })
-          .setHTML(
-            "<h1><a href='/admin/view/cctv' ><h1>View CCTV</h1></a></h1>"
-          )
+          .setDOMContent(createCard(user[i]))
           .addTo(map);
+
         const customMarker = new tt.Marker({
           element: createCustomMarkerElement(),
           anchor: "center",
-          rotation: locations[i].angle,
+          rotation: user[i].angle,
           clickTolerance: "20",
         })
           .setPopup(popup)
-          .setLngLat(locations[i])
+          .setLngLat(loc)
           .addTo(map);
 
         const marker = new tt.Marker({
@@ -348,22 +353,22 @@ const Map = () => {
           clickTolerance: "20",
         })
           .setPopup(popup)
-          .setLngLat(locations[i])
+          .setLngLat(loc)
           .addTo(map);
 
         setMarkers((prev) => [...prev, customMarker]);
       } else {
+        let loc = { lng: user[i].lng, lat: user[i].lat };
         const popup = new tt.Popup({
           offset: popupOffsets,
           className: "map_marker_popup",
         })
-          .setHTML(
-            "<h1><a href='/admin/view/cctv' ><h1>View CCTV</h1></a></h1>"
-          )
+          .setDOMContent(createCard(user))
           .addTo(map);
+
         const marker = new tt.Marker({ clickTolerance: "20" })
           .setPopup(popup)
-          .setLngLat(locations[i])
+          .setLngLat(loc)
           .addTo(map);
         setMarkers((prev) => [...prev, marker]);
       }
@@ -378,7 +383,6 @@ const Map = () => {
         const baseSize = baseVisibility;
         const newSize = baseSize * (1 / 2 ** (zoomLevel - currentZoom));
 
-        // Update the size of both custom and default markers
         if (marker.getElement()) {
           marker.getElement().style.width = `${Math.max(
             newSize,
@@ -416,13 +420,14 @@ const Map = () => {
       .setLngLat(e.lngLat)
       .addTo(map);
     targetRef.current = marker;
-    const locations = getClosestLocations(
+    const locations = getClosestLocations( // need to be checked
       { lng: e.lngLat.lng, lat: e.lngLat.lat },
       camLoc,
       6
     );
     clear();
-    makeMarkers(locations, 6);
+    // makeMarkers(locations, 6); previous code
+    makeMarkers(userDetails, 6); // new code
 
     map && map.off("click", addTarget);
   };
@@ -435,7 +440,7 @@ const Map = () => {
     setMarkers((prevMarkers) =>
       prevMarkers.filter((marker) => marker.getElement())
     );
-    makeMarkers(camLoc, 0);
+    makeMarkers(userDetails, 0);
     targetRef.current && targetRef.current.remove();
   };
 
