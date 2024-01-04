@@ -1,6 +1,5 @@
 import tt from "@tomtom-international/web-sdk-maps";
 import "@tomtom-international/web-sdk-maps/dist/maps.css";
-
 import { useRef, useEffect, useState, useCallback, useMemo } from "react";
 import customMarkerImage from "../assets/marker2.png";
 const API_Key = import.meta.env.VITE_APP_TOMTOM_APIKEY;
@@ -69,6 +68,33 @@ const Map = () => {
 
     { lat: 23.245871501466382, lng: 87.0621191602453, angle: 150 },
   ]);
+
+  const userDetails = [
+    {
+      name: "Indrajit Pal",
+      phone: "+1 123-456-7890",
+      cameraId: "CAM-001",
+      angle: 30,
+      lat: 23.24581974776096,
+      lng: 87.06231163376515,
+    },
+    {
+      name: "Krishnendu Roy",
+      phone: "+1 123-456-7890",
+      cameraId: "CAM-002",
+      angle: 300,
+      lat: 23.246011691904293,
+      lng: 87.0623834307344,
+    },
+    {
+      name: "Anurag Kumar Sah",
+      phone: "+1 123-456-7890",
+      cameraId: "CAM-003",
+      angle: 150,
+      lat: 23.245871501466382,
+      lng: 87.0621191602453,
+    },
+  ]
 
   const [markers, setMarkers] = useState([]);
 
@@ -156,21 +182,79 @@ const Map = () => {
     return markerElement;
   };
 
+  function createField(label, value) {
+    const fieldDiv = document.createElement("div");
+    fieldDiv.style.marginBottom = "5px";
+
+    const labelSpan = document.createElement("span");
+    labelSpan.textContent = `${label}: `;
+    labelSpan.style.fontWeight = "bold";
+
+    const valueSpan = document.createElement("span");
+    valueSpan.textContent = value;
+
+    fieldDiv.appendChild(labelSpan);
+    fieldDiv.appendChild(valueSpan);
+
+    return fieldDiv;
+  }
+
+  function onViewCCTVClick() {
+    alert("Viewing CCTV...");
+  }
+
   useEffect(() => {
     map && map.on("click", addMarker);
 
     map &&
-      camLoc &&
-      camLoc.forEach((loc) => {
+    userDetails &&
+      userDetails.forEach((user) => {
+        const card = document.createElement("div");
+        card.className = "marker";
+        card.style.border = "2px solid green";
+        card.style.borderRadius = "10px";
+        card.style.width = "200px";
+        card.style.height = "150px";
+        card.style.backgroundSize = "cover";
+        card.style.position = "relative";
+
+        const infoDiv = document.createElement("div");
+        infoDiv.style.padding = "5px";
+
+        const nameField = createField("Name", `${user.name}`);
+        const phoneField = createField("Phone",  `${user.phone}`);
+        const cameraIdField = createField("CameraID", `${user.cameraId}`);
+
+        const viewCCTVButton = document.createElement("button");
+        viewCCTVButton.textContent = "View CCTV";
+        viewCCTVButton.style.marginTop = "10px";
+        viewCCTVButton.style.marginLeft = "10px";
+        viewCCTVButton.style.padding = "10px"; 
+        viewCCTVButton.style.position = "absolute";
+        viewCCTVButton.style.borderRadius = "10px";
+        viewCCTVButton.style.backgroundColor = "#13EC88";
+        viewCCTVButton.style.color = "white";
+        viewCCTVButton.style.border = "none";
+        viewCCTVButton.style.cursor = "pointer";
+        viewCCTVButton.style.outline = "none";
+
+        viewCCTVButton.addEventListener("click", onViewCCTVClick);
+
+        infoDiv.appendChild(nameField);
+        infoDiv.appendChild(phoneField);
+        infoDiv.appendChild(cameraIdField);
+        infoDiv.appendChild(viewCCTVButton);
+        card.appendChild(infoDiv);
+
+        let loc = { lng: user.lng, lat: user.lat, angle: user.angle };
         const popup = new tt.Popup({
           offset: popupOffsets,
           className: "map_marker_popup",
         })
           .setLngLat(loc)
-          .setHTML(
-            "<div><a href='/admin/view/cctv' ><h1>View CCTV</h1></a></div>"
-          )
+          .setDOMContent(card)
           .addTo(map);
+
         const customMarker = new tt.Marker({
           element: createCustomMarkerElement(),
           anchor: "center",
@@ -184,6 +268,7 @@ const Map = () => {
         const marker = new tt.Marker({
           // height: "22",
           // width: "18",
+          clickTolerance: "20",
         })
           .setPopup(popup)
           .setLngLat(loc)
@@ -197,38 +282,6 @@ const Map = () => {
     };
   }, [map, camLoc, addMarker, popupOffsets]);
 
-  useEffect(() => {
-    const handleZoomChange = () => {
-      const currentZoom = map.getZoom();
-
-      markers.forEach((marker) => {
-        const baseSize = baseVisibility;
-        const newSize = baseSize * (1 / 2 ** (zoomLevel - currentZoom));
-
-        // Update the size of both custom and default markers
-        if (marker.getElement()) {
-          marker.getElement().style.width = `${Math.max(
-            newSize,
-            0.00000000001
-          )}px`;
-          marker.getElement().style.height = `${Math.max(
-            newSize,
-            0.00000000001
-          )}px`;
-        }
-      });
-    };
-
-    if (map) {
-      map.on("zoom", handleZoomChange);
-    }
-
-    return () => {
-      if (map) {
-        map.off("zoom", handleZoomChange);
-      }
-    };
-  }, [map, markers]);
 
   function toRadians(degrees) {
     return (degrees * Math.PI) / 180;
@@ -242,9 +295,9 @@ const Map = () => {
     const a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.cos(toRadians(coord1.lat)) *
-        Math.cos(toRadians(coord2.lat)) *
-        Math.sin(dLng / 2) *
-        Math.sin(dLng / 2);
+      Math.cos(toRadians(coord2.lat)) *
+      Math.sin(dLng / 2) *
+      Math.sin(dLng / 2);
 
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
@@ -316,6 +369,39 @@ const Map = () => {
       }
     }
   };
+
+  useEffect(() => {
+    const handleZoomChange = () => {
+      const currentZoom = map.getZoom();
+
+      markers.forEach((marker) => {
+        const baseSize = baseVisibility;
+        const newSize = baseSize * (1 / 2 ** (zoomLevel - currentZoom));
+
+        // Update the size of both custom and default markers
+        if (marker.getElement()) {
+          marker.getElement().style.width = `${Math.max(
+            newSize,
+            0.00000000001
+          )}px`;
+          marker.getElement().style.height = `${Math.max(
+            newSize,
+            0.00000000001
+          )}px`;
+        }
+      });
+    };
+
+    if (map) {
+      map.on("zoom", handleZoomChange);
+    }
+
+    return () => {
+      if (map) {
+        map.off("zoom", handleZoomChange);
+      }
+    };
+  }, [map, markers]);
 
   const addTarget = (e) => {
     if (!map) return;
