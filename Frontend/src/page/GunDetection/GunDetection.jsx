@@ -1,77 +1,18 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import style from "./gunDetection.module.css";
 import CardEvidence from "../../components/card/CardEvidence/CardEvidence";
+import { DetailsContext } from "../../context/DetailsContext";
 
 const GunDetection = () => {
   const videoRef = useRef(null);
-  const [cameraEvidence, setCameraEvidence] = useState([
-    {
-      id: 1,
-      image: "https://i.ibb.co/0jZQYQq/1.jpg",
-      location: {
-        latitude: 10.762622,
-        longitude: 106.660172,
-      },
-      time: "2021-09-30 12:00:00",
-      userid: "1",
-      crime: "Gun detected",
-    },
-    {
-      id: 1,
-      image: "https://i.ibb.co/0jZQYQq/1.jpg",
-      location: {
-        latitude: 10.762622,
-        longitude: 106.660172,
-      },
-      time: "2021-09-30 12:00:00",
-      userid: "1",
-      crime: "Gun detected",
-    },
-    {
-      id: 1,
-      image: "https://i.ibb.co/0jZQYQq/1.jpg",
-      location: {
-        latitude: 10.762622,
-        longitude: 106.660172,
-      },
-      time: "2021-09-30 12:00:00",
-      userid: "1",
-      crime: "Gun detected",
-    },
-    {
-      id: 1,
-      image: "https://i.ibb.co/0jZQYQq/1.jpg",
-      location: {
-        latitude: 10.762622,
-        longitude: 106.660172,
-      },
-      time: "2021-09-30 12:00:00",
-      userid: "1",
-      crime: "Gun detected",
-    },
-    {
-      id: 1,
-      image: "https://i.ibb.co/0jZQYQq/1.jpg",
-      location: {
-        latitude: 10.762622,
-        longitude: 106.660172,
-      },
-      time: "2021-09-30 12:00:00",
-      userid: "1",
-      crime: "Gun detected",
-    },
-    {
-      id: 1,
-      image: "https://i.ibb.co/0jZQYQq/1.jpg",
-      location: {
-        latitude: 10.762622,
-        longitude: 106.660172,
-      },
-      time: "2021-09-30 12:00:00",
-      userid: "1",
-      crime: "Gun detected",
-    },
-  ]);
+  const { evidence } = useContext(DetailsContext);
+  // evidence = [{...}, {...}, {...}]
+
+  const [cameraEvidence, setCameraEvidence] = useState([]);
+
+  useEffect(() => {
+    setCameraEvidence(evidence.filter((evi) => evi.crime === "Gun detected"));
+  }, [evidence]);
 
   useEffect(() => {
     const startCamera = async () => {
@@ -122,9 +63,43 @@ const GunDetection = () => {
         body: formData,
       })
         .then((response) => response.json())
-        .then((data) => {
+        .then(async (data) => {
           if (data?.download_link) {
-            setCameraEvidence((prev) => [...prev, data.download_link]);
+            const uploadCrime = await fetch(
+              "http://localhost:8000/crime/evidence",
+              {
+                method: "POST",
+                body: JSON.stringify({
+                  image: data.download_link,
+                  location: {
+                    latitude: 10.762622,
+                    longitude: 106.660172,
+                  },
+                  time: "2021-09-30 12:00:00",
+                  userid: "1",
+                  crime: "Gun detected",
+                }),
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+
+            if (uploadCrime.status === 200) {
+              setCameraEvidence((prev) => [
+                {
+                  image: data.download_link,
+                  location: {
+                    latitude: 10.762622,
+                    longitude: 106.660172,
+                  },
+                  time: "2021-09-30 12:00:00",
+                  userid: "1",
+                  crime: "Gun detected",
+                },
+                ...prev,
+              ]);
+            }
           }
         })
         .catch((error) => {
@@ -132,12 +107,12 @@ const GunDetection = () => {
         });
     }
   };
+
   useEffect(() => {
-    const intervalId = setInterval(() => {
+    const interval = setInterval(() => {
       sendFrameToServer();
     }, 5000);
-
-    return () => clearInterval(intervalId);
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -161,9 +136,10 @@ const GunDetection = () => {
           />
         </div>
         <div className={style.evidence}>
-          {cameraEvidence.map((evi, idx) => (
-            <CardEvidence key={evi.id} evi={evi} />
-          ))}
+          {cameraEvidence &&
+            cameraEvidence.map((evi, idx) => (
+              <CardEvidence key={evi.id} evi={evi} />
+            ))}
         </div>
       </div>
     </div>

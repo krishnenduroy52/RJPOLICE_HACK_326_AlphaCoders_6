@@ -6,6 +6,21 @@ const DetailsProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(null);
   const [locationValues, setLocationValues] = useState(null);
+  const [evidence, setEvidence] = useState([]);
+
+  useEffect(() => {
+    const fetchEvidence = async () => {
+      try {
+        const response = await fetch("http://localhost:8000/crime/evidence");
+        const data = await response.json();
+        const evidence = data.crimeEvidence.reverse();
+        setEvidence(data.crimeEvidence);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchEvidence();
+  }, []);
 
   const handleLngLatRotationValue = (values) => {
     console.log(values);
@@ -32,6 +47,7 @@ const DetailsProvider = ({ children }) => {
         isAdmin: isAdmin,
         handleLngLatRotationValue,
         locationValues,
+        evidence,
       }}
     >
       {children}

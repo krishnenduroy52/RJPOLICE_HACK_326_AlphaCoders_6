@@ -208,12 +208,14 @@ app.get("/get/user/details/:id", async (req, res) => {
   try {
     const id = req.params.id;
     const userDetails = await UserDetails.findById(id);
-    return res.status(200).json({ message: "Success", userDetails: userDetails })
+    return res
+      .status(200)
+      .json({ message: "Success", userDetails: userDetails });
   } catch (error) {
     console.error(error);
     res.status(500).send("Unable to fetch user details");
   }
-})
+});
 
 // User Login
 app.post("/user/login", async (req, res) => {
@@ -235,24 +237,35 @@ app.post("/crime/evidence", async (req, res) => {
     console.error(error);
     res.status(500).send("Internal Server Error");
   }
-})
+});
+
+// get crime evidence from database
+app.get("/crime/evidence", async (req, res) => {
+  try {
+    const crimeEvidence = await CrimeEvidenceModel.find();
+    res.status(200).json({ message: "Success", crimeEvidence: crimeEvidence });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 // WebRTC signaling
-io.on("connection", (socket) => {
-  console.log("A user connected");
+// io.on("connection", (socket) => {
+//   console.log("A user connected");
 
-  // Handle user sending webcam stream to admin
-  socket.on("sendWebcamStream", (userStream) => {
-    // Send the user stream to admin
-    socket.broadcast.emit("receiveWebcamStream", userStream);
-  });
+//   // Handle user sending webcam stream to admin
+//   socket.on("sendWebcamStream", (userStream) => {
+//     // Send the user stream to admin
+//     socket.broadcast.emit("receiveWebcamStream", userStream);
+//   });
 
-  // Additional socket.io events can be added as needed
+//   // Additional socket.io events can be added as needed
 
-  socket.on("disconnect", () => {
-    console.log("User disconnected");
-  });
-});
+//   socket.on("disconnect", () => {
+//     console.log("User disconnected");
+//   });
+// });
 
 const port = 8000;
 server.listen(port, () => {
