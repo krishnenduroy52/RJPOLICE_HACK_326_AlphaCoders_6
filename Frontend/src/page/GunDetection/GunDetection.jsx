@@ -1,9 +1,77 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./gunDetection.module.css";
+import style from "./gunDetection.module.css";
+import CardEvidence from "../../components/card/CardEvidence/CardEvidence";
 
 const GunDetection = () => {
   const videoRef = useRef(null);
-  const [cameraEvidence, setCameraEvidence] = useState([]);
+  const [cameraEvidence, setCameraEvidence] = useState([
+    {
+      id: 1,
+      image: "https://i.ibb.co/0jZQYQq/1.jpg",
+      location: {
+        latitude: 10.762622,
+        longitude: 106.660172,
+      },
+      time: "2021-09-30 12:00:00",
+      userid: "1",
+      crime: "Gun detected",
+    },
+    {
+      id: 1,
+      image: "https://i.ibb.co/0jZQYQq/1.jpg",
+      location: {
+        latitude: 10.762622,
+        longitude: 106.660172,
+      },
+      time: "2021-09-30 12:00:00",
+      userid: "1",
+      crime: "Gun detected",
+    },
+    {
+      id: 1,
+      image: "https://i.ibb.co/0jZQYQq/1.jpg",
+      location: {
+        latitude: 10.762622,
+        longitude: 106.660172,
+      },
+      time: "2021-09-30 12:00:00",
+      userid: "1",
+      crime: "Gun detected",
+    },
+    {
+      id: 1,
+      image: "https://i.ibb.co/0jZQYQq/1.jpg",
+      location: {
+        latitude: 10.762622,
+        longitude: 106.660172,
+      },
+      time: "2021-09-30 12:00:00",
+      userid: "1",
+      crime: "Gun detected",
+    },
+    {
+      id: 1,
+      image: "https://i.ibb.co/0jZQYQq/1.jpg",
+      location: {
+        latitude: 10.762622,
+        longitude: 106.660172,
+      },
+      time: "2021-09-30 12:00:00",
+      userid: "1",
+      crime: "Gun detected",
+    },
+    {
+      id: 1,
+      image: "https://i.ibb.co/0jZQYQq/1.jpg",
+      location: {
+        latitude: 10.762622,
+        longitude: 106.660172,
+      },
+      time: "2021-09-30 12:00:00",
+      userid: "1",
+      crime: "Gun detected",
+    },
+  ]);
 
   useEffect(() => {
     const startCamera = async () => {
@@ -22,12 +90,10 @@ const GunDetection = () => {
     startCamera();
 
     return () => {
-      // Clean up: stop the video stream when the component is unmounted
       const stream = videoRef.current?.srcObject;
       if (stream) {
         const tracks = stream.getTracks();
         tracks.forEach((track) => track.stop());
-        // Set srcObject to null to prevent potential issues
         if (videoRef.current) {
           videoRef.current.srcObject = null;
         }
@@ -82,17 +148,23 @@ const GunDetection = () => {
         borderRadius: "30px 30px 30px 30px",
       }}
     >
-      <video
-        ref={videoRef}
-        autoPlay
-        style={{ width: "100%", maxWidth: "600px", borderRadius: "15px" }}
-      />
-      <div>
-        {cameraEvidence.map((link, idx) => (
-          <div key={idx}>
-            <img src={link} alt="camera evidence" />
-          </div>
-        ))}
+      <div className={style.one}>
+        <h1 className={style.headline}>Live GUN Detection</h1>
+      </div>
+      <div className={style.wrapper}>
+        <div className={style.video}>
+          <h1>CCTV Footage</h1>
+          <video
+            ref={videoRef}
+            autoPlay
+            style={{ width: "100%", maxWidth: "400px", borderRadius: "5px" }}
+          />
+        </div>
+        <div className={style.evidence}>
+          {cameraEvidence.map((evi, idx) => (
+            <CardEvidence key={evi.id} evi={evi} />
+          ))}
+        </div>
       </div>
     </div>
   );
