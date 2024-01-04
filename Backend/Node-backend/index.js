@@ -178,7 +178,7 @@ app.get("/", async (req, res) => {
 
 app.get("/sendnotification/:object", async (req, res) => {
   const object = req.params.object;
-
+  console.log(object);
   try {
     await sendNotification(object);
     res.send("Success");
