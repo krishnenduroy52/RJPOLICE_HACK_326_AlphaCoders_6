@@ -100,7 +100,7 @@ const CameraAdmin = () => {
         borderRadius: "30px 30px 30px 30px",
       }}
     >
-      <h2>Admin Page</h2>
+      <h2>Admin hello Page</h2>
       {webcamStream && <img src={webcamStream} alt="Webcam stream" />}
     </div>
   );

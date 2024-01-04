@@ -126,49 +126,7 @@ const CameraUser = () => {
       const userStream = webcamRef.current.getScreenshot();
       socket.emit("sendWebcamStream", userStream);
     };
-
-    const intervalId = setInterval(captureAndSend, 10); // Send stream every second
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
-
-  // Helper function to convert data URI to Blob
-  function dataURItoBlob(dataURI) {
-    const byteString = atob(dataURI.split(",")[1]);
-    const mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
-
-    const ab = new ArrayBuffer(byteString.length);
-    const ia = new Uint8Array(ab);
-
-    for (let i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-
-    return new Blob([ab], { type: mimeString });
-  }
-
-  useEffect(() => {
-    const captureAndSendToFlask = () => {
-      const imageSrc = webcamRef.current.getScreenshot();
-      console.log("send to flask");
-      const formData = new FormData();
-      formData.append("image", dataURItoBlob(imageSrc));
-
-      fetch("http://127.0.0.1:5000/upload", {
-        method: "POST",
-        body: formData,
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Success:", data);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-    };
-    const intervalId = setInterval(captureAndSendToFlask, 5000);
+    const intervalId = setInterval(captureAndSend, 100);
 
     return () => {
       clearInterval(intervalId);

@@ -24,6 +24,7 @@ import AdminDashboard from "./page/dashboard/AdminDashboard";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Ipcamera from "./test/Ipcamera";
 
 function App() {
   const [isAdmin, setIsAdmin] = useState(
@@ -105,6 +106,9 @@ function App() {
 
           {/* Auth */}
           <Route path="/auth/signin" element={<SignIn />} />
+
+          {/* Test */}
+          <Route path="/test/cctv" element={<Ipcamera />} />
         </Routes>
       </Router>
     </>
