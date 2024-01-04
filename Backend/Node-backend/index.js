@@ -170,6 +170,7 @@ mongoose
   });
 
 const UserDetails = require("./Models/UserDetailsModel");
+const CrimeEvidenceModel = require("./Models/CrimeEvidenceModel");
 const { sendNotification } = require("./notificationModule");
 
 app.get("/", async (req, res) => {
@@ -202,6 +203,18 @@ app.post("/userDetails", async (req, res) => {
   }
 });
 
+// Get user details
+app.get("/get/user/details/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const userDetails = await UserDetails.findById(id);
+    return res.status(200).json({ message: "Success", userDetails: userDetails })
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Unable to fetch user details");
+  }
+})
+
 // User Login
 app.post("/user/login", async (req, res) => {
   const { email, password } = req.body;
@@ -211,6 +224,18 @@ app.post("/user/login", async (req, res) => {
   }
   res.json({ message: "Login successful", user: user });
 });
+
+// push crime evidence to database
+app.post("/crime/evidence", async (req, res) => {
+  try {
+    const crimeEvidence = new CrimeEvidenceModel(req.body);
+    await crimeEvidence.save();
+    res.send("Success");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+})
 
 // WebRTC signaling
 io.on("connection", (socket) => {
