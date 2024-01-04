@@ -47,7 +47,6 @@ const Map = () => {
     // { lng: 87.06213746970545, lat: 23.246012706600133 },
     // { lng: 87.062201956187, lat: 23.246071958068956 },
 
-
     // { lat: 23.245898802921474, lng: 87.06244005167302 },
     // { lat: 23.245973802921473, lng: 87.06241995548359 },
     // { lat: 23.24602870673204, lng: 87.06236505167301 },
@@ -62,15 +61,13 @@ const Map = () => {
     // { lat: 23.245823802921475, lng: 87.06241995548359 }
 
     // center point
-    { lat: 23.24581974776096, lng: 87.06231163376515 , angle: 30},
+    { lat: 23.24581974776096, lng: 87.06231163376515, angle: 30 },
     // { lat: 23.245900686631824, lon: 87.0624642103831 },
     // { lat: 23.245900686631824, lon: 87.06215905714718 },
 
     { lat: 23.246011691904293, lng: 87.0623834307344, angle: 300 },
 
-    { lat: 23.245871501466382, lng: 87.0621191602453, angle: 150 }
-
-
+    { lat: 23.245871501466382, lng: 87.0621191602453, angle: 150 },
   ]);
 
   const [markers, setMarkers] = useState([]);
@@ -245,9 +242,9 @@ const Map = () => {
     const a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.cos(toRadians(coord1.lat)) *
-      Math.cos(toRadians(coord2.lat)) *
-      Math.sin(dLng / 2) *
-      Math.sin(dLng / 2);
+        Math.cos(toRadians(coord2.lat)) *
+        Math.sin(dLng / 2) *
+        Math.sin(dLng / 2);
 
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
@@ -294,7 +291,8 @@ const Map = () => {
         const marker = new tt.Marker({
           // height: "22",
           // width: "18",
-          color: "#13EC88", clickTolerance: "20"
+          color: "#13EC88",
+          clickTolerance: "20",
         })
           .setPopup(popup)
           .setLngLat(locations[i])
@@ -348,11 +346,12 @@ const Map = () => {
   };
 
   const reset = () => {
-    setMarkers((prevMarkers) => prevMarkers.filter((marker) => marker.getElement()));
+    setMarkers((prevMarkers) =>
+      prevMarkers.filter((marker) => marker.getElement())
+    );
     makeMarkers(camLoc, 0);
     targetRef.current && targetRef.current.remove();
   };
-
 
   return (
     <div
@@ -364,7 +363,11 @@ const Map = () => {
       }}
     >
       <div className="map_wrapper" style={{ borderRadius: "10px" }}>
-        <div ref={mapRef} className="main_map" style={{ borderRadius: "10px" }}></div>
+        <div
+          ref={mapRef}
+          className="main_map"
+          style={{ borderRadius: "10px" }}
+        ></div>
       </div>
       <div className="form_container">
         <h3>Click on the map and set target to get closest camera</h3>

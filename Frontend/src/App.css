@@ -5,6 +5,16 @@ body {
   background-color: black;
 }
 
+/* Global class */
+
+.heroSection {
+  background-color: "white";
+  padding: 4rem 1rem;
+  border-radius: "30px 30px 30px 30px";
+}
+
+/* Global class end */
+
 .main_map {
   height: 100%;
   width: 100%;

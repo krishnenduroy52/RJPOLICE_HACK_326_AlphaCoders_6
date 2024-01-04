@@ -126,7 +126,7 @@ const SignIn = () => {
           <div className="form-section">
             <p>
               Don't have an account?{" "}
-              <Link to="/auth/registation">Create One</Link>{" "}
+              <Link to="/auth/registration">Create One</Link>{" "}
             </p>
           </div>
         </div>
