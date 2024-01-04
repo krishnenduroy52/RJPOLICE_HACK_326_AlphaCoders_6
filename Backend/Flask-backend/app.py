@@ -34,7 +34,13 @@ classNames = ['Handgun', 'Knife', 'Short_rifle']
 last_notification_time = 0
 
 
-@app.route('/upload', methods=['POST'])
+# Routes here
+@app.route('/')
+def hello():
+    return "Hello hackathon"
+
+
+@app.route('/gun-detection', methods=['POST'])
 def upload():
     if 'image' in request.files:
         image = request.files['image']
@@ -74,7 +80,6 @@ def upload():
                     current_time = time.time()
                     try:
                         if current_time - last_notification_time > 60:
-                            print("Notification sent successfully")
                             response = requests.get(api_url)
                     except Exception as e:
                         print(f"Error sending notification: {e}")

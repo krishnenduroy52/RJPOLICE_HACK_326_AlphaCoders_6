@@ -34,6 +34,7 @@ import ViolenceDetection from "./page/ViolenceDetection/ViolenceDetection";
 // toast
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Ipcamera from "./test/Ipcamera";
 
 function App() {
   const [isMobile, setIsMobile] = useState(false);
@@ -141,6 +142,9 @@ function App() {
 
           {/* Auth */}
           <Route path="/auth/signin" element={<SignIn />} />
+
+          {/* Test */}
+          <Route path="/test/cctv" element={<Ipcamera />} />
         </Routes>
       </Router>
     </>
