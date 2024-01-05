@@ -249,8 +249,6 @@ const Map = () => {
     map &&
       userDetails &&
       userDetails.forEach((user) => {
-
-
         let loc = { lng: user.lng, lat: user.lat, angle: user.angle };
         const popup = new tt.Popup({
           offset: popupOffsets,
@@ -310,15 +308,15 @@ const Map = () => {
   }
 
   // Need to be checked
-  function getClosestLocations(targetCoord, locations) { 
+  function getClosestLocations(targetCoord, locations, numClosest) {
     const sortedLocations = locations.slice().sort((a, b) => {
-      return (
-        haversineDistance(targetCoord, a) - haversineDistance(targetCoord, b)
-      );
+      const distanceA = haversineDistance(targetCoord, { lat: a.lat, lng: a.lng });
+      const distanceB = haversineDistance(targetCoord, { lat: b.lat, lng: b.lng });
+      return distanceA - distanceB;
     });
-
-    return sortedLocations;
-  }
+  
+    return sortedLocations.slice(0, numClosest);
+  }  
 
   const clear = () => {
     markers && markers.forEach((marker) => marker.remove());
@@ -342,7 +340,6 @@ const Map = () => {
           rotation: user[i].angle,
           clickTolerance: "20",
         })
-          .setPopup(popup)
           .setLngLat(loc)
           .addTo(map);
 
@@ -422,12 +419,12 @@ const Map = () => {
     targetRef.current = marker;
     const locations = getClosestLocations( // need to be checked
       { lng: e.lngLat.lng, lat: e.lngLat.lat },
-      camLoc,
-      6
+      userDetails,
+      1
     );
     clear();
-    // makeMarkers(locations, 6); previous code
-    makeMarkers(userDetails, 6); // new code
+    makeMarkers(locations, 1); //previous code
+    // makeMarkers(userDetails, 6); // new code
 
     map && map.off("click", addTarget);
   };
@@ -437,6 +434,7 @@ const Map = () => {
   };
 
   const reset = () => {
+    clear();
     setMarkers((prevMarkers) =>
       prevMarkers.filter((marker) => marker.getElement())
     );
