@@ -64,6 +64,7 @@ const GunDetection = () => {
       })
         .then((response) => response.json())
         .then(async (data) => {
+          console.log(data);
           if (data?.download_link) {
             const uploadCrime = await fetch(
               "http://localhost:8000/crime/evidence",
