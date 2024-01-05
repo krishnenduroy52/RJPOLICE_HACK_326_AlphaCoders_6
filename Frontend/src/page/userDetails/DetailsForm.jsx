@@ -115,20 +115,23 @@ const DetailsForm = () => {
         // }
 
         const hashedPassword = await bcrypt.hash(form.user.password, 10);
-        setForm((prev) => ({
-          ...prev,
+
+        const updatedForm = {
+          ...form,
           user: {
-            ...prev.user,
+            ...form.user,
             password: hashedPassword,
           },
           camera: {
-            ...prev.camera,
+            ...form.camera,
             cameraInitialImage: downloadURL,
           },
-        }));
+        };
+
+        console.log(updatedForm);
         try {
-          // const res = await axios.post(userDetailsRoute, form);
-          // console.log(res);
+          const res = await axios.post(userDetailsRoute, form);
+          console.log(res);
           toast.success("User details successfully added.");
         } catch (error) {
           console.error("There is some error", error);
