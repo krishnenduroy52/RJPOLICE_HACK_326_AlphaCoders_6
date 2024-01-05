@@ -21,10 +21,10 @@ const cardsData = [
     imageLink: crimeevidence,
     bodyText: "Gather crucial evidence effortlessly to support law enforcement investigations.",
     pathto: "/admin/evidence",
-    category: "category misleious"
+    category: "category misc.."
   },
   {
-    text: "Number Plate Detection",
+    text: "Car finding using number plate",
     imageLink: number_plate,
     bodyText: "Identify vehicles accurately through cutting-edge number plate recognition.",
     pathto: "/admin/detection/number-plate",
