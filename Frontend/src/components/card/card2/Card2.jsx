@@ -6,7 +6,7 @@ const Card2 = ({ text, imageLink, bodyText, pathto }) => {
   return (
     <Link to={pathto}>
       <div className={style.card}>
-        <div class={style.icon}>
+        <div className={style.icon}>
           <img src={imageLink} className={style.img} />
         </div>
         <strong>{text}</strong>

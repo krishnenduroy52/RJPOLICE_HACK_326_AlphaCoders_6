@@ -13,7 +13,7 @@ import Camera from "./components/Camera/Camera";
 import Map from "./page/Map";
 import SignIn from "./page/SignIn";
 import CameraUser from "./page/CameraUser";
-import CameraAdmin from "./page/CameraAdmin";
+import CameraAdmin from "./page/surveillance/CameraAdmin";
 import Error from "./page/Error";
 import DetailsForm from "./page/userDetails/DetailsForm";
 
@@ -30,7 +30,6 @@ import CameraDisplacement from "./page/CameraDisplacementDetection/CameraDisplac
 import AccidentDetection from "./page/AccidentDetection/AccidentDetection";
 import ViolenceDetection from "./page/ViolenceDetection/ViolenceDetection";
 
-
 // toast
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -43,9 +42,9 @@ function App() {
       setIsMobile(window.innerWidth <= 768);
     };
     handleResize();
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -129,16 +128,30 @@ function App() {
           {/* Admin Route */}
           <Route path="/admin/map" element={<Map />} />
           <Route path="/admin/view/cctv" element={<CameraAdmin />} />
-          <Route path="/admin/detection/number-plate" element={<NumPlateDetection />} />
-          <Route path="/admin/detection/criminal" element={<CriminalDetection />} />
+          <Route
+            path="/admin/detection/number-plate"
+            element={<NumPlateDetection />}
+          />
+          <Route
+            path="/admin/detection/criminal"
+            element={<CriminalDetection />}
+          />
           <Route path="/admin/detection/gun" element={<GunDetection />} />
           <Route path="/admin/evidence" element={<CrimeEvidence />} />
           <Route path="/admin/detection/fire" element={<FireDetection />} />
           <Route path="/admin/detection/crowd" element={<CrowdDetection />} />
-          <Route path="/admin/detection/camera-displacement" element={<CameraDisplacement />} />
-          <Route path="/admin/detection/accident" element={<AccidentDetection />} />
-          <Route path="/admin/detection/violence" element={<ViolenceDetection />} />
-
+          <Route
+            path="/admin/detection/camera-displacement"
+            element={<CameraDisplacement />}
+          />
+          <Route
+            path="/admin/detection/accident"
+            element={<AccidentDetection />}
+          />
+          <Route
+            path="/admin/detection/violence"
+            element={<ViolenceDetection />}
+          />
 
           {/* Auth */}
           <Route path="/auth/signin" element={<SignIn />} />
