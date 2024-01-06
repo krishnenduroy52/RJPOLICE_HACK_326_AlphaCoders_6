@@ -217,6 +217,7 @@ app.get("/get/user/details/:id", async (req, res) => {
   }
 });
 
+
 // User Login
 app.post("/user/login", async (req, res) => {
   const { email, password } = req.body;
@@ -226,6 +227,16 @@ app.post("/user/login", async (req, res) => {
   }
   res.json({ message: "Login successful", user: user });
 });
+
+app.get("/getUserDetails", async (req, res) => {
+  try {
+    const userDetails = await UserDetails.find();
+    res.status(200).json({ message: "Success", userDetails: userDetails });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+})
 
 // push crime evidence to database
 app.post("/crime/evidence", async (req, res) => {
