@@ -20,7 +20,7 @@ import DetailsForm from "./page/userDetails/DetailsForm";
 // dashboard
 import UserDashboard from "./page/dashboard/UserDashboard";
 import AdminDashboard from "./page/dashboard/AdminDashboard";
-import NumPlateDetection from "./page/NumberPlateDetection/numPlateDetection";
+import NumPlateDetection from "./page/NumberPlateDetection/NumPlateDetection";
 import CriminalDetection from "./page/CriminalDetection/criminalDetection";
 import GunDetection from "./page/GunDetection/gunDetection";
 import CrimeEvidence from "./page/Evidence/CrimeEvidence";

@@ -1,8 +1,23 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import style from "./cameraadmin.module.css";
+import DisplayUserDetailsCard from "../../components/card/DisplayUserDetailsCard/DisplayUserDetailsCard";
+import { getAllUsersRoute } from "../../Utils/APIRoutes.js"
+import axios from 'axios'
 
 const CameraAdmin = () => {
   const videoRef = useRef(null);
+
+  const [users, setUsers] = useState(null);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const data = await axios.get(getAllUsersRoute)
+        .then((res) => res.data)
+        .catch((err) => console.log(err));
+      setUsers(data.userDetails);
+    }
+    fetchUsers();
+  }, []);
 
   useEffect(() => {
     const startCamera = async () => {
@@ -53,6 +68,16 @@ const CameraAdmin = () => {
           />
         </div>
       </div>
+      {!users ? (<><h1>Loading Users</h1></>) : (
+        <>
+          {/* loop through the users and display the card */}
+          {users.map((user) => (
+            <DisplayUserDetailsCard key={user._id} userDetails={user} />
+          ))}
+        </>
+      )}
+
+
     </div>
   );
 };
