@@ -7,7 +7,8 @@ admin.initializeApp({
 });
 
 const sendNotification = async (object) => {
-  const registrationToken = process.env.DEVICE_TOKEN;
+  const registrationToken =
+    "djz0ZpmVruhrkmdgbiEFvk:APA91bEaNb4c2TdEOXtXs7Oo89CAD4A10QTPZxnedOQjNWDP1qQblAP7qARRiCAHgaRiMDhSHryjwemAFOuoxUIiN3GsEtwSjyiwrguhXtLpaRsb54U67BxsMtKrAN0WRWPraS292JpZ";
 
   const message = {
     data: {

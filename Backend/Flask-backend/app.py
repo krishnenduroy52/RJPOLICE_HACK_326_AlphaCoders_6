@@ -1,12 +1,11 @@
 from flask import Flask, request
 from flask_cors import CORS
-from gun_detection import gun_find
-from licence_plate import license_plate_find
-
 import numpy as np
-import cv2
-import base64
-from io import BytesIO
+from Detection.gun_detection import gun_find
+from Detection.licence_plate import license_plate_find
+from Detection.camera_displacement import camera_displacement
+from Detection.fire_detection import fire_detection
+
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -27,7 +26,15 @@ def handle_license_plate_detection():
     return license_plate_find(request)
 
 
+@app.route('/camera-displacement', methods=['POST'])
+def handle_camera_displacement():
+    return camera_displacement(request)
+
+
+@app.route('/fire-detection', methods=['POST'])
+def handle_fire_detection():
+    return fire_detection(request)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
-
-
