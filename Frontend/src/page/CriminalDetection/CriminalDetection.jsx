@@ -148,4 +148,4 @@ const CriminalDetection = () => {
     )
 }
 
-export default CriminalDetection
+export default CriminalDetection;

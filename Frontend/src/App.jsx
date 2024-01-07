@@ -22,7 +22,7 @@ import UserDashboard from "./page/dashboard/UserDashboard";
 import AdminDashboard from "./page/dashboard/AdminDashboard";
 import NumPlateDetection from "./page/NumberPlateDetection/NumPlateDetection";
 import CriminalDetection from "./page/CriminalDetection/criminalDetection";
-import GunDetection from "./page/GunDetection/gunDetection";
+import GunDetection from "./page/GunDetection/GunDetection";
 import CrimeEvidence from "./page/Evidence/CrimeEvidence";
 import CrowdDetection from "./page/CrowdDetection/CrowdDetection";
 import FireDetection from "./page/FireDetection/FireDetection";
