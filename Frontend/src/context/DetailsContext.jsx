@@ -13,7 +13,7 @@ const DetailsProvider = ({ children }) => {
       try {
         const response = await fetch("http://localhost:8000/crime/evidence");
         const data = await response.json();
-        const evidence = data.crimeEvidence.reverse();
+        const reversedEvidence = data.crimeEvidence.reverse();
         setEvidence(data.crimeEvidence);
       } catch (error) {
         console.log(error);
