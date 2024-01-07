@@ -150,7 +150,12 @@ const Map = () => {
       container: mapRef.current,
       center: currentLoc,
       zoom: 18,
-      style: "satellite"
+      style: {
+        map: '2/basic_street-satellite',
+        poi: 'poi_main',
+        trafficIncidents: '2/flow_relative-light',
+        trafficFlow: '2/flow_relative-light'
+      }
     });
     setMap(mp);
     return () => mp.remove();
@@ -315,9 +320,9 @@ const Map = () => {
       const distanceB = haversineDistance(targetCoord, { lat: b.lat, lng: b.lng });
       return distanceA - distanceB;
     });
-  
+
     return sortedLocations.slice(0, numClosest);
-  }  
+  }
 
   const clear = () => {
     markers && markers.forEach((marker) => marker.remove());
@@ -464,15 +469,15 @@ const Map = () => {
         <div className="lng_lat_container">
           <p>
             Latitude:{" "}
-            <span className="lng_lat">
+            <input className="lng_lat">
               {targetRef.current && targetRef.current.getLngLat().lat}
-            </span>
+            </input>
           </p>
           <p>
             Longitude:{" "}
-            <span className="lng_lat">
+            <input className="lng_lat">
               {targetRef.current && targetRef.current.getLngLat().lng}
-            </span>
+            </input>
           </p>
         </div>
         <div>
