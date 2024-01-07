@@ -11,7 +11,10 @@
     "st-bk": "cd ../Backend/Node-backend && npm start",
     "st-fl": "cd ../Backend/Flask-backend && /venv/Scripts/activate && python app.py",
     "st1": "concurrently \"npm run st-bk\" \"npm run dev\" \"npm run st-fl\"",
-    "st2": "concurrently \"npm run st-bk\" \"npm run dev\""
+    "st2": "concurrently \"npm run st-bk\" \"npm run dev\"",
+    "inst-bk": "cd ../Backend/Node-backend && npm install",
+    "inst-fl": "cd ../Backend/Flask-backend && /venv/Scripts/activate && pip install -r requirements.txt",
+    "inst2": "concurrently \"npm run inst-bk\" \"npm install\""
   },
   "dependencies": {
     "@tomtom-international/web-sdk-maps": "^6.25.0",

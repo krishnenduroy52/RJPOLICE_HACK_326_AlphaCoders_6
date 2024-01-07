@@ -150,6 +150,7 @@ const Map = () => {
       container: mapRef.current,
       center: currentLoc,
       zoom: 18,
+      style: "satellite"
     });
     setMap(mp);
     return () => mp.remove();
