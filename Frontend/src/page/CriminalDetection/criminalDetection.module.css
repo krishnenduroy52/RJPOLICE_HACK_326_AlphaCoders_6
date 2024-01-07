@@ -1,0 +1,95 @@
+.one {
+    margin-bottom: 50px;
+  }
+  
+  .one h1 {
+    text-align: center;
+    text-transform: uppercase;
+    padding-bottom: 5px;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    font-family: "Raleway", sans-serif;
+    font-weight: 300;
+    font-size: 40px;
+    color: #080808;
+    -webkit-transition: all 0.4s ease 0s;
+    -o-transition: all 0.4s ease 0s;
+    transition: all 0.4s ease 0s;
+  }
+  
+  .one h1 span {
+    display: block;
+    font-size: 0.5em;
+    line-height: 1.3;
+  }
+  
+  .one h1 em {
+    font-style: normal;
+    font-weight: 600;
+  }
+  
+  .one h1:before {
+    width: 28px;
+    height: 5px;
+    display: block;
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    margin-left: -14px;
+    background-color: #b80000;
+  }
+  .one h1:after {
+    width: 100px;
+    height: 1px;
+    display: block;
+    content: "";
+    position: relative;
+    margin-top: 25px;
+    left: 50%;
+    margin-left: -50px;
+    background-color: #b80000;
+  }
+  
+  .headline {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  .wrapper {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .video {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .video h1 {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+  }
+  
+  .video video {
+    border: 1px solid red;
+  }
+  
+  
+  .evidence {
+    height: 30rem;
+    /* make it scrollable */
+    overflow-y: scroll;
+  
+    /* scroll bar width set  */
+    scrollbar-width: 1px;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .wrapper {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
