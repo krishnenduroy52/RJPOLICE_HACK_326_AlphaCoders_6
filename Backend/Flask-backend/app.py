@@ -8,6 +8,8 @@ from Detection.fire_detection import fire_detection
 from Detection.criminal_detection import criminal_detection
 import firebase_admin
 from firebase_admin import credentials, storage
+
+import cv2
 cred = credentials.Certificate("serviceAccount.json")
 firebase_admin.initialize_app(
     cred, {'storageBucket': 'yolo-detected-img-store.appspot.com'})
