@@ -6,6 +6,8 @@ import { DetailsContext } from "../../context/DetailsContext";
 
 const CriminalDetection = () => {
     const videoRef = useRef(null);
+    const videoInputRef = useRef(null);
+    const [capturing, setCapturing] = useState(false);
     const { evidence } = useContext(DetailsContext);
   
     const [cameraEvidence, setCameraEvidence] = useState([]);
@@ -42,6 +44,32 @@ const CriminalDetection = () => {
         };
       }, []);
 
+      useEffect(() => {
+        if (capturing) {
+          const intervalId = setInterval(() => {
+            sendFrameToServer();
+          }, 1000);
+    
+          return () => clearInterval(intervalId);
+        }
+      }, [capturing]);
+
+      const handleInput = () => {
+        if(!videoInputRef.current.files[0]){
+           videoInputRef.current.click();
+           return;
+        }
+        const file = videoInputRef.current.files[0];
+        const videoURL = URL.createObjectURL(file);
+    
+        videoRef.current.src = videoURL;
+        videoRef.current.load();
+    
+        videoRef.current.addEventListener('loadedmetadata', () => {
+          setCapturing(true);
+        });
+      };
+
       const sendFrameToServer = async () => {
         if (videoRef.current) {
           const canvas = document.createElement("canvas");
@@ -58,7 +86,7 @@ const CriminalDetection = () => {
           formData.append("image", imageBlob, "frame.jpg");
     
           // Send the image to the Flask backend
-          await fetch("http://127.0.0.1:5000/criminal-detection", {
+          await fetch("http://127.0.0.1:5000/gun-detection", {
             method: "POST",
             body: formData,
           })
@@ -136,6 +164,12 @@ const CriminalDetection = () => {
           autoPlay
           style={{ width: "100%", maxWidth: "400px", borderRadius: "5px" }}
         />
+        <div className={style.file_upload_container}>
+      <input className={style.videoInput} type="file" accept="video/*" ref={videoInputRef}/>
+      <button className={style.upload_button} onClick={handleInput}>
+        <span className={style.upload_icon}></span> Upload Video
+      </button>
+      </div>
       </div>
       <div className={style.evidence}>
         {cameraEvidence &&
@@ -143,6 +177,7 @@ const CriminalDetection = () => {
             <CardEvidence key={idx} evi={evi} />
           ))}
       </div>
+      
     </div>
   </div>
     )
