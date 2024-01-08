@@ -164,7 +164,7 @@ const CriminalDetection = () => {
           style={{ width: "100%", maxWidth: "400px", borderRadius: "5px" }}
         />
         <div className={style.file_upload_container}>
-      <input className={style.videoInput} type="file" accept="image/*" ref={imageInputRef}/>
+      <input className={style.videoInput} type="file" accept="image/*" ref={imageInputRef} onChange={handleInput}/>
       <button className={style.upload_button} onClick={handleInput}>
         <span className={style.upload_icon}></span> {refImage == null ? "Submit Image": "Upload"}
       </button>
