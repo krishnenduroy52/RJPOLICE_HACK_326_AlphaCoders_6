@@ -4,6 +4,7 @@ import numpy as np
 import uuid
 
 from util import store_image
+from util import send_notification
 
 face_cascade = cv2.CascadeClassifier(
     cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
@@ -35,6 +36,7 @@ def criminal_detection(request):
                 if result['verified'] == True:
                     criminal_detected = True
                     download_link = store_image(image, filename)
+                    send_notification("Criminal")
                 else:
                     criminal_detected = False
                     download_link = None
