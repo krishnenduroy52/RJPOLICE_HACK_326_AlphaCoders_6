@@ -93,3 +93,57 @@
       gap: 1rem;
     }
   }
+  .file_upload_container {
+    width: fit-content;
+    height: fit-content;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px auto;
+    border: 2px dashed #ccc;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #4a90e2;
+    transition: all 0.3s ease-in-out;
+  }
+  .file_upload_container:hover {
+    cursor: pointer;
+    background-color: #fff;
+    border: #4a90e2 2px dashed;
+  }
+
+  .file_upload_container:hover .upload_button{
+    color: #fff;
+    background-color: #4a90e2;
+    border: 2px solid #4a90e2;
+  }
+.videoInput {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+  cursor: pointer;
+}
+
+.upload_button {
+  width: fit-content;
+  height: fit-content;
+  padding: 10px;
+  font-size: 16px;
+  color: #4a90e2;
+  background-color: #fff; /* Change the color to match your design */
+  border: 2px solid #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.upload_icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  vertical-align: middle;
+  background: url('../../assets/cloud-2044823.svg') no-repeat center center; /* Replace 'upload-icon.png' with your actual image path */
+  background-size: cover;
+}
