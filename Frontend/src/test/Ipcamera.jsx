@@ -21,7 +21,9 @@ function App() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8080/get_frame");
+      const response = await axios.get(
+        "https://xxh0ngtj-8080.inc1.devtunnels.ms/get_frame"
+      );
       setFrame(response.data.frame);
       setError(null);
     } catch (error) {

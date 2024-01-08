@@ -5,6 +5,7 @@ from Detection.gun_detection import gun_find
 from Detection.licence_plate import license_plate_find
 from Detection.camera_displacement import camera_displacement
 from Detection.fire_detection import fire_detection
+from Detection.criminal_detection import criminal_detection
 
 
 app = Flask(__name__)
@@ -34,6 +35,11 @@ def handle_camera_displacement():
 @app.route('/fire-detection', methods=['POST'])
 def handle_fire_detection():
     return fire_detection(request)
+
+
+@app.route('/criminal-detection', methods=['POST'])
+def handle_criminal_detection():
+    return criminal_detection(request)
 
 
 if __name__ == '__main__':
