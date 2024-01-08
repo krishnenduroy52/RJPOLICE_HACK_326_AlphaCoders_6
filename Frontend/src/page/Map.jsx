@@ -469,15 +469,15 @@ const Map = () => {
         <div className="lng_lat_container">
           <p>
             Latitude:{" "}
-            <input className="lng_lat">
+            <span className="lng_lat">
               {targetRef.current && targetRef.current.getLngLat().lat}
-            </input>
+            </span>
           </p>
           <p>
             Longitude:{" "}
-            <input className="lng_lat">
+            <span className="lng_lat">
               {targetRef.current && targetRef.current.getLngLat().lng}
-            </input>
+            </span>
           </p>
         </div>
         <div>
