@@ -3,29 +3,23 @@ import cv2
 import math
 from ultralytics import YOLO
 import cvzone
-import firebase_admin
-from firebase_admin import credentials, storage
-from util import send_notification
+import time
 
-cred = credentials.Certificate("serviceAccount.json")
-firebase_admin.initialize_app(
-    cred, {'storageBucket': 'yolo-detected-img-store.appspot.com'})
+import uuid
+from util import send_notification
+from util import store_image
+
 
 api_url = "http://localhost:8000/sendnotification/gun"
+last_notification_time = 0
 
 # Model With classes
 model = YOLO("./Detection/model/gun.pt")
 classNames = ['Handgun', 'Knife', 'Short_rifle']
 
-# Introduce a variable to store the time of the last notification
-last_notification_time = 0
-
-# Initialize count
-count = 0
-
 
 def gun_find(request):
-    global count
+    global last_notification_time
     if 'image' in request.files:
         image = request.files['image']
         img = cv2.imread(image)
@@ -46,16 +40,14 @@ def gun_find(request):
                     gun_detected = True
                     cvzone.putTextRect(img, f"{classNames[label]} {conf}", (max(
                         0, x1), max(35, y1 - 10)), 2, 1, (0, 255, 0), 2)
-                    count += 1
-                    filename = f"gun-detection-{count}.jpg"
-                    cv2.imwrite(filename, img)
-                    bucket = storage.bucket()
-                    blob = bucket.blob(filename)
-                    blob.upload_from_filename(filename)
-                    blob.make_public()
-                    download_link = blob.public_url
-                    os.remove(filename)
-                    send_notification("gun")
+
+                    # Check if 20 seconds have elapsed since the last notification
+                    current_time = time.time()
+                    if current_time - last_notification_time >= 6:
+                        last_notification_time = current_time
+                        filename = f"gun-detection-{uuid.uuid4()}.jpg"
+                        download_link = store_image(img, filename)
+                        send_notification("Gun")
 
         if gun_detected:
             return {'status': 'success', 'message': 'Gun detected', 'download_link': download_link}

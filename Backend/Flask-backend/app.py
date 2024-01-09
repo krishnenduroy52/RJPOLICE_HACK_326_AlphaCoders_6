@@ -6,7 +6,13 @@ from Detection.licence_plate import license_plate_find
 from Detection.camera_displacement import camera_displacement
 from Detection.fire_detection import fire_detection
 from Detection.criminal_detection import criminal_detection
+import firebase_admin
+from firebase_admin import credentials, storage
 
+import cv2
+cred = credentials.Certificate("serviceAccount.json")
+firebase_admin.initialize_app(
+    cred, {'storageBucket': 'yolo-detected-img-store.appspot.com'})
 
 app = Flask(__name__)
 cors = CORS(app)
