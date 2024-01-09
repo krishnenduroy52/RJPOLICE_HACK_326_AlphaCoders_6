@@ -67,7 +67,7 @@
     margin-left: auto;
     margin-right: auto;
   }
-  .video h1 {
+  .video h1, .video h3 {
     text-align: center;
     font-size: 2rem;
     font-weight: 700;
