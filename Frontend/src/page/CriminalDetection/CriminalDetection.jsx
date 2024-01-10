@@ -173,18 +173,25 @@ const CriminalDetection = () => {
               onChange={handleInput}
             />
             <button className={style.upload_button} onClick={handleInput}>
-              <span className={style.upload_icon}></span>{" "}
+              <span className={style.upload_icon}></span>
               {refImage == null ? "Submit Image" : "Upload"}
             </button>
           </div>
+          {refImage && <h3>Image Preview</h3>}
+          {refImage && (
+            <img
+              src={URL.createObjectURL(refImage)}
+              alt="ref"
+              style={{ width: "400px", height: "auto" }}
+            />
+          )}
         </div>
         <div className={style.evidence}>
           {cameraEvidence &&
             cameraEvidence.map((evi, idx) => (
-              <CardEvidence key={evi.id} evi={evi} />
+              <CardEvidence key={idx} evi={evi} />
             ))}
         </div>
-        {/* {refImage && <img src={URL.createObjectURL(refImage)} alt="ref" style={{width: "100px", height: "100px"}} />} */}
       </div>
     </div>
   );
