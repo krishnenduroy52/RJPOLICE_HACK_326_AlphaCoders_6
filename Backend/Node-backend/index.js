@@ -213,7 +213,7 @@ app.get("/get/user/details/:id", async (req, res) => {
       .json({ message: "Success", userDetails: userDetails });
   } catch (error) {
     console.error(error);
-    res.status(500).send("Unable to fetch user details");
+    return res.status(404).json({ message: "Error", userDetails: null });
   }
 });
 
