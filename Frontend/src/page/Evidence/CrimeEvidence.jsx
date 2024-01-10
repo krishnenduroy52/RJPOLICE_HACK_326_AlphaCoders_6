@@ -65,8 +65,8 @@ const CrimeEvidence = () => {
       </div>
       <div className={styles.evidenceContainer}>
         <div className={styles.categories}>
-          {categories.map((category) => (
-            <div className={styles.category} onClick={handleSelection}>
+          {categories.map((category, idx) => (
+            <div key={idx} className={styles.category} onClick={handleSelection}>
               <img
                 src={category.img_url}
                 alt={category.name}
@@ -78,7 +78,7 @@ const CrimeEvidence = () => {
         </div>
         <div className="evidences">
           {cameraEvidence.map((evi, idx) => (
-            <CardEvidence key={evi.id} evi={evi} />
+            <CardEvidence key={idx} evi={evi} />
           ))}
         </div>
       </div>
