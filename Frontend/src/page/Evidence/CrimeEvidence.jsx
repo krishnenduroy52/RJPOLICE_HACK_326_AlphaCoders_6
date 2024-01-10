@@ -35,52 +35,54 @@ const CrimeEvidence = () => {
         setCameraEvidence(evidence);
     }, [evidence]);
 
-  const handleSelection = (e) => {
-    const query =
-      e.target.innerText == "Gun"
-        ? "Gun detected"
-        : e.target.innerText == "Fire"
-        ? "Fire detected"
-        : e.target.innerText == "Number Plate"
-        ? "number_plate"
-        : e.target.innerText == "Criminal"
-        ? "Criminal detected"
-        : "all";
-    if (query === "all") return setCameraEvidence(evidence);
-    else {
-      const filterEvidences = evidence.filter((item) => item.crime === query);
-      setCameraEvidence(filterEvidences);
-    }
-  };
-  return (
-    <div
-      style={{
-        backgroundColor: "#F8F6F5",
-        padding: "4rem 1rem",
-        borderRadius: "30px 30px 30px 30px",
-      }}
-    >
-      <div className={styles.one}>
-        <h1 className={styles.headline}>Activity Evicence</h1>
-      </div>
-      <div className={styles.evidenceContainer}>
-        <div className={styles.categories}>
-          {categories.map((category, idx) => (
-            <div key={idx} className={styles.category} onClick={handleSelection}>
-              <img
-                src={category.img_url}
-                alt={category.name}
-                className={styles.icon}
-              />
-              <div>{category.name}</div>
+    const handleSelection = (e) => {
+        const query =
+            e.target.innerText == "Gun"
+                ? "Gun detected"
+                : e.target.innerText == "Fire"
+                    ? "Fire detected"
+                    : e.target.innerText == "Number Plate"
+                        ? "number_plate"
+                        : e.target.innerText == "Criminal"
+                            ? "Criminal detected"
+                            : "all";
+        if (query === "all") return setCameraEvidence(evidence);
+        else {
+            const filterEvidences = evidence.filter((item) => item.crime === query);
+            setCameraEvidence(filterEvidences);
+        }
+    };
+    return (
+        <div
+            style={{
+                backgroundColor: "#F8F6F5",
+                padding: "4rem 1rem",
+                borderRadius: "30px 30px 30px 30px",
+            }}
+        >
+            <div className={styles.one}>
+                <h1 className={styles.headline}>Activity Evidence</h1>
             </div>
-          ))}
+            <div className={styles.evidenceContainer}>
+                <div className={styles.categories}>
+                    {categories.map((category, idx) => (
+                        <div key={idx} className={styles.category} onClick={handleSelection}>
+                            <img
+                                src={category.img_url}
+                                alt={category.name}
+                                className={styles.icon}
+                            />
+                            <div>{category.name}</div>
+                        </div>
+                    ))}
+                </div>
+            <div className={styles.evidences}>
+                {cameraEvidence.map((evi, idx) => (
+                    <CardEvidence key={idx} evi={evi} />
+                ))}
+            </div>
         </div>
-        <div className="evidences">
-          {cameraEvidence.map((evi, idx) => (
-            <CardEvidence key={idx} evi={evi} />
-          ))}
-        </div>
+    </div >
     );
 };
 
