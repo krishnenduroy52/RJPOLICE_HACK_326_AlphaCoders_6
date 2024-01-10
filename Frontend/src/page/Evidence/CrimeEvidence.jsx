@@ -5,35 +5,35 @@ import styles from "./CrimeEvidence.module.css";
 import CardEvidence from "../../components/card/CardEvidence/CardEvidence";
 
 const CrimeEvidence = () => {
-  const { evidence } = useContext(DetailsContext);
-  const [cameraEvidence, setCameraEvidence] = useState([]);
+    const { evidence } = useContext(DetailsContext);
+    const [cameraEvidence, setCameraEvidence] = useState([]);
 
-  const categories = [
-    {
-      img_url: "https://i.imgur.com/7NXZD71.png",
-      name: "All",
-    },
-    {
-      img_url: "https://i.imgur.com/7NXZD71.png",
-      name: "Gun",
-    },
-    {
-      img_url: "https://i.imgur.com/ViQfcxb.png",
-      name: "Fire",
-    },
-    {
-      img_url: "https://i.imgur.com/Z6vk1wg.png",
-      name: "Number Plate",
-    },
-    {
-      img_url: "https://i.imgur.com/S5cg6iS.png",
-      name: "Criminal",
-    },
-  ];
+    const categories = [
+        {
+            img_url: "https://i.imgur.com/7NXZD71.png",
+            name: "All",
+        },
+        {
+            img_url: "https://i.imgur.com/7NXZD71.png",
+            name: "Gun",
+        },
+        {
+            img_url: "https://i.imgur.com/ViQfcxb.png",
+            name: "Fire",
+        },
+        {
+            img_url: "https://i.imgur.com/Z6vk1wg.png",
+            name: "Number Plate",
+        },
+        {
+            img_url: "https://i.imgur.com/S5cg6iS.png",
+            name: "Criminal",
+        },
+    ];
 
-  useEffect(() => {
-    setCameraEvidence(evidence);
-  }, [evidence]);
+    useEffect(() => {
+        setCameraEvidence(evidence);
+    }, [evidence]);
 
   const handleSelection = (e) => {
     const query =
@@ -81,9 +81,7 @@ const CrimeEvidence = () => {
             <CardEvidence key={idx} evi={evi} />
           ))}
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default CrimeEvidence;

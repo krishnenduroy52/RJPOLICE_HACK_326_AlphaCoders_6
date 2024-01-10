@@ -90,3 +90,8 @@
   height: 20px;
   margin-right: 10px;
 }
+
+.evidence{
+  display: flex;
+  justify-content: center;
+}
