@@ -30,9 +30,7 @@ def handle_gun_detection():
 
 @app.route('/license-plate-detection', methods=['POST'])
 def handle_license_plate_detection():
-    print("inside license plate" + str(request))
-    # return "True"
-    # return license_plate_find(request)
+    return license_plate_find(request)
 
 
 @app.route('/camera-displacement', methods=['POST'])

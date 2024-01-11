@@ -10,30 +10,69 @@ const NumPlateDetection = () => {
   const [capturing, setCapturing] = useState(false);
 
   const sendFrameToServer = useCallback(async () => {
-    let form = new FormData();
-    if (videoRef.current) {
+    if (videoRef.current && inputRef.current.value.length > 0) {
       const canvas = document.createElement("canvas");
       const context = canvas.getContext("2d");
       canvas.width = videoRef.current.videoWidth;
       canvas.height = videoRef.current.videoHeight;
       context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
-      
-      canvas.toBlob((blob) => {
-        form.append("image", blob, "frame.jpg");
-      }, "image/jpg");
+
+      // canvas.toBlob((blob) => {
+      //   form.append("image", blob, "frame.jpg");
+      // }, "image/jpg");
+      const imageBlob = await new Promise((resolve) =>
+        canvas.toBlob(resolve, "image/jpeg")
+      );
+      const formData = new FormData();
+      formData.append("image", imageBlob, "frame.jpg");
+
+      const data = await fetch(
+        `http://localhost:5000/license-plate-detection?number_plate=${inputRef.current.value}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const response = await data.json();
+      if (response?.download_link) {
+        const uploadCrime = await fetch(
+          "http://localhost:8000/crime/evidence",
+          {
+            method: "POST",
+            body: JSON.stringify({
+              image: data.download_link,
+              location: {
+                latitude: 10.762622,
+                longitude: 106.660172,
+              },
+              time: "2021-09-30 12:00:00",
+              userid: "1",
+              crime: "Gun detected",
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (uploadCrime.status === 200) {
+          setCameraEvidence((prev) => [
+            {
+              image: data.download_link,
+              location: {
+                latitude: 10.762622,
+                longitude: 106.660172,
+              },
+              time: "2021-09-30 12:00:00",
+              userid: "1",
+              crime: "Number Plate detected - {}",
+            },
+            ...prev,
+          ]);
+        }
+      }
     }
-    if (inputRef.current.value) {
-      form.append("number_plate", inputRef.current.value);
-    }
-    const data = await fetch("http://localhost:5000/license-plate-detection", {
-      method: "POST",
-      body: form,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const response = await data.json();
-    console.log(response);
   }, []);
 
   const handleVideo = (e) => {
@@ -62,7 +101,7 @@ const NumPlateDetection = () => {
   };
 
   useEffect(() => {
-    if(!capturing) return;
+    if (!capturing) return;
     const intervalId = setInterval(() => {
       sendFrameToServer();
     }, 1000);
