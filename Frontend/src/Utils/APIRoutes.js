@@ -4,3 +4,4 @@ export const userDetailsRoute = `${host}/userDetails`;
 export const userLoginRoute = `${host}/user/login`;
 export const getAllUsersRoute = `${host}/getUserDetails`;
 export const getUserDetailsRoute = (id) => `${host}/get/user/details/${id}`;
+export const postCrimeEvidenceRoute = `${host}/crime/evidence`;

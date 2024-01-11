@@ -1,5 +1,5 @@
 .mapContainer{
-    display: flex;
+    /* display: flex; */
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -11,5 +11,13 @@
     justify-content: space-around;
     align-items: center;
     gap: 1rem;
-    width: 40vw;
+    /* width: 40vw; */
+}
+
+.map{
+    border-radius: 10px;
+    border: 1px solid black;
+    width: clamp(120px, 78vw, 550px);
+    height: clamp(100px, 50vw, 350px);
+    margin: 10px auto;
 }

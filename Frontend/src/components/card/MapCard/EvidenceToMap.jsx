@@ -5,6 +5,7 @@ import "@tomtom-international/web-sdk-maps/dist/maps.css";
 const API_Key = import.meta.env.VITE_APP_TOMTOM_APIKEY;
 
 import { getUserDetailsRoute } from '../../../Utils/APIRoutes';
+import Loader from '../../Loaders/Loader';
 
 const EvidenceToMap = ({ coordinates, userID }) => {
     const [user, setUser] = useState(null);
@@ -43,26 +44,28 @@ const EvidenceToMap = ({ coordinates, userID }) => {
                     <div className="location-details flex items-center flex-col justify-center">
                         <h1 className="text-center text-xl font-bold">Location Details</h1>
                         <span>Latitude: {coordinates.latitude}</span>
-                        <span>Longitude: {coordinates.longitude}</span></div>
+                        <span>Longitude: {coordinates.longitude}</span>
+                    </div>
                     <div className="users-details flex items-center flex-col justify-center">
                         <h1 className="text-center text-xl font-bold">User Details</h1>
-                        {user ? ( <>
+                        {user ? (<>
                             <span>Username: {user.user.firstname} {user.user.lastname}</span>
                             <span>Phone: {user.user.phoneno}</span>
                             <span>Email: {user.user.email}</span>
-                        </> 
+                        </>
                         ) : (
-                            <span>Loading User Details...</span>
+                            <div class="text-center">
+                                <Loader />
+                            </div>
                         )}
                     </div>
                 </div>
                 <div
-                    style={{ height: "350px", width: "550px", borderRadius: "10px", border: "1px solid black" }}
+                    className={style.map}
                     ref={mapRef}
                 ></div>
                 {map ? null : (<><span>Loading Map...</span></>)}
             </div >
-
         </>
     )
 }
