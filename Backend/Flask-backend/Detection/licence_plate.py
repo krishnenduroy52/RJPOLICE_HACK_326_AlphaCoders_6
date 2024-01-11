@@ -2,13 +2,20 @@ from ultralytics import YOLO
 import cv2
 import string
 import easyocr
+import time
+
+import uuid
+
+from util import store_image
+from util import send_notification
 
 # Initialize the OCR reader
-reader = easyocr.Reader(['en'], gpu=True)
+reader = easyocr.Reader(['en'], gpu=False)
+
 
 # Yolo model
 model = YOLO("./Detection/model/car.pt")
-count = 0
+last_notification_time = 0
 
 classNames = ['licence_plate']
 
@@ -29,42 +36,29 @@ dict_int_to_char = {'0': 'O',
                     '5': 'S'}
 
 
-def write_csv(results, output_path):
+def license_complies_format(text):
     """
-    Write the results to a CSV file.
+    Check if the license plate text complies with the required format.
 
     Args:
-        results (dict): Dictionary containing the results.
-        output_path (str): Path to the output CSV file.
-    """
-    with open(output_path, 'w') as f:
-        f.write('{},{},{},{},{},{},{}\n'.format('frame_nmr', 'car_id', 'car_bbox',
-                                                'license_plate_bbox', 'license_plate_bbox_score', 'license_number',
-                                                'license_number_score'))
+        text (str): License plate text.
 
-        for frame_nmr in results.keys():
-            for car_id in results[frame_nmr].keys():
-                print(results[frame_nmr][car_id])
-                if 'car' in results[frame_nmr][car_id].keys() and \
-                   'license_plate' in results[frame_nmr][car_id].keys() and \
-                   'text' in results[frame_nmr][car_id]['license_plate'].keys():
-                    f.write('{},{},{},{},{},{},{}\n'.format(frame_nmr,
-                                                            car_id,
-                                                            '[{} {} {} {}]'.format(
-                                                                results[frame_nmr][car_id]['car']['bbox'][0],
-                                                                results[frame_nmr][car_id]['car']['bbox'][1],
-                                                                results[frame_nmr][car_id]['car']['bbox'][2],
-                                                                results[frame_nmr][car_id]['car']['bbox'][3]),
-                                                            '[{} {} {} {}]'.format(
-                                                                results[frame_nmr][car_id]['license_plate']['bbox'][0],
-                                                                results[frame_nmr][car_id]['license_plate']['bbox'][1],
-                                                                results[frame_nmr][car_id]['license_plate']['bbox'][2],
-                                                                results[frame_nmr][car_id]['license_plate']['bbox'][3]),
-                                                            results[frame_nmr][car_id]['license_plate']['bbox_score'],
-                                                            results[frame_nmr][car_id]['license_plate']['text'],
-                                                            results[frame_nmr][car_id]['license_plate']['text_score'])
-                            )
-        f.close()
+    Returns:
+        bool: True if the license plate complies with the format, False otherwise.
+    """
+    if len(text) != 7:
+        return False
+
+    if (text[0] in string.ascii_uppercase or text[0] in dict_int_to_char.keys()) and \
+       (text[1] in string.ascii_uppercase or text[1] in dict_int_to_char.keys()) and \
+       (text[2] in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] or text[2] in dict_char_to_int.keys()) and \
+       (text[3] in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] or text[3] in dict_char_to_int.keys()) and \
+       (text[4] in string.ascii_uppercase or text[4] in dict_int_to_char.keys()) and \
+       (text[5] in string.ascii_uppercase or text[5] in dict_int_to_char.keys()) and \
+       (text[6] in string.ascii_uppercase or text[6] in dict_int_to_char.keys()):
+        return True
+    else:
+        return False
 
 
 def format_license(text):
@@ -90,14 +84,25 @@ def format_license(text):
 
 
 def read_license_plate(license_plate_crop):
+    """
+    Read the license plate text from the given cropped image.
+
+    Args:
+        license_plate_crop (PIL.Image.Image): Cropped image containing the license plate.
+
+    Returns:
+        tuple: Tuple containing the formatted license plate text and its confidence score.
+    """
+
     detections = reader.readtext(license_plate_crop)
 
     for detection in detections:
         bbox, text, score = detection
 
         text = text.upper().replace(' ', '')
-        if text != '' and len(text) > 5:
-            return text, score
+
+        if license_complies_format(text):
+            return format_license(text), score
 
     return None, None
 
@@ -138,36 +143,40 @@ def cut_plate(image, coords):
 
 
 def license_plate_find(request):
-    global count
+    global last_notification_time
     if 'image' in request.files:
+        number_plate = request.args.get('number_plate')
         image = request.files['image']
         img = cv2.imread(image)
-        results = model(img, stream=True)
+        results = model(img, stream=False)
 
         for r in results:
             boxes = r.boxes
             for box in boxes:
                 x1, y1, x2, y2 = box.xyxy[0]
-                x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
 
-                # cut the area of the license plate
-                plate_image = cut_plate(img, (x1, y1, x2, y2))
+                license_plate_crop = img[int(y1):int(y2), int(x1): int(x2), :]
 
-                # process licese plate image
                 license_plate_crop_gray = cv2.cvtColor(
-                    plate_image, cv2.COLOR_BGR2GRAY)
+                    license_plate_crop, cv2.COLOR_BGR2GRAY)
                 _, license_plate_crop_thresh = cv2.threshold(
                     license_plate_crop_gray, 64, 255, cv2.THRESH_BINARY_INV)
 
-                cv2.imwrite('plate.jpg', plate_image)
-                # # read the license plate
-                license_plate_text, license_plate_confidence = read_license_plate(
+                # read license plate number
+                license_plate_text, license_plate_text_score = read_license_plate(
                     license_plate_crop_thresh)
 
                 print("license_plate_text: ", license_plate_text)
-                # if (license_plate_confidence is not None and license_plate_confidence > 0.3) and license_plate_text is not None:
-                #     return {'status': 'success', 'message': 'License plate detected', 'license_plate_text': license_plate_text}
-                return {'status': 'success', 'message': 'License plate detected', 'license_plate_text': license_plate_text}
+                if str(number_plate) == str(license_plate_text):  # GX15OGJ & EY61NBG
+                    current_time = time.time()
+                    if current_time - last_notification_time >= 6:
+                        last_notification_time = current_time
+                        filename = f"plate-{uuid.uuid4()}.jpg"
+                        download_link = store_image(
+                            license_plate_crop, filename)
+                        send_notification(str(number_plate))
+                        return {'status': 'success', 'message': 'License plate detected', 'download_link': download_link}
+
         return {'status': 'success', 'message': 'No license plate detected'}
     else:
         return {'status': 'failure', 'message': 'No image provided'}
