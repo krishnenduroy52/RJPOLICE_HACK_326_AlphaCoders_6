@@ -1,0 +1,37 @@
+.logo{
+    height: 80px;
+    width: 230px;
+    line-height: 80px;
+    font-size: 1.5rem;
+    font-weight: 800;
+    text-align: center;
+}
+
+.mobileMenu{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    grid-template-rows: 0fr;
+    overflow: hidden;
+    padding: .5rem;
+}
+
+.mobileMenu > div{
+    overflow: hidden;
+}
+
+.mobileMenu > div > li{
+    list-style: none;
+    font-weight: 600;
+    color: white;
+}
+
+.mobileMenu :hover {
+    grid-template-rows: 1fr;
+}
+
+.mobileMenu :hover > div {
+    width: 100%;
+}
+
