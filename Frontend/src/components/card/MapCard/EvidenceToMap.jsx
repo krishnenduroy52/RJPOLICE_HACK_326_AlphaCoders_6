@@ -54,7 +54,7 @@ const EvidenceToMap = ({ coordinates, userID }) => {
                             <span>Email: {user.user.email}</span>
                         </>
                         ) : (
-                            <div class="text-center">
+                            <div className="text-center">
                                 <Loader />
                             </div>
                         )}
