@@ -5,13 +5,7 @@ const Home = () => {
     <div className={styles.hero_container}>
       <div>
         <h1 className={styles.hero_text}>
-          <span className={styles.hero_text_span}>Welcome to</span>
-          <br />
-          <span className={styles.hero_text_span}>the</span>
-          <br />
-          <span className={styles.hero_text_span}>Covid-19</span>
-          <br />
-          <span className={styles.hero_text_span}>Tracker</span>
+          {/* <span className={styles.hero_text_span}>Eta ke banabi baraaa</span> */}
         </h1>
       </div>
       <div>
