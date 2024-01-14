@@ -39,10 +39,29 @@ body {
 .map_container > div.form_container {
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 80%;
   height: 100%;
   align-items: center;
   justify-content: space-around;
+}
+
+@media screen and (max-width: 768px) {
+  .map_container {
+    flex-direction: column;
+  }
+  .map_container > div.map_wrapper {
+    border: 1px solid #70757ba4;
+    height: 100vh !important;
+    width: 100%;
+    border-radius: 10px;
+  }
+  .map_container > div.form_container {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    align-items: center;
+    justify-content: space-around;
+  }
 }
 
 .map_form_button {

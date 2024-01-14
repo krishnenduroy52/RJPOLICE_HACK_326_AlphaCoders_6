@@ -42,7 +42,7 @@ const CardEvidence = ({ evi }) => {
         <div className={style.informationContainer}>
           <div>
             <p>Time: {evi.time}</p>
-            <p>UserID: {evi.userid}</p>
+            {/* <p>UserID: {evi.userid}</p> */}
           </div>
           <div>
             <button onClick={() => setModalShow(true)} className="m-2 bg-pink-500 hover:bg-pink-400 text-white font-bold py-2 px-4 border-b-4 border-pink-700 hover:border-pink-500 rounded-xl">Crime Location</button>

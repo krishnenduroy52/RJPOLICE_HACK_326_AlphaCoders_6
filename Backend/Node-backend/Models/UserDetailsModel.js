@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: 0,
   },
+  userCameraLink: {
+    type: String,
+    default: "",
+  }
 });
 
 const cameraSchema = new mongoose.Schema({
