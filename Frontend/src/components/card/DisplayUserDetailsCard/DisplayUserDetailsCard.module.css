@@ -1,8 +1,14 @@
-.container{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin: 1rem;
-    border: 2px solid pink;
-    border-radius: 10px;
+.container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 1rem;
+  border: 2px solid pink;
+  border-radius: 10px;
+}
+
+@media screen and (max-width: 425px) {
+  .container {
+    flex-direction: column;
+  }
 }

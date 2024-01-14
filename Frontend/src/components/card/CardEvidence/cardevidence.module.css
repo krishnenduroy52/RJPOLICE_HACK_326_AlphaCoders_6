@@ -9,7 +9,22 @@
   margin: 10px 0;
   border-radius: 10px;
   justify-content: center;
-  width: 60vw;
+  width: 100%;
+}
+
+@media screen and (max-width: 600px) {
+  .card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .imageContainer{
+    width: 200px !important;
+    height: 200px !important;
+  }
+  .textContainer{
+    text-align: center;
+  }
 }
 
 .imageContainer {

@@ -21,7 +21,7 @@ const cardsData = [
     imageLink: crimeevidence,
     bodyText: "Gather crucial evidence effortlessly to support law enforcement investigations.",
     pathto: "/admin/evidence",
-    category: "category misc.."
+    category: "category 3"
   },
   {
     text: "Car finding using number plate",
