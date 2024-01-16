@@ -99,7 +99,7 @@
 .nav_wrapper {
   display: flex;
   align-items: center;
-  background-color: #ffffff;
+  background-color: #dcf2f1;
   height: 80px;
   width: 100%;
   border-radius: 30px 30px 0 0;
@@ -112,7 +112,7 @@
   border-radius: 30px 30px;
 }
 
-.items{
+.items {
   display: flex;
   align-items: center;
   justify-content: space-between;
