@@ -10,7 +10,7 @@ import Navbar from "./components/Navbar/Navbar";
 import NavbarInMobile from "./components/Navbar/NavbarInMobile";
 import { useEffect, useState } from "react";
 import Camera from "./components/Camera/Camera";
-import Map from "./page/Map";
+import Map2 from "./page/Map2";
 import SignIn from "./page/SignIn";
 import CameraUser from "./page/CameraUser";
 import CameraAdmin from "./page/surveillance/CameraAdmin";
@@ -126,7 +126,7 @@ function App() {
           )}
 
           {/* Admin Route */}
-          <Route path="/admin/map" element={<Map />} />
+          <Route path="/admin/map" element={<Map2 />} />
           <Route path="/admin/view/cctv" element={<CameraAdmin />} />
           <Route
             path="/admin/detection/number-plate"
