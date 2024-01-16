@@ -1,5 +1,5 @@
 .logo{
-    height: 80px;
+    height: 60px;
     width: 230px;
     line-height: 80px;
     font-size: 1.5rem;
@@ -9,29 +9,56 @@
 
 .mobileMenu{
     display: grid;
+    position: relative;
     justify-content: center;
     align-items: center;
     text-align: center;
-    grid-template-rows: 0fr;
     overflow: hidden;
-    padding: .5rem;
+    grid-template-rows: 0fr;
+    grid-template-columns: 1fr;
+    width: 100%;
+    /* padding: .5rem; */
+    transition: all 0.5s ease-in-out;
 }
 
 .mobileMenu > div{
+    height: 100%;
+    width: 100%;
     overflow: hidden;
 }
 
 .mobileMenu > div > li{
     list-style: none;
+    /* position: relative; */
+    width: clamp(50%, 50vw, 90%);
     font-weight: 600;
     color: white;
+    padding: 10px auto;
+    margin: 10px auto;
+    border-bottom: 1.5px #ddd solid;
+    border-radius: 5px;
 }
 
-.mobileMenu :hover {
+.mobileMenu > div > li:hover{
+    border-bottom: none;
+    border-top: 1.5px #ddd solid;
+    border-radius: 5px;
+}
+
+/* .mobileMenu > div > li::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: azure;
+} */
+
+.mobileMenu.isOpen {
     grid-template-rows: 1fr;
 }
 
-.mobileMenu :hover > div {
-    width: 100%;
-}
+
+
 
