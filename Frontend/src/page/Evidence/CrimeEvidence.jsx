@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useEffect, useContext } from "react";
 import { DetailsContext } from "../../context/DetailsContext";
 import styles from "./CrimeEvidence.module.css";
-import CardEvidence from "../../components/card/CardEvidence/CardEvidence";
 import CardEvidence2 from "../../components/card/CardEvidence2/CardEvidence2";
+import Loader from "../../components/Loaders/Loader";
 
 const CrimeEvidence = () => {
   const { evidence } = useContext(DetailsContext);
@@ -63,7 +63,7 @@ const CrimeEvidence = () => {
   return (
     <div
       style={{
-        backgroundColor: "#F8F6F5",
+        backgroundColor: "#DCF2F1" ,
         padding: "4rem 1rem",
         borderRadius: "30px 30px 30px 30px",
       }}
@@ -89,6 +89,7 @@ const CrimeEvidence = () => {
           ))}
         </div>
         <div className={styles.evidences}>
+          {cameraEvidence.length === 0 && <Loader />}
           {cameraEvidence.map((evi, idx) => (
             // <CardEvidence key={idx} evi={evi} />
             <CardEvidence2 key={idx} evi={evi} />

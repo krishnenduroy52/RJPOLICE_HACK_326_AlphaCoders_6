@@ -456,7 +456,7 @@ const Map2 = () => {
     <div
       className="map_container"
       style={{
-        backgroundColor: "white",
+        backgroundColor: "#DCF2F1",
         padding: "4rem 1rem",
         borderRadius: "30px 30px 30px 30px",
       }}

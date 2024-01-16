@@ -6,7 +6,7 @@ import { postCrimeEvidenceRoute } from "../../Utils/APIRoutes";
 
 const ViolenceDetection = () => {
     const videoRef = useRef(null);
-    const { evidence } = useContext(DetailsContext);
+    const { evidence, user } = useContext(DetailsContext);
     // evidence = [{...}, {...}, {...}]
 
     const [cameraEvidence, setCameraEvidence] = useState([]);
@@ -73,11 +73,11 @@ const ViolenceDetection = () => {
                                 body: JSON.stringify({
                                     image: data.download_link,
                                     location: {
-                                        latitude: 10.762622,
-                                        longitude: 106.660172,
+                                        latitude: user.camera.cameraLatitude,
+                                        longitude: user.camera.cameraLongitude,
                                     },
-                                    time: "2021-09-30 12:00:00",
-                                    userid: "1",
+                                    time: new Date().toISOString().slice(0, 19).replace("T", " "),
+                                    userid: user._id,
                                     crime: "Violence detected",
                                 }),
                                 headers: {
@@ -91,11 +91,11 @@ const ViolenceDetection = () => {
                                 {
                                     image: data.download_link,
                                     location: {
-                                        latitude: 10.762622,
-                                        longitude: 106.660172,
+                                        latitude: user.camera.cameraLatitude,
+                                        longitude: user.camera.cameraLongitude,
                                     },
-                                    time: new Date().toLocaleString(),
-                                    userid: "1",
+                                    time: new Date().toISOString().slice(0, 19).replace("T", " "),
+                                    userid: user._id,
                                     crime: "Violence/Crime detected",
                                 },
                                 ...prev,
@@ -119,7 +119,7 @@ const ViolenceDetection = () => {
     return (
         <div
             style={{
-                backgroundColor: "#F8F6F5",
+                backgroundColor: "#DCF2F1",
                 padding: "4rem 1rem",
                 borderRadius: "30px 30px 30px 30px",
             }}

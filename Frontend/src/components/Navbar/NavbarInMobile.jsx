@@ -15,7 +15,7 @@ const NavbarInMobile = () => {
             <div className="navbar-mobile flex justify-between items-center">
                 <div className="navbar-mobile__logo">
                     <div className={styles.logo}>
-                        <Link style={{ color: 'white' }} to="/">SAFE<span style={{ color: '#e50087' }}>LENS</span></Link>
+                        <Link style={{ color: 'white' }} to="/">SAFE<span style={{ color: '#7FC7D9' }}>LENS</span></Link>
                     </div>
                 </div>
 
