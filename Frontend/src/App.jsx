@@ -9,12 +9,12 @@ import Home from "./page/Home/Home";
 import Navbar from "./components/Navbar/Navbar";
 import NavbarInMobile from "./components/Navbar/NavbarInMobile";
 import { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 import Camera from "./components/Camera/Camera";
 import Map2 from "./page/Map2";
 import SignIn from "./page/SignIn";
 import CameraUser from "./page/CameraUser";
 import CameraAdmin from "./page/surveillance/CameraAdmin";
-import Error from "./page/Error";
 import DetailsForm from "./page/userDetails/DetailsForm";
 
 // dashboard
@@ -29,6 +29,8 @@ import FireDetection from "./page/FireDetection/FireDetection";
 import CameraDisplacement from "./page/CameraDisplacementDetection/CameraDisplacement";
 import AccidentDetection from "./page/AccidentDetection/AccidentDetection";
 import ViolenceDetection from "./page/ViolenceDetection/ViolenceDetection";
+
+import Error from "./page/404Error/Error";
 
 // toast
 import { ToastContainer, toast } from "react-toastify";
@@ -158,6 +160,9 @@ function App() {
 
           {/* Test */}
           <Route path="/test/cctv" element={<Ipcamera />} />
+
+          <Route path="/error" element={<Error />} />
+          <Route path="*" element={<Navigate to="/error" />} />
         </Routes>
       </Router>
     </>
