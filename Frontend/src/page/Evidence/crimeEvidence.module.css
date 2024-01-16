@@ -49,7 +49,7 @@
   margin-top: 25px;
   left: 50%;
   margin-left: -50px;
-  background-color: #b80000;
+  background-color: rgba(15, 16, 53, 0.588);
 }
 .headline {
   text-align: center;
@@ -91,9 +91,27 @@
   margin-right: 10px;
 }
 
-.evidences{
+.evidenceContainer {
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
+  align-items: center;
+}
+.evidences {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+@media screen and (max-width: 1080px) {
+  .evidences {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 740px) {
+  .evidences {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
