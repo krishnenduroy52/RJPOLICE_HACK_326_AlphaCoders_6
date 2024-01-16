@@ -37,18 +37,25 @@ const CrimeEvidence = () => {
   }, [evidence]);
 
   const handleSelection = (e) => {
+    const innerText = e.target.innerText.toLowerCase();
     const query =
       e.target.innerText == "Gun"
         ? "Gun detected"
         : e.target.innerText == "Fire"
         ? "Fire detected"
         : e.target.innerText == "Number Plate"
-        ? "number_plate"
+        ? "number"
         : e.target.innerText == "Criminal"
         ? "Criminal detected"
         : "all";
     if (query === "all") return setCameraEvidence(evidence);
-    else {
+    else if (query === "number") {
+      const filterEvidences = evidence.filter((item) =>
+        item.crime.toLowerCase().includes(query)
+      );
+      setCameraEvidence(filterEvidences);
+      console.log(filterEvidences);
+    } else {
       const filterEvidences = evidence.filter((item) => item.crime === query);
       setCameraEvidence(filterEvidences);
     }

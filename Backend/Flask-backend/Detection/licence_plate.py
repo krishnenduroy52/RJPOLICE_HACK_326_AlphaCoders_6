@@ -175,7 +175,7 @@ def license_plate_find(request):
                         download_link = store_image(
                             license_plate_crop, filename)
                         send_notification(str(number_plate))
-                        return {'status': 'success', 'message': 'License plate detected', 'download_link': download_link}
+                        return {'status': 'success', 'message': 'License plate detected', 'download_link': download_link, "number_plate": str(number_plate)}
 
         return {'status': 'success', 'message': 'No license plate detected'}
     else:

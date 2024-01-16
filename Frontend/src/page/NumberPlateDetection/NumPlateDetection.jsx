@@ -35,20 +35,21 @@ const NumPlateDetection = () => {
       );
 
       const response = await data.json();
+      console.log(response);
       if (response?.download_link) {
         const uploadCrime = await fetch(
           "http://localhost:8000/crime/evidence",
           {
             method: "POST",
             body: JSON.stringify({
-              image: data.download_link,
+              image: response.download_link,
               location: {
                 latitude: 10.762622,
                 longitude: 106.660172,
               },
               time: "2021-09-30 12:00:00",
               userid: "1",
-              crime: "Gun detected",
+              crime: `${response.number_plate} Number detected`,
             }),
             headers: {
               "Content-Type": "application/json",
