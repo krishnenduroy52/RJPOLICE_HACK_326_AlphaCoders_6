@@ -5,7 +5,7 @@ import { DetailsContext } from "../../context/DetailsContext";
 
 const CrowdDetection = () => {
     const videoRef = useRef(null);
-    const { evidence } = useContext(DetailsContext);
+    const { evidence, user } = useContext(DetailsContext);
     // evidence = [{...}, {...}, {...}]
 
     const [cameraEvidence, setCameraEvidence] = useState([]);
@@ -72,11 +72,11 @@ const CrowdDetection = () => {
                                 body: JSON.stringify({
                                     image: data.download_link,
                                     location: {
-                                        latitude: 10.762622,
-                                        longitude: 106.660172,
+                                        latitude: user.camera.cameraLatitude,
+                                        longitude: user.camera.cameraLongitude,
                                     },
-                                    time: "2021-09-30 12:00:00",
-                                    userid: "1",
+                                    time: new Date().toISOString().slice(0, 19).replace("T", " "),
+                                    userid: user._id,
                                     crime: "Crowd detected",
                                 }),
                                 headers: {
@@ -90,11 +90,11 @@ const CrowdDetection = () => {
                                 {
                                     image: data.download_link,
                                     location: {
-                                        latitude: 10.762622,
-                                        longitude: 106.660172,
+                                        latitude: user.camera.cameraLatitude,
+                                        longitude: user.camera.cameraLongitude,
                                     },
-                                    time: new Date().toLocaleString(),
-                                    userid: "1",
+                                    time: new Date().toISOString().slice(0, 19).replace("T", " "),
+                                    userid: user._id,
                                     crime: "Crowd detected",
                                 },
                                 ...prev,

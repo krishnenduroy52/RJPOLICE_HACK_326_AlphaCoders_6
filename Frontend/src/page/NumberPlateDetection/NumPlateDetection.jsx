@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import style from "./numPlateDetection.module.css";
+import { DetailsContext } from "../../context/DetailsContext";
 
 const NumPlateDetection = () => {
   const inputRef = useRef(null);
@@ -8,6 +9,7 @@ const NumPlateDetection = () => {
   const isVideo = useRef(false);
 
   const [capturing, setCapturing] = useState(false);
+  const { evidence, user } = React.useContext(DetailsContext);
 
   const sendFrameToServer = useCallback(async () => {
     if (videoRef.current && inputRef.current.value.length > 0) {
@@ -43,11 +45,11 @@ const NumPlateDetection = () => {
             body: JSON.stringify({
               image: data.download_link,
               location: {
-                latitude: 10.762622,
-                longitude: 106.660172,
+                latitude: user.camera.cameraLatitude,
+                longitude: user.camera.cameraLongitude,
               },
               time: "2021-09-30 12:00:00",
-              userid: "1",
+              userid: user._id,
               crime: "Gun detected",
             }),
             headers: {
@@ -61,11 +63,11 @@ const NumPlateDetection = () => {
             {
               image: data.download_link,
               location: {
-                latitude: 10.762622,
-                longitude: 106.660172,
+                latitude: user.camera.cameraLatitude,
+                longitude: user.camera.cameraLongitude,
               },
               time: "2021-09-30 12:00:00",
-              userid: "1",
+              userid: user._id,
               crime: "Number Plate detected - {}",
             },
             ...prev,

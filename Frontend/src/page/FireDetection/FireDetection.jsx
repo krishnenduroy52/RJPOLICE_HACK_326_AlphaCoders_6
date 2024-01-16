@@ -5,8 +5,13 @@ import { DetailsContext } from "../../context/DetailsContext";
 
 const FireDetection = () => {
   const videoRef = useRef(null);
-  const { evidence } = useContext(DetailsContext);
+  const { evidence,user } = useContext(DetailsContext);
   // evidence = [{...}, {...}, {...}]
+
+  // useEffect(() => {
+  //   console.log(user)
+  //   console.log(user._id)
+  // }, [user])
 
   const [cameraEvidence, setCameraEvidence] = useState([]);
 
@@ -72,11 +77,13 @@ const FireDetection = () => {
                 body: JSON.stringify({
                   image: data.download_link,
                   location: {
-                    latitude: 10.762622,
-                    longitude: 106.660172,
+                    // latitude: 10.762622,
+                    // longitude: 106.660172,
+                    latitude: user.camera.cameraLatitude,
+                    longitude: user.camera.cameraLongitude,
                   },
-                  time: "2021-09-30 12:00:00",
-                  userid: "1",
+                  time: new Date().toISOString().slice(0, 19).replace("T", " "),
+                  user: user._id,
                   crime: "Fire detected",
                 }),
                 headers: {
@@ -90,11 +97,11 @@ const FireDetection = () => {
                 {
                   image: data.download_link,
                   location: {
-                    latitude: 10.762622,
-                    longitude: 106.660172,
+                    latitude: user.camera.cameraLatitude,
+                    longitude: user.camera.cameraLongitude,
                   },
-                  time: new Date().toLocaleString(),
-                  userid: "1",
+                  time: new Date().toISOString().slice(0, 19).replace("T", " "),
+                  userid: user._id,
                   crime: "Fire detected",
                 },
                 ...prev,

@@ -15,7 +15,7 @@ const CriminalDetection = () => {
   const imageInputRef = useRef(null);
   const [refImage, setRefImage] = useState(null);
   const [capturing, setCapturing] = useState(false);
-  const { evidence } = useContext(DetailsContext);
+  const { evidence,user } = useContext(DetailsContext);
   const [cameraEvidence, setCameraEvidence] = useState([]);
 
   useEffect(() => {
@@ -23,6 +23,11 @@ const CriminalDetection = () => {
       evidence.filter((evi) => evi.crime === "Criminal detected")
     );
   }, [evidence]);
+
+  // useEffect(()=>{
+  //   console.log(user)
+  //   console.log(new Date().toISOString().slice(0, 19).replace("T", " "))
+  // },[user])
 
   const sendFrameToServer = useCallback(async () => {
     if (videoRef.current && refImage) {
@@ -48,7 +53,7 @@ const CriminalDetection = () => {
         .then((response) => response.json())
         .then(async (data) => {
           console.log(data);
-          if (data?.download_link) {
+          if (data?.download_link && user) {
             const uploadCrime = await fetch(
               "http://localhost:8000/crime/evidence",
               {
@@ -56,11 +61,14 @@ const CriminalDetection = () => {
                 body: JSON.stringify({
                   image: data.download_link,
                   location: {
-                    latitude: 10.762622,
-                    longitude: 106.660172,
+                    // latitude: 10.762622,
+                    // longitude: 106.660172,
+                    latitude: user.camera.cameraLatitude,
+                    longitude: user.camera.cameraLongitude,
                   },
                   time: new Date().toISOString().slice(0, 19).replace("T", " "),
-                  userid: "1",
+                  // userid: "1",
+                  userid: user._id,
                   crime: "Criminal detected",
                 }),
                 headers: {
@@ -73,11 +81,11 @@ const CriminalDetection = () => {
                 {
                   image: data.download_link,
                   location: {
-                    latitude: 10.762622,
-                    longitude: 106.660172,
+                    latitude: user.camera.cameraLatitude,
+                    longitude: user.camera.cameraLongitude,
                   },
-                  time: "2021-09-30 12:00:00",
-                  userid: "1",
+                  time: new Date().toISOString().slice(0, 19).replace("T", " "),
+                  userid: user._id,
                   crime: "Criminal detected",
                 },
                 ...prev,
