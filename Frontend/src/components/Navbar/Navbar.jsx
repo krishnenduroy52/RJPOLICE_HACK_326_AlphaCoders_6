@@ -16,7 +16,7 @@ const Navbar = () => {
       <div className={styles.logo}>
         <div>
           <Link to="/">
-            SAFE<span style={{ color: "#e50087" }}>LENS</span>
+            SAFE<span style={{ color: "#7FC7D9" }}>LENS</span>
           </Link>
         </div>
       </div>

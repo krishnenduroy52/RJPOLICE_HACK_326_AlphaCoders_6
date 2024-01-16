@@ -6,7 +6,7 @@ const Error = () => {
     return (
         <div
             style={{
-                backgroundColor: "white",
+                backgroundColor: "#DCF2F1",
                 padding: "4rem 1rem",
                 borderRadius: "30px 30px 30px 30px",
                 height: "85vh",

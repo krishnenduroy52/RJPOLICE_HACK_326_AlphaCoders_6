@@ -29,6 +29,12 @@ body {
   justify-content: center;
 }
 
+@media screen and (max-width: 768px ) {
+  .map_container{
+    height: 90%;
+  }
+}
+
 .map_container > div.map_wrapper {
   border: 1px solid #70757ba4;
   height: 100%;
@@ -43,6 +49,7 @@ body {
   height: 100%;
   align-items: center;
   justify-content: space-around;
+  margin-top: 10px;
 }
 
 @media screen and (max-width: 768px) {
