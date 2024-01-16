@@ -1,0 +1,23 @@
+.heading1{
+    font-weight: 700;
+    color: #000000;
+    text-shadow: 0 0 10px #000;
+    margin: 0;
+    padding: 0;
+    line-height: 50px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: large;
+}
+
+.para{
+    font-size: large;
+    font-weight: 500;
+    color: #000000;
+    text-shadow: 0 0 10px #000;
+    margin: 0;
+    padding: 0;
+    line-height: 50px;
+    text-align: center;
+    margin-bottom: 20px;
+}

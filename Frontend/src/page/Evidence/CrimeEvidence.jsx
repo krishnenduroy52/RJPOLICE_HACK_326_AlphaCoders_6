@@ -63,7 +63,7 @@ const CrimeEvidence = () => {
             <div className={styles.one}>
                 <h1 className={styles.headline}>Activity Evidence</h1>
             </div>
-            <div className={styles.evidenceContainer}>
+            <div>
                 <div className={styles.categories}>
                     {categories.map((category, idx) => (
                         <div key={idx} className={styles.category} onClick={handleSelection}>
