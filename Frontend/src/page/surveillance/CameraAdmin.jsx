@@ -3,6 +3,7 @@ import style from "./cameraadmin.module.css";
 import DisplayUserDetailsCard from "../../components/card/DisplayUserDetailsCard/DisplayUserDetailsCard";
 import { getAllUsersRoute } from "../../Utils/APIRoutes.js";
 import axios from "axios";
+import Loader from "../../components/Loaders/Loader.jsx";
 
 const CameraAdmin = () => {
   const videoRef = useRef(null);
@@ -51,7 +52,7 @@ const CameraAdmin = () => {
   return (
     <div
       style={{
-        backgroundColor: "#F8F6F5",
+        backgroundColor: "#DCF2F1",
         padding: "4rem 1rem",
         borderRadius: "30px 30px 30px 30px",
       }}
@@ -71,7 +72,7 @@ const CameraAdmin = () => {
         <div>
           {!users ? (
             <>
-              <h1>Loading Users</h1>
+              <Loader/>
             </>
           ) : (
             <>

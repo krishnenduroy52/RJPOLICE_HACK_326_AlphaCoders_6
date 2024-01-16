@@ -82,14 +82,17 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  background-color: rgb(185, 185, 185);
+  background-color: #7FC7D9;
   padding: 10px 30px;
   border-radius: 10px;
   margin: 5px;
+  font-family: Poppins;
+  font-weight: 500;
 }
 
 .category:hover {
-  background-color: rgb(150, 150, 150);
+  background-color: #365486;
+  color: white;
 }
 
 .icon {
