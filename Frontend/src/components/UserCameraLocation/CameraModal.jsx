@@ -54,6 +54,12 @@ const CameraModal = () => {
                 container: mapRef.current,
                 center: currentLocation,
                 zoom: zoomLevel,
+                style: {
+                    map: '2/basic_street-satellite',
+                    poi: 'poi_main',
+                    trafficIncidents: '2/flow_relative-light',
+                    trafficFlow: '2/flow_relative-light'
+                }
             });
             setMap(mp);
         } catch (error) {
