@@ -96,13 +96,10 @@ function App() {
         text: `${notificationPayload?.notification?.body}`,
         width: 600,
         padding: "3em",
-        color: "",
+        color: "#555",
         background: "#fff url(/images/trees.png)",
         backdrop: `
-          rgba(0,0,123,0.4)
-          url("https://media1.tenor.com/m/yfUbUdT-mi8AAAAC/dangerous-hours.gif")
-          center center
-          repeat
+          rgba(0, 0, 0,0.85)
         `,
       });
       setNotificationPayload("");
