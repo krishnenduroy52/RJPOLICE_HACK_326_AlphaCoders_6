@@ -2,20 +2,21 @@
   --bg: #cfcfe3;
   --hover-bg: #ffe5f4;
   --hover-text: #e50087;
-  max-width: 25ch;
+  /* position: relative; */
+  width: 80%;
   text-align: center;
   background: var(--bg);
   padding: 1.2em;
+  margin: 10px auto;
   padding-block: 1.8em;
   border-radius: 5px;
   position: relative;
   overflow: hidden;
   transition: 0.3s cubic-bezier(0.6, 0.4, 0, 1), transform 0.15s ease;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  place-items: center;
   align-items: center;
-  gap: 1em;
   margin-bottom: 10px;
 }
 
@@ -50,20 +51,6 @@
   transition: all 0.3s cubic-bezier(0.6, 0.4, 0, 1);
 }
 
-.card:hover span {
-  top: 0;
-  font-size: 1.2em;
-}
-
-.card:hover {
-  background: var(--hover-bg);
-}
-
-.card:hover > div,
-.card:hover > strong {
-  opacity: 0;
-}
-
 .icon {
   width: 100px;
   height: 100px;
@@ -77,4 +64,15 @@
   margin-bottom: 0.5em;
 }
 
-
+@media screen and (max-width: 767px) {
+  .card {
+    display: flex;
+    flex-direction: column !important;
+  }
+  .card__body {
+    margin-top: 1em;
+  }
+  .icon {
+    margin-bottom: 0;
+  }
+}
