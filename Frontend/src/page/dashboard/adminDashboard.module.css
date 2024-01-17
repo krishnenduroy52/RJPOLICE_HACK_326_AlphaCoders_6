@@ -20,11 +20,12 @@
 }
 
 .heading {
-  font-size: 2rem;
+  font-size: 3rem;
   font-weight: 700;
   margin-bottom: 1rem;
   text-transform: uppercase;
-  letter-spacing: -1px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  letter-spacing: 4px;
   text-align: center;
 }
 
@@ -35,10 +36,10 @@
 
 .category_heading{
   font-size: 2rem;
-  font-weight: 700;
+  font-weight: 600;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   margin-bottom: 1rem;
-  text-transform: uppercase;
-  letter-spacing: -1px;
+  text-transform: capitalize;
+  /* letter-spacing: -1px; */
   text-align: center;
-  text-decoration: underline;
 }

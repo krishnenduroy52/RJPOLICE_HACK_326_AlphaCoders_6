@@ -3,10 +3,11 @@
   --hover-bg: #ffe5f4;
   --hover-text: #e50087;
   /* position: relative; */
-  width: 100%;
+  width: 80%;
   text-align: center;
   background: var(--bg);
   padding: 1.2em;
+  margin: 10px auto;
   padding-block: 1.8em;
   border-radius: 5px;
   position: relative;
@@ -14,6 +15,7 @@
   transition: 0.3s cubic-bezier(0.6, 0.4, 0, 1), transform 0.15s ease;
   display: grid;
   grid-template-columns: 1fr 3fr;
+  place-items: center;
   align-items: center;
   margin-bottom: 10px;
 }
@@ -64,7 +66,8 @@
 
 @media screen and (max-width: 767px) {
   .card {
-    flex-direction: column;
+    display: flex;
+    flex-direction: column !important;
   }
   .card__body {
     margin-top: 1em;
