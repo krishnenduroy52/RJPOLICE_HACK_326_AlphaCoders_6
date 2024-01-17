@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import style from "./numPlateDetection.module.css";
 import { DetailsContext } from "../../context/DetailsContext";
+import CardEvidence from "../../components/card/CardEvidence/CardEvidence";
 
 const NumPlateDetection = () => {
   const inputRef = useRef(null);
@@ -10,6 +11,14 @@ const NumPlateDetection = () => {
 
   const [capturing, setCapturing] = useState(false);
   const { evidence, user } = React.useContext(DetailsContext);
+
+  const [cameraEvidence, setCameraEvidence] = useState([]);
+  useEffect(() => {
+    const filterEvidences = evidence.filter((item) =>
+      item.crime.toLowerCase().includes("number")
+    );
+    setCameraEvidence(filterEvidences);
+  }, [evidence]);
 
   const sendFrameToServer = useCallback(async () => {
     if (videoRef.current && inputRef.current.value.length > 0) {
@@ -190,6 +199,12 @@ const NumPlateDetection = () => {
               Submit
             </button>
           </div>
+        </div>
+        <div className={style.evidence}>
+          {cameraEvidence &&
+            cameraEvidence.map((evi, idx) => (
+              <CardEvidence key={evi.id} evi={evi} />
+            ))}
         </div>
       </div>
     </div>

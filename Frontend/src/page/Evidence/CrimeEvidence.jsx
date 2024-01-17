@@ -30,6 +30,10 @@ const CrimeEvidence = () => {
       img_url: "https://i.imgur.com/S5cg6iS.png",
       name: "Criminal",
     },
+    {
+      img_url: "https://i.imgur.com/6KUt4Ys.jpg",
+      name: "Displacement",
+    },
   ];
 
   useEffect(() => {
@@ -63,7 +67,7 @@ const CrimeEvidence = () => {
   return (
     <div
       style={{
-        backgroundColor: "#DCF2F1" ,
+        backgroundColor: "#DCF2F1",
         padding: "4rem 1rem",
         borderRadius: "30px 30px 30px 30px",
       }}
