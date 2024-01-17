@@ -15,14 +15,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-function App() {
+function Ipcamera(props) {
   const [frame, setFrame] = useState("");
   const [error, setError] = useState(null);
 
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        "https://xxh0ngtj-8080.inc1.devtunnels.ms/get_frame"
+        props.link
       );
       setFrame(response.data.frame);
       setError(null);
@@ -72,4 +72,4 @@ function App() {
   );
 }
 
-export default App;
+export default Ipcamera;

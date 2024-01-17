@@ -2,7 +2,12 @@ import tt from "@tomtom-international/web-sdk-maps";
 import "@tomtom-international/web-sdk-maps/dist/maps.css";
 import { useRef, useEffect, useState, useCallback, useMemo } from "react";
 import customMarkerImage from "../assets/marker2.png";
+import { getAllUsersRoute } from "../Utils/APIRoutes";
 const API_Key = import.meta.env.VITE_APP_TOMTOM_APIKEY;
+import axios from 'axios'
+
+
+const axiosX = axios.create({ baseURL: 'http://localhost:8000' });
 
 // console.log(API_Key);
 const Map2 = () => {
@@ -11,90 +16,36 @@ const Map2 = () => {
   const [currentLoc, setCurrentLoc] = useState(null);
   const mapRef = useRef(null);
   const targetRef = useRef(null);
-  const [camLoc, setCamLoc] = useState([
-    // { lng: 88.4147, lat: 22.63296 },
-    // { lng: 88.4132, lat: 22.6318 },
-    // { lng: 88.4161, lat: 22.6342 },
-    // { lng: 88.4155, lat: 22.6319 },
-    // { lng: 88.4158, lat: 22.6339 },
-    // { lng: 88.4138, lat: 22.6345 },
-    // { lng: 88.4148, lat: 22.6338 },
-    // { lng: 88.4136, lat: 22.6325 },
-    // { lng: 88.416, lat: 22.6345 },
-    // { lng: 88.4144, lat: 22.6317 },
-    // { lng: 88.4153, lat: 22.6335 },
 
-    // { lng: 87.062078, lat: 23.246138 },
-    // { lng: 87.062365, lat: 23.246037 },
-    // { lng: 87.06214, lat: 23.246288 },
-    // { lng: 87.062458, lat: 23.246318 },
-    // { lng: 87.062565, lat: 23.245067 },
-    // { lng: 87.06315, lat: 23.246485 },
-    // { lng: 88.46151927985295, lat: 22.97254978998012 },
-    // { lng: 87.06213715563548, lat: 23.247591673681136 },
+  const [user, setUser] = useState([]);
+  const [userDetails, setUserDetails] = useState([]);
 
-    // { lng: 87.06229004645155, lat: 23.24609364561834 },
-    // { lng: 87.06237813671609, lat: 23.246071958068956 },
-    // { lng: 87.06244262319764, lat: 23.246012706600133 },
-    // { lng: 87.0624662267955, lat: 23.245931767631046 },
-    // { lng: 87.06244262301246, lat: 23.24585082871107 },
-    // { lng: 87.06237813653094, lat: 23.245791577340473 },
-    // { lng: 87.06229004645155, lat: 23.245769889840208 },
-    // { lng: 87.06220195637215, lat: 23.245791577340473 },
-    // { lng: 87.06213746989063, lat: 23.24585082871107 },
-    // { lng: 87.0621138661076, lat: 23.245931767631046 },
-    // { lng: 87.06213746970545, lat: 23.246012706600133 },
-    // { lng: 87.062201956187, lat: 23.246071958068956 },
+  useEffect(() => {
+    const fetchData = async () => {
+        const {data} = await axiosX.get('/getUserDetails');
+        const data2 = await data.userDetails; 
+        return data2;
+    };
+    fetchData().then(data => setUser(data));
+  },[]);
 
-    // { lat: 23.245898802921474, lng: 87.06244005167302 },
-    // { lat: 23.245973802921473, lng: 87.06241995548359 },
-    // { lat: 23.24602870673204, lng: 87.06236505167301 },
-    // { lat: 23.246048802921475, lng: 87.06229005167302 },
-    // { lat: 23.24602870673204, lng: 87.06221505167302 },
-    // { lat: 23.245973802921473, lng: 87.06216014786244 },
-    // { lat: 23.245898802921474, lng: 87.06214005167301 },
-    // { lat: 23.245823802921475, lng: 87.06216014786244 },
-    // { lat: 23.245768899110907, lng: 87.06221505167302 },
-    // { lat: 23.245748802921472, lng: 87.06229005167302 },
-    // { lat: 23.245768899110907, lng: 87.06236505167301 },
-    // { lat: 23.245823802921475, lng: 87.06241995548359 }
-
-    // center point
-    // { lat: 23.24581974776096, lng: 87.06231163376515, angle: 30 },
-    // { lat: 23.245900686631824, lon: 87.0624642103831 },
-    // { lat: 23.245900686631824, lon: 87.06215905714718 },
-
-    // { lat: 23.246011691904293, lng: 87.0623834307344, angle: 300 },
-
-    // { lat: 23.245871501466382, lng: 87.0621191602453, angle: 150 },
-  ]);
-
-  const userDetails = useMemo(() => { return [
-    {
-      name: "Krishnendu Roy",
-      phone: "+1 123-456-7890",
-      cameraId: "CAM-002",
-      angle: 300,
-      lat: 23.246011691904293,
-      lng: 87.0623834307344,
-    },
-    {
-      name: "Anurag Kumar Sah",
-      phone: "+1 123-456-7890",
-      cameraId: "CAM-003",
-      angle: 150,
-      lat: 23.245871501466382,
-      lng: 87.0621191602453,
-    },
-    {
-        name: "Indrajit Pal",
-        phone: "+1 123-456-7890",
-        cameraId: "CAM-001",
-        angle: 180,
-        lat: 23.24581974776096,
-        lng: 87.06231163376515,
-      },
-  ]},[]);
+  useEffect(()=> {
+    console.log(user);
+    if(user[0]) {
+      user.map((data) => {
+        const dat1 = {
+          name: data.user.firstname,
+          phone: data.user.phoneno,
+          cameraId: data.camera.cameraSerialNo,
+          angle: data.camera.cameraAngle,
+          lat: data.camera.cameraLatitude,
+          lng: data.camera.cameraLongitude,
+          camLink: data.user.userCameraLink,
+        };
+        setUserDetails((prev) => [...prev, dat1]);
+      })
+    }
+  }, [user]);
 
   const [markers, setMarkers] = useState([]);
 
@@ -161,9 +112,9 @@ const Map2 = () => {
     return () => mp.remove();
   }, [currentLoc]);
 
-  const addCamera = (lat, lng) => {
-    setCamLoc((prev) => [...prev, [lng, lat]]);
-  };
+  // const addCamera = (lat, lng) => {
+  //   setCamLoc((prev) => [...prev, [lng, lat]]);
+  // };
 
   const addMarker = useCallback((e) => {
     const lngLat = e.lngLat;
@@ -288,7 +239,7 @@ const Map2 = () => {
     return () => {
       map && map.off("click", addMarker);
     };
-  }, [map, camLoc, addMarker, popupOffsets, userDetails, createCard, createCustomMarkerElement]);
+  }, [map, addMarker, popupOffsets, userDetails, createCard, createCustomMarkerElement]);
 
 
   function toRadians(degrees) {

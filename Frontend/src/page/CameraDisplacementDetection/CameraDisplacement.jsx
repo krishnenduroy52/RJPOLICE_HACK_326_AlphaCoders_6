@@ -5,12 +5,15 @@ import { DetailsContext } from "../../context/DetailsContext";
 
 const CameraDisplacement = () => {
   const videoRef = useRef(null);
-  const { evidence } = useContext(DetailsContext);
+  const { evidence, user } = useContext(DetailsContext);
 
   const [cameraEvidence, setCameraEvidence] = useState([]);
 
   useEffect(() => {
-    setCameraEvidence(evidence.filter((evi) => evi.crime === "Gun detected"));
+    const filterEvidences = evidence.filter((item) =>
+      item.crime.toLowerCase().includes("displacement")
+    );
+    setCameraEvidence(filterEvidences);
   }, [evidence]);
 
   useEffect(() => {
@@ -64,8 +67,50 @@ const CameraDisplacement = () => {
         .then((response) => response.json())
         .then(async (data) => {
           if (data.status === "success") {
+            console.log(data);
             if (data.camerablocked == "True") {
-              console.log("Camera Blocked");
+              const uploadCrime = await fetch(
+                "http://localhost:8000/crime/evidence",
+                {
+                  method: "POST",
+                  body: JSON.stringify({
+                    image: "https://i.imgur.com/6KUt4Ys.jpg",
+                    location: {
+                      latitude: user.camera.cameraLatitude,
+                      longitude: user.camera.cameraLongitude,
+                    },
+                    time: new Date()
+                      .toISOString()
+                      .slice(0, 19)
+                      .replace("T", " "),
+                    userid: user._id,
+                    crime: "Camera Displacement Detected",
+                  }),
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                }
+              );
+              console.log(uploadCrime);
+
+              if (uploadCrime.status === 200) {
+                setCameraEvidence((prev) => [
+                  {
+                    image: "https://i.imgur.com/6KUt4Ys.jpg",
+                    location: {
+                      latitude: user.camera.cameraLatitude,
+                      longitude: user.camera.cameraLongitude,
+                    },
+                    time: new Date()
+                      .toISOString()
+                      .slice(0, 19)
+                      .replace("T", " "),
+                    userid: user._id,
+                    crime: "Camera Displacement Detected",
+                  },
+                  ...prev,
+                ]);
+              }
             }
           }
         })
@@ -102,12 +147,12 @@ const CameraDisplacement = () => {
             style={{ width: "100%", maxWidth: "400px", borderRadius: "5px" }}
           />
         </div>
-        {/* <div className={style.evidence}>
+        <div className={style.evidence}>
           {cameraEvidence &&
             cameraEvidence.map((evi, idx) => (
               <CardEvidence key={evi.id} evi={evi} />
             ))}
-        </div> */}
+        </div>
       </div>
     </div>
   );

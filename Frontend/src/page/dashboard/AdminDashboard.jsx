@@ -19,81 +19,91 @@ const cardsData = [
   {
     text: "Crime Evidence",
     imageLink: crimeevidence,
-    bodyText: "Gather crucial evidence effortlessly to support law enforcement investigations.",
+    bodyText:
+      "Gather crucial evidence effortlessly to support law enforcement investigations.",
     pathto: "/admin/evidence",
-    category: "category 3"
+    category: "CCTV Control",
   },
   {
     text: "Car finding using number plate",
     imageLink: number_plate,
-    bodyText: "Identify vehicles accurately through cutting-edge number plate recognition.",
+    bodyText:
+      "Identify vehicles accurately through cutting-edge number plate recognition.",
     pathto: "/admin/detection/number-plate",
-    category: "category 1"
+    category: "Find Criminal",
   },
   {
     text: "GUN Detection",
     imageLink: gun,
-    bodyText: "Detect firearms swiftly, enhancing security measures to protect public spaces.",
+    bodyText:
+      "Detect firearms swiftly, enhancing security measures to protect public spaces.",
     pathto: "/admin/detection/gun",
-    category: "category 2"
+    category: "Suspicious Activity",
   },
   {
     text: "CCTV Surveillance",
     imageLink: cctv,
-    bodyText: "Security cameras provide constant vigilance, ensuring safety and peace of mind.",
+    bodyText:
+      "Security cameras provide constant vigilance, ensuring safety and peace of mind.",
     pathto: "/admin/view/cctv",
-    category: "category 3"
+    category: "CCTV Control",
   },
   {
     text: "CCTV Location",
     imageLink: cctv,
-    bodyText: "Monitor and track locations with precision using advanced CCTV technology.",
+    bodyText:
+      "Monitor and track locations with precision using advanced CCTV technology.",
     pathto: "/admin/map",
-    category: "category 3"
+    category: "CCTV Control",
   },
   {
     text: "Criminal Detection",
     imageLink: criminal,
-    bodyText: "Swiftly identify and track potential criminals, ensuring public safety.",
+    bodyText:
+      "Swiftly identify and track potential criminals, ensuring public safety.",
     pathto: "/admin/detection/criminal",
-    category: "category 1"
+    category: "Find Criminal",
   },
   {
     text: "Crowd Detection",
     imageLink: crowd,
-    bodyText: "Efficiently monitor and manage crowds, ensuring a secure and organized environment.",
+    bodyText:
+      "Efficiently monitor and manage crowds, ensuring a secure and organized environment.",
     pathto: "/admin/detection/crowd",
-    category: "category 2"
+    category: "Suspicious Activity",
   },
   {
     text: "Fire Detection",
     imageLink: fire,
-    bodyText: "Instantly detect and respond to fire incidents, minimizing potential damage.",
+    bodyText:
+      "Instantly detect and respond to fire incidents, minimizing potential damage.",
     pathto: "/admin/detection/fire",
-    category: "category 2"
+    category: "Suspicious Activity",
   },
   {
     text: "Camera Displacement Detection",
     imageLink: cctv,
-    bodyText: "Detect and address camera displacement issues promptly, maintaining optimal surveillance.",
+    bodyText:
+      "Detect and address camera displacement issues promptly, maintaining optimal surveillance.",
     pathto: "/admin/detection/camera-displacement",
-    category: "category 3"
-
+    category: "CCTV Control",
   },
   {
     text: "Accident Detection",
     imageLink: accident,
-    bodyText: "Rapidly identify and respond to accidents, ensuring swift emergency services.",
+    bodyText:
+      "Rapidly identify and respond to accidents, ensuring swift emergency services.",
     pathto: "/admin/detection/accident",
-    category: "category 2"
+    category: "Suspicious Activity",
   },
   {
     text: "Fight / Violence Detection",
     imageLink: violence,
-    bodyText: "Promptly detect and prevent violence, fostering a safer environment for everyone.",
+    bodyText:
+      "Promptly detect and prevent violence, fostering a safer environment for everyone.",
     pathto: "/admin/detection/violence",
-    category: "category 2"
-  }
+    category: "Suspicious Activity",
+  },
 ];
 
 const AdminDashboard = () => {

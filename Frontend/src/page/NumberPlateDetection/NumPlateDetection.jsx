@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import style from "./numPlateDetection.module.css";
 import { DetailsContext } from "../../context/DetailsContext";
+import CardEvidence from "../../components/card/CardEvidence/CardEvidence";
 
 const NumPlateDetection = () => {
   const inputRef = useRef(null);
@@ -10,6 +11,14 @@ const NumPlateDetection = () => {
 
   const [capturing, setCapturing] = useState(false);
   const { evidence, user } = React.useContext(DetailsContext);
+
+  const [cameraEvidence, setCameraEvidence] = useState([]);
+  useEffect(() => {
+    const filterEvidences = evidence.filter((item) =>
+      item.crime.toLowerCase().includes("number")
+    );
+    setCameraEvidence(filterEvidences);
+  }, [evidence]);
 
   const sendFrameToServer = useCallback(async () => {
     if (videoRef.current && inputRef.current.value.length > 0) {
@@ -37,20 +46,21 @@ const NumPlateDetection = () => {
       );
 
       const response = await data.json();
+      console.log(response);
       if (response?.download_link) {
         const uploadCrime = await fetch(
           "http://localhost:8000/crime/evidence",
           {
             method: "POST",
             body: JSON.stringify({
-              image: data.download_link,
+              image: response.download_link,
               location: {
                 latitude: user.camera.cameraLatitude,
                 longitude: user.camera.cameraLongitude,
               },
               time: "2021-09-30 12:00:00",
               userid: user._id,
-              crime: "Gun detected",
+              crime: `${response.number_plate} Number detected`,
             }),
             headers: {
               "Content-Type": "application/json",
@@ -68,7 +78,7 @@ const NumPlateDetection = () => {
               },
               time: "2021-09-30 12:00:00",
               userid: user._id,
-              crime: "Number Plate detected - {}",
+              crime: `${response.number_plate} Number detected`,
             },
             ...prev,
           ]);
@@ -189,6 +199,12 @@ const NumPlateDetection = () => {
               Submit
             </button>
           </div>
+        </div>
+        <div className={style.evidence}>
+          {cameraEvidence &&
+            cameraEvidence.map((evi, idx) => (
+              <CardEvidence key={evi.id} evi={evi} />
+            ))}
         </div>
       </div>
     </div>

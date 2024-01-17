@@ -76,8 +76,8 @@ const GunDetection = () => {
                     latitude: user.camera.cameraLatitude,
                     longitude: user.camera.cameraLongitude,
                   },
-                  time: "2021-09-30 12:00:00",
-                  userid: "1",
+                  time: new Date().toISOString().slice(0, 19).replace("T", " "),
+                  userid: user._id,
                   crime: "Gun detected",
                 }),
                 headers: {

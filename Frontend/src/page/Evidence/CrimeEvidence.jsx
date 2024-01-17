@@ -30,6 +30,10 @@ const CrimeEvidence = () => {
       img_url: "https://i.imgur.com/S5cg6iS.png",
       name: "Criminal",
     },
+    {
+      img_url: "https://i.imgur.com/6KUt4Ys.jpg",
+      name: "Displacement",
+    },
   ];
 
   useEffect(() => {
@@ -37,18 +41,25 @@ const CrimeEvidence = () => {
   }, [evidence]);
 
   const handleSelection = (e) => {
+    const innerText = e.target.innerText.toLowerCase();
     const query =
       e.target.innerText == "Gun"
         ? "Gun detected"
         : e.target.innerText == "Fire"
         ? "Fire detected"
         : e.target.innerText == "Number Plate"
-        ? "number_plate"
+        ? "number"
         : e.target.innerText == "Criminal"
         ? "Criminal detected"
         : "all";
     if (query === "all") return setCameraEvidence(evidence);
-    else {
+    else if (query === "number") {
+      const filterEvidences = evidence.filter((item) =>
+        item.crime.toLowerCase().includes(query)
+      );
+      setCameraEvidence(filterEvidences);
+      console.log(filterEvidences);
+    } else {
       const filterEvidences = evidence.filter((item) => item.crime === query);
       setCameraEvidence(filterEvidences);
     }
@@ -56,7 +67,7 @@ const CrimeEvidence = () => {
   return (
     <div
       style={{
-        backgroundColor: "#DCF2F1" ,
+        backgroundColor: "#DCF2F1",
         padding: "4rem 1rem",
         borderRadius: "30px 30px 30px 30px",
       }}
