@@ -6,6 +6,7 @@ from Detection.licence_plate import license_plate_find
 from Detection.camera_displacement import camera_displacement
 from Detection.fire_detection import fire_detection
 from Detection.criminal_detection import criminal_detection
+from Detection.accident_detection import accident_detection
 import firebase_admin
 from firebase_admin import credentials, storage
 
@@ -46,6 +47,11 @@ def handle_fire_detection():
 @app.route('/criminal-detection', methods=['POST'])
 def handle_criminal_detection():
     return criminal_detection(request)
+
+
+@app.route("/accident-detection", methods=['POST'])
+def handle_accident_detection():
+    return accident_detection(request)
 
 
 if __name__ == '__main__':

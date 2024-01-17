@@ -18,6 +18,12 @@ const EvidenceToMap = ({ coordinates, userID }) => {
             container: mapRef.current,
             center: [coordinates.longitude, coordinates.latitude],
             zoom: 15,
+            style: {
+                map: '2/basic_street-satellite',
+                poi: 'poi_main',
+                trafficIncidents: '2/flow_relative-light',
+                trafficFlow: '2/flow_relative-light'
+            }
         });
         setMap(map);
         const marker = new tt.Marker().setLngLat([coordinates.longitude, coordinates.latitude]).addTo(map);
