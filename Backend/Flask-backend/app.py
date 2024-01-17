@@ -49,7 +49,7 @@ def handle_criminal_detection():
     return criminal_detection(request)
 
 
-@app.route("/accident-detection", method=['POST'])
+@app.route("/accident-detection", methods=['POST'])
 def handle_accident_detection():
     return accident_detection(request)
 

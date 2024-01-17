@@ -5,6 +5,8 @@ import { DetailsContext } from "../../context/DetailsContext";
 
 const AccidentDetection = () => {
   const videoRef = useRef(null);
+
+  const isVideo = useRef(false);
   const { evidence, user } = useContext(DetailsContext);
   // evidence = [{...}, {...}, {...}]
 
@@ -109,6 +111,45 @@ const AccidentDetection = () => {
         });
     }
   };
+  const handleVideo = (e) => {
+    const file = e.target.files[0];
+    if (!file || file.type !== "video/mp4") {
+      alert("Please upload a video file.");
+      return;
+    }
+    isVideo.current = true;
+    const videoURL = URL.createObjectURL(file);
+
+    videoRef.current.src = videoURL;
+    videoRef.current.load();
+    videoRef.current.muted = true;
+  };
+  const startWebCam = async () => {
+    // check if camera is already in use if in use stop the webcam and restart it
+    if (videoRef.current && videoRef.current.srcObject) {
+      const stream = videoRef.current.srcObject;
+      const tracks = stream.getTracks();
+      //stop all tracks
+      tracks.forEach(function (track) {
+        track.stop();
+      });
+      //set the srcObject to null
+      videoRef.current.srcObject = null;
+    }
+
+    // starts the webcam and sends the image to the backend
+    try {
+      isVideo.current = false;
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+      });
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+      }
+    } catch (error) {
+      console.error("Error accessing webcam:", error);
+    }
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -136,6 +177,9 @@ const AccidentDetection = () => {
             autoPlay
             style={{ width: "100%", maxWidth: "400px", borderRadius: "5px" }}
           />
+          <button onClick={startWebCam}>Start Webcam</button>
+          <span className="font-bold">or</span>
+          <input type="file" accept="video/*" onChange={handleVideo} />
         </div>
         <div className={style.evidence}>
           {cameraEvidence &&
