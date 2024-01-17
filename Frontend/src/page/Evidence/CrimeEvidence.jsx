@@ -51,6 +51,8 @@ const CrimeEvidence = () => {
         ? "number"
         : e.target.innerText == "Criminal"
         ? "Criminal detected"
+        : e.target.innerText == "Displacement"
+        ? "Displacement detected"
         : "all";
     if (query === "all") return setCameraEvidence(evidence);
     else if (query === "number") {
@@ -59,7 +61,13 @@ const CrimeEvidence = () => {
       );
       setCameraEvidence(filterEvidences);
       console.log(filterEvidences);
+    } else if (query === "Displacement detected") {
+      const filterEvidences = evidence.filter((item) =>
+        item.crime.toLowerCase().includes("displacement")
+      );
+      setCameraEvidence(filterEvidences);
     } else {
+      console.log(query);
       const filterEvidences = evidence.filter((item) => item.crime === query);
       setCameraEvidence(filterEvidences);
     }
