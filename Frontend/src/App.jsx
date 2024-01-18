@@ -21,7 +21,7 @@ import DetailsForm from "./page/userDetails/DetailsForm";
 import UserDashboard from "./page/dashboard/UserDashboard";
 import AdminDashboard from "./page/dashboard/AdminDashboard";
 import NumPlateDetection from "./page/NumberPlateDetection/NumPlateDetection";
-import CriminalDetection from "./page/CriminalDetection/criminalDetection";
+import CriminalDetection from "./page/CriminalDetection/CriminalDetection";
 import GunDetection from "./page/GunDetection/GunDetection";
 import CrimeEvidence from "./page/Evidence/CrimeEvidence";
 import CrowdDetection from "./page/CrowdDetection/CrowdDetection";
