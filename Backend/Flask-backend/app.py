@@ -16,7 +16,7 @@ firebase_admin.initialize_app(
     cred, {'storageBucket': 'yolo-detected-img-store.appspot.com'})
 
 app = Flask(__name__)
-cors = CORS(app)
+CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
 
 
 @app.route('/')
