@@ -1,20 +1,87 @@
-import React, { useState, useRef } from "react";
-import style from "../CardEvidence/CardEvidence.module.css";
-import EvidenceToMap from "../MapCard/EvidenceToMap";
-function CameraModal({ show, onHide, coordinates, userId }) {
+import React, { useState, useRef, useEffect } from "react";
+import style from "./CameraModal.module.css";
+
+import axios from "axios";
+function CameraModal({ camLink, closeModal }) {
     
-  const videoRef = useRef(null);
+  const [frame, setFrame] = useState("");
+  
+  const [error, setError] = useState(null);
+
+  if(!camLink) return;
+    console.log(camLink)
+//   useEffect(() => {
+//     const startVideo = async() => {
+//     try {
+//         const stream = await navigator.mediaDevices.getUserMedia({
+//           video: true,
+//         });
+//         if (videoRef.current) {
+//           videoRef.current.srcObject = stream;
+//         }
+//       } catch (error) {
+//         console.error("Error accessing webcam:", error);
+//       }
+//     }
+//     startVideo()
+//     return () => {
+//         const stream = videoRef.current?.srcObject;
+//         if (stream) {
+//           const tracks = stream.getTracks();
+//           tracks.forEach((track) => track.stop());
+//           if (videoRef.current) {
+//             videoRef.current.srcObject = null;
+//           }
+//         }
+//       };
+//   },[])
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+          const response = await axios.get(
+            camLink
+          );
+          setFrame(response.data);
+          setError(null);
+        } catch (error) {
+          setError("Error fetching frame");
+        }
+      };
+    const interval = setInterval(() => {
+      fetchData();
+    }, 123);
+    return () => clearInterval(interval);
+  }, [camLink]);
+
   return (
     <>
       <div
-        style={{ display: show ? "block" : "none" }}
         className={style.backdropStyle}
       ></div>
-      <video
-            ref={videoRef}
-            autoPlay
-            style={{ width: "100%", maxWidth: "400px", borderRadius: "5px" }}
-        />
+      <div
+        className={style.modalStyle}
+      >
+            {frame && (
+        <img alt="Webcam Frame" src={`data:image/jpeg;base64,${frame}`} />
+      )}
+      <button onClick={()=>closeModal()} className={style.closeButton}>
+          <svg
+            className="h-6 w-6"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
     </>
   );
 }
