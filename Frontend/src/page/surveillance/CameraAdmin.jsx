@@ -72,7 +72,7 @@ const CameraAdmin = () => {
         <div>
           {!users ? (
             <>
-              <Loader/>
+              <Loader />
             </>
           ) : (
             <>

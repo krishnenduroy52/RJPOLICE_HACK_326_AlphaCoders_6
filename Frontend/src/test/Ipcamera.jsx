@@ -25,8 +25,6 @@ function Ipcamera(props) {
         "https://0764dpzq-8080.inc1.devtunnels.ms/"
       );
       setFrame(response.data);
-      console.log(response.data)
-      setError(null);
     } catch (error) {
       setError("Error fetching frame");
     }
@@ -35,7 +33,7 @@ function Ipcamera(props) {
   useEffect(() => {
     const interval = setInterval(() => {
       fetchData();
-    }, 123);
+    }, 10);
     return () => clearInterval(interval);
   }, []);
 
@@ -62,7 +60,7 @@ function Ipcamera(props) {
     };
 
     // sendFrameToServer();
-  }, [frame]);
+  }, []);
 
   return (
     <div>

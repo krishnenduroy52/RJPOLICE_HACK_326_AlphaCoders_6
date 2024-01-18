@@ -1,4 +1,10 @@
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+  useContext,
+} from "react";
 import style from "./numPlateDetection.module.css";
 import { DetailsContext } from "../../context/DetailsContext";
 import CardEvidence from "../../components/card/CardEvidence/CardEvidence";
@@ -11,8 +17,8 @@ const NumPlateDetection = () => {
   const isVideo = useRef(false);
 
   const [capturing, setCapturing] = useState(false);
-  const { evidence, user } = React.useContext(DetailsContext);
-
+  const { evidence, user } = useContext(DetailsContext);
+  const [camera, setCamera] = useState({ lat: "26.867173", long: "75.820837" });
   const [cameraEvidence, setCameraEvidence] = useState([]);
   useEffect(() => {
     const filterEvidences = evidence.filter((item) =>
@@ -20,6 +26,10 @@ const NumPlateDetection = () => {
     );
     setCameraEvidence(filterEvidences);
   }, [evidence]);
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
 
   const sendFrameToServer = useCallback(async () => {
     if (videoRef.current && inputRef.current.value.length > 0) {
@@ -32,6 +42,7 @@ const NumPlateDetection = () => {
       // canvas.toBlob((blob) => {
       //   form.append("image", blob, "frame.jpg");
       // }, "image/jpg");
+
       const imageBlob = await new Promise((resolve) =>
         canvas.toBlob(resolve, "image/jpeg")
       );
@@ -47,7 +58,13 @@ const NumPlateDetection = () => {
       );
 
       const response = await data.json();
-      console.log(response);
+
+      let lat = camera.lat;
+      let long = camera.long;
+      if (user !== null) {
+        lat = user.camera.cameraLatitude;
+        long = user?.camera.cameraLongitude;
+      }
       if (response?.download_link) {
         const uploadCrime = await fetch(
           "http://localhost:8000/crime/evidence",
@@ -56,10 +73,10 @@ const NumPlateDetection = () => {
             body: JSON.stringify({
               image: response.download_link,
               location: {
-                latitude: user.camera.cameraLatitude,
-                longitude: user.camera.cameraLongitude,
+                latitude: lat,
+                longitude: long,
               },
-              time: "2021-09-30 12:00:00",
+              time: new Date().toISOString().slice(0, 19).replace("T", " "),
               userid: user._id,
               crime: `${response.number_plate} Number detected`,
             }),
@@ -72,12 +89,12 @@ const NumPlateDetection = () => {
         if (uploadCrime.status === 200) {
           setCameraEvidence((prev) => [
             {
-              image: data.download_link,
+              image: response.download_link,
               location: {
                 latitude: user.camera.cameraLatitude,
                 longitude: user.camera.cameraLongitude,
               },
-              time: "2021-09-30 12:00:00",
+              time: new Date().toISOString().slice(0, 19).replace("T", " "),
               userid: user._id,
               crime: `${response.number_plate} Number detected`,
             },
@@ -195,7 +212,7 @@ const NumPlateDetection = () => {
         <div className={style.evidence}>
           {cameraEvidence &&
             cameraEvidence.map((evi, idx) => (
-              <CardEvidence key={evi.id} evi={evi} />
+              <CardEvidence key={idx} evi={evi} />
             ))}
         </div>
       </div>
