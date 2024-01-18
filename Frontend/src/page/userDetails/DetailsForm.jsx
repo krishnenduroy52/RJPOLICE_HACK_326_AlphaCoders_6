@@ -129,7 +129,7 @@ const DetailsForm = () => {
 
         console.log(updatedForm);
         try {
-          const res = await axios.post(userDetailsRoute, form);
+          const res = await axios.post(userDetailsRoute, updatedForm);
           console.log(res);
           toast.success("User details successfully added.");
         } catch (error) {
