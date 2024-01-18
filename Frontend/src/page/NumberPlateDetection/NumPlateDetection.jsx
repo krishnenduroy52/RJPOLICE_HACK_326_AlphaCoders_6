@@ -8,6 +8,7 @@ import React, {
 import style from "./numPlateDetection.module.css";
 import { DetailsContext } from "../../context/DetailsContext";
 import CardEvidence from "../../components/card/CardEvidence/CardEvidence";
+import Button from "../../components/Button/Button";
 
 const NumPlateDetection = () => {
   const inputRef = useRef(null);
@@ -49,7 +50,7 @@ const NumPlateDetection = () => {
       formData.append("image", imageBlob, "frame.jpg");
 
       const data = await fetch(
-        `http://localhost:5000/license-plate-detection?number_plate=${inputRef.current.value}`,
+        `http://127.0.0.1:5000/license-plate-detection?number_plate=${inputRef.current.value}`,
         {
           method: "POST",
           body: formData,
@@ -181,15 +182,19 @@ const NumPlateDetection = () => {
           <video
             ref={videoRef}
             autoPlay
-            style={{ width: "100%", maxWidth: "400px", borderRadius: "5px" }}
+            style={{ width: "100%", maxWidth: "462px", borderRadius: "5px" }}
           ></video>
-          <button onClick={startWebCam}>Start Webcam</button>
-          <span className="font-bold">or</span>
-          <input type="file" accept="video/*" onChange={handleVideo} />
+          <button className="m-2 bg-[#365486] hover:bg-[#4970b4] text-white font-bold py-2 px-4 border-b-4 border-[#293f65] hover:border-[#365486] rounded-xl" onClick={startWebCam} type="button">
+            Start Webcam
+          </button>
+          <span className="font-bold mr-2">or</span>
+
+          <input style={{ border: "", borderRadius: "10px", padding: "5px", margin: "10px", width: "14rem", backgroundColor: "#7FC7D9" }} type="file" accept="video/*" onChange={handleVideo} />
+
           <div className={style.input}>
             <input
               style={{
-                backgroundColor: "pink",
+                backgroundColor: "#7FC7D9",
                 width: "200px",
                 height: "40px",
                 fontSize: "20px",
@@ -199,20 +204,7 @@ const NumPlateDetection = () => {
               ref={inputRef}
               type="string"
             />
-            <button
-              style={{
-                width: "100px",
-                height: "auto",
-                padding: "10px",
-                fontSize: "1rem",
-                color: "white",
-                backgroundColor: "#1E9010",
-                textAlign: "center",
-                borderRadius: "10px",
-              }}
-              onClick={sendPlateNumber}
-              type="button"
-            >
+            <button className="m-2 bg-[#365486] hover:bg-[#4970b4] text-white font-bold py-2 px-4 border-b-4 border-[#293f65] hover:border-[#365486] rounded-xl" onClick={sendPlateNumber} type="button">
               Submit
             </button>
           </div>
