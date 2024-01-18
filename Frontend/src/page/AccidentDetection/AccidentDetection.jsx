@@ -18,33 +18,33 @@ const AccidentDetection = () => {
     );
   }, [evidence]);
 
-  useEffect(() => {
-    const startCamera = async () => {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: true,
-        });
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-        }
-      } catch (error) {
-        console.error("Error accessing webcam:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const startCamera = async () => {
+  //     try {
+  //       const stream = await navigator.mediaDevices.getUserMedia({
+  //         video: true,
+  //       });
+  //       if (videoRef.current) {
+  //         videoRef.current.srcObject = stream;
+  //       }
+  //     } catch (error) {
+  //       console.error("Error accessing webcam:", error);
+  //     }
+  //   };
 
-    startCamera();
+  //   startCamera();
 
-    return () => {
-      const stream = videoRef.current?.srcObject;
-      if (stream) {
-        const tracks = stream.getTracks();
-        tracks.forEach((track) => track.stop());
-        if (videoRef.current) {
-          videoRef.current.srcObject = null;
-        }
-      }
-    };
-  }, []);
+  //   return () => {
+  //     const stream = videoRef.current?.srcObject;
+  //     if (stream) {
+  //       const tracks = stream.getTracks();
+  //       tracks.forEach((track) => track.stop());
+  //       if (videoRef.current) {
+  //         videoRef.current.srcObject = null;
+  //       }
+  //     }
+  //   };
+  // }, []);
 
   const sendFrameToServer = async () => {
     if (videoRef.current) {
