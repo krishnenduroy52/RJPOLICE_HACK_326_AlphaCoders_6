@@ -1,7 +1,14 @@
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+  useContext,
+} from "react";
 import style from "./numPlateDetection.module.css";
 import { DetailsContext } from "../../context/DetailsContext";
 import CardEvidence from "../../components/card/CardEvidence/CardEvidence";
+import Button from "../../components/Button/Button";
 
 const NumPlateDetection = () => {
   const inputRef = useRef(null);
@@ -10,8 +17,8 @@ const NumPlateDetection = () => {
   const isVideo = useRef(false);
 
   const [capturing, setCapturing] = useState(false);
-  const { evidence, user } = React.useContext(DetailsContext);
-
+  const { evidence, user } = useContext(DetailsContext);
+  const [camera, setCamera] = useState({ lat: "26.867173", long: "75.820837" });
   const [cameraEvidence, setCameraEvidence] = useState([]);
   useEffect(() => {
     const filterEvidences = evidence.filter((item) =>
@@ -19,6 +26,10 @@ const NumPlateDetection = () => {
     );
     setCameraEvidence(filterEvidences);
   }, [evidence]);
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
 
   const sendFrameToServer = useCallback(async () => {
     if (videoRef.current && inputRef.current.value.length > 0) {
@@ -31,6 +42,7 @@ const NumPlateDetection = () => {
       // canvas.toBlob((blob) => {
       //   form.append("image", blob, "frame.jpg");
       // }, "image/jpg");
+
       const imageBlob = await new Promise((resolve) =>
         canvas.toBlob(resolve, "image/jpeg")
       );
@@ -38,7 +50,7 @@ const NumPlateDetection = () => {
       formData.append("image", imageBlob, "frame.jpg");
 
       const data = await fetch(
-        `http://localhost:5000/license-plate-detection?number_plate=${inputRef.current.value}`,
+        `http://127.0.0.1:5000/license-plate-detection?number_plate=${inputRef.current.value}`,
         {
           method: "POST",
           body: formData,
@@ -46,7 +58,13 @@ const NumPlateDetection = () => {
       );
 
       const response = await data.json();
-      console.log(response);
+
+      let lat = camera.lat;
+      let long = camera.long;
+      if (user !== null) {
+        lat = user.camera.cameraLatitude;
+        long = user?.camera.cameraLongitude;
+      }
       if (response?.download_link) {
         const uploadCrime = await fetch(
           "http://localhost:8000/crime/evidence",
@@ -55,10 +73,10 @@ const NumPlateDetection = () => {
             body: JSON.stringify({
               image: response.download_link,
               location: {
-                latitude: user.camera.cameraLatitude,
-                longitude: user.camera.cameraLongitude,
+                latitude: lat,
+                longitude: long,
               },
-              time: "2021-09-30 12:00:00",
+              time: new Date().toISOString().slice(0, 19).replace("T", " "),
               userid: user._id,
               crime: `${response.number_plate} Number detected`,
             }),
@@ -71,12 +89,12 @@ const NumPlateDetection = () => {
         if (uploadCrime.status === 200) {
           setCameraEvidence((prev) => [
             {
-              image: data.download_link,
+              image: response.download_link,
               location: {
                 latitude: user.camera.cameraLatitude,
                 longitude: user.camera.cameraLongitude,
               },
-              time: "2021-09-30 12:00:00",
+              time: new Date().toISOString().slice(0, 19).replace("T", " "),
               userid: user._id,
               crime: `${response.number_plate} Number detected`,
             },
@@ -164,15 +182,19 @@ const NumPlateDetection = () => {
           <video
             ref={videoRef}
             autoPlay
-            style={{ width: "100%", maxWidth: "400px", borderRadius: "5px" }}
+            style={{ width: "100%", maxWidth: "462px", borderRadius: "5px" }}
           ></video>
-          <button onClick={startWebCam}>Start Webcam</button>
-          <span className="font-bold">or</span>
-          <input type="file" accept="video/*" onChange={handleVideo} />
+          <button className="m-2 bg-[#365486] hover:bg-[#4970b4] text-white font-bold py-2 px-4 border-b-4 border-[#293f65] hover:border-[#365486] rounded-xl" onClick={startWebCam} type="button">
+            Start Webcam
+          </button>
+          <span className="font-bold mr-2">or</span>
+
+          <input style={{ border: "", borderRadius: "10px", padding: "5px", margin: "10px", width: "14rem", backgroundColor: "#7FC7D9" }} type="file" accept="video/*" onChange={handleVideo} />
+
           <div className={style.input}>
             <input
               style={{
-                backgroundColor: "pink",
+                backgroundColor: "#7FC7D9",
                 width: "200px",
                 height: "40px",
                 fontSize: "20px",
@@ -182,20 +204,7 @@ const NumPlateDetection = () => {
               ref={inputRef}
               type="string"
             />
-            <button
-              style={{
-                width: "100px",
-                height: "auto",
-                padding: "10px",
-                fontSize: "1rem",
-                color: "white",
-                backgroundColor: "#1E9010",
-                textAlign: "center",
-                borderRadius: "10px",
-              }}
-              onClick={sendPlateNumber}
-              type="button"
-            >
+            <button className="m-2 bg-[#365486] hover:bg-[#4970b4] text-white font-bold py-2 px-4 border-b-4 border-[#293f65] hover:border-[#365486] rounded-xl" onClick={sendPlateNumber} type="button">
               Submit
             </button>
           </div>
@@ -203,7 +212,7 @@ const NumPlateDetection = () => {
         <div className={style.evidence}>
           {cameraEvidence &&
             cameraEvidence.map((evi, idx) => (
-              <CardEvidence key={evi.id} evi={evi} />
+              <CardEvidence key={idx} evi={evi} />
             ))}
         </div>
       </div>

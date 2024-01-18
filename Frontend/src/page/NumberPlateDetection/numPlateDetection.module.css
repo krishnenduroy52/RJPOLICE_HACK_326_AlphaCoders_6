@@ -147,3 +147,9 @@
   background: url('../../assets/cloud-2044823.svg') no-repeat center center; /* Replace 'upload-icon.png' with your actual image path */
   background-size: cover;
 }
+
+.input{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

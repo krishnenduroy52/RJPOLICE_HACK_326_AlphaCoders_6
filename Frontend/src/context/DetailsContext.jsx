@@ -28,6 +28,7 @@ const DetailsProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    console.log("details context");
     const userDetails = localStorage.getItem("user");
     const admin = localStorage.getItem("isAdmin");
     if (admin === "true") {
@@ -37,6 +38,7 @@ const DetailsProvider = ({ children }) => {
     } else {
       setIsAdmin(null);
     }
+    console.log(JSON.parse(userDetails).camera);
     setUser(JSON.parse(userDetails));
   }, []);
   return (

@@ -23,7 +23,7 @@ def accident_detection(request):
         img = cv2.imread(image)
         results = model(img, stream=True)
         download_link = None
-        gun_detected = False
+        accident = False
 
         for r in results:
             boxes = r.boxes
@@ -34,8 +34,8 @@ def accident_detection(request):
                 conf = math.ceil((box.conf[0] * 100)) / 100
                 label = int(box.cls[0])
 
-                if classNames[label] == 'Accident' and conf > 0.4:
-                    gun_detected = True
+                if classNames[label] == 'Accident' and conf > 0.59:
+                    accident = True
                     cvzone.putTextRect(img, f"{classNames[label]} {conf}", (max(
                         0, x1), max(35, y1 - 10)), 2, 1, (0, 255, 0), 2)
 
@@ -47,8 +47,8 @@ def accident_detection(request):
                         download_link = store_image(img, filename)
                         send_notification("accident")
 
-        if gun_detected:
+        if accident:
             return {'status': 'success', 'message': 'Accident detected', 'download_link': download_link}
-        return {'status': 'success', 'message': 'No gun detected'}
+        return {'status': 'success', 'message': 'No Accident detected'}
     else:
         return {'status': 'error', 'message': 'No image provided'}

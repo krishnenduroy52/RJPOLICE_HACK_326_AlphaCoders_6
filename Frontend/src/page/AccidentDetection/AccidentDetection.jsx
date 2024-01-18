@@ -18,34 +18,6 @@ const AccidentDetection = () => {
     );
   }, [evidence]);
 
-  // useEffect(() => {
-  //   const startCamera = async () => {
-  //     try {
-  //       const stream = await navigator.mediaDevices.getUserMedia({
-  //         video: true,
-  //       });
-  //       if (videoRef.current) {
-  //         videoRef.current.srcObject = stream;
-  //       }
-  //     } catch (error) {
-  //       console.error("Error accessing webcam:", error);
-  //     }
-  //   };
-
-  //   startCamera();
-
-  //   return () => {
-  //     const stream = videoRef.current?.srcObject;
-  //     if (stream) {
-  //       const tracks = stream.getTracks();
-  //       tracks.forEach((track) => track.stop());
-  //       if (videoRef.current) {
-  //         videoRef.current.srcObject = null;
-  //       }
-  //     }
-  //   };
-  // }, []);
-
   const sendFrameToServer = async () => {
     if (videoRef.current) {
       const canvas = document.createElement("canvas");
@@ -68,7 +40,8 @@ const AccidentDetection = () => {
       })
         .then((response) => response.json())
         .then(async (data) => {
-          if (data?.download_link) {
+          console.log(data);
+          if (data?.download_link && data.download_link.length > 0) {
             const uploadCrime = await fetch(
               "http://localhost:8000/crime/evidence",
               {
@@ -88,6 +61,7 @@ const AccidentDetection = () => {
                 },
               }
             );
+            console.log(uploadCrime);
 
             if (uploadCrime.status === 200) {
               setCameraEvidence((prev) => [
@@ -99,7 +73,7 @@ const AccidentDetection = () => {
                   },
                   time: new Date().toISOString().slice(0, 19).replace("T", " "),
                   userid: user._id,
-                  crime: "Fire detected",
+                  crime: "Accident detected",
                 },
                 ...prev,
               ]);
@@ -154,7 +128,7 @@ const AccidentDetection = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       sendFrameToServer();
-    }, 5000);
+    }, 2000);
     return () => clearInterval(interval);
   }, []);
 
