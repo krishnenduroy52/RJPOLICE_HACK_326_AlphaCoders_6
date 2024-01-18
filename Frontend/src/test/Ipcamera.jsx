@@ -22,9 +22,10 @@ function Ipcamera(props) {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        props.link
+        "https://0764dpzq-8080.inc1.devtunnels.ms/"
       );
-      setFrame(response.data.frame);
+      setFrame(response.data);
+      console.log(response.data)
       setError(null);
     } catch (error) {
       setError("Error fetching frame");

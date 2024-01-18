@@ -5,6 +5,7 @@ import customMarkerImage from "../assets/marker2.png";
 import { getAllUsersRoute } from "../Utils/APIRoutes";
 const API_Key = import.meta.env.VITE_APP_TOMTOM_APIKEY;
 import axios from 'axios'
+import CameraModal from "../components/CameraModal/CameraModal";
 
 
 const axiosX = axios.create({ baseURL: 'http://localhost:8000' });
@@ -16,7 +17,7 @@ const Map2 = () => {
   const [currentLoc, setCurrentLoc] = useState(null);
   const mapRef = useRef(null);
   const targetRef = useRef(null);
-
+  const [camlink, setCamlink] = useState(undefined);
   const [user, setUser] = useState([]);
   const [userDetails, setUserDetails] = useState([]);
 
@@ -156,8 +157,14 @@ const Map2 = () => {
     return fieldDiv;
   }
 
-  function onViewCCTVClick() {
-    alert("Viewing CCTV...");
+  const onViewCCTVClick = (link)=> {
+    // if(!link) return;
+    if(camlink !== link) 
+    if(camlink) setCamlink(null);
+    if(!link) return;
+    console.log(link);
+    setCamlink(link);
+      
   }
 
   const createCard = useCallback((user) => {
@@ -169,6 +176,9 @@ const Map2 = () => {
     card.style.height = "150px";
     card.style.backgroundSize = "cover";
     card.style.position = "relative";
+    card.style.display= "flex";
+    card.style.justifyContent= "center"
+    // card.style.textAlign = "center"
 
     const infoDiv = document.createElement("div");
     infoDiv.style.padding = "5px";
@@ -190,7 +200,7 @@ const Map2 = () => {
     viewCCTVButton.style.cursor = "pointer";
     viewCCTVButton.style.outline = "none";
 
-    viewCCTVButton.addEventListener("click", onViewCCTVClick);
+    viewCCTVButton.addEventListener("click", ()=>onViewCCTVClick(user.camLink));
 
     infoDiv.appendChild(nameField);
     infoDiv.appendChild(phoneField);
@@ -393,6 +403,10 @@ const Map2 = () => {
     map && map.on("click", addTarget);
   };
 
+  const closeModal = () => {
+    setCamlink(undefined);
+  }
+
   const reset = () => {
     clear();
     setMarkers((prevMarkers) =>
@@ -444,6 +458,7 @@ const Map2 = () => {
           </button>
         </div>
       </div>
+      {camlink ? <CameraModal camLink={camlink} closeModal={closeModal}/> : <></>}
     </div>
   );
 };
