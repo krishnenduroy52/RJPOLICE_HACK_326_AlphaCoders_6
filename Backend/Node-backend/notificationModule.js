@@ -8,7 +8,8 @@ admin.initializeApp({
 
 const sendNotification = async (object) => {
   const registrationToken =
-    "djz0ZpmVruhrkmdgbiEFvk:APA91bEaNb4c2TdEOXtXs7Oo89CAD4A10QTPZxnedOQjNWDP1qQblAP7qARRiCAHgaRiMDhSHryjwemAFOuoxUIiN3GsEtwSjyiwrguhXtLpaRsb54U67BxsMtKrAN0WRWPraS292JpZ";
+  "fQ2yJxlpr026qOZX6B9CZk:APA91bGLNFllyN-gG_eu4zDXmakCWbJnWI-vVETpvqMsfcfa6qWHAGA8ls14BSIHun3IuIfa0ifqTVKzBWBBJg0iIqwxnsZtAV2ymV1AgyI3LEozOeqyKyfxw9LH-1SMSjgViTzNyQzB";
+
 
   const message = {
     data: {

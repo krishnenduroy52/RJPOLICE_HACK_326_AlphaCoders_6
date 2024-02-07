@@ -38,7 +38,7 @@ const DetailsProvider = ({ children }) => {
     } else {
       setIsAdmin(null);
     }
-    console.log(JSON.parse(userDetails).camera);
+    // console.log(JSON.parse(userDetails).camera);
     setUser(JSON.parse(userDetails));
   }, []);
   return (

@@ -1,29 +1,30 @@
 import styles from "./Home.module.css";
 import hero_video from '../../assets/hero_image.mp4';
+import { Navigate } from "react-router-dom";
+import { DetailsContext } from "../../context/DetailsContext";
+import { useContext } from "react";
+
 const Home = () => {
-  return (
-    <div className={styles.hero_container}>
-      <div>
-        <h1 className={styles.hero_text}>
-          {/* <span className={styles.hero_text_span}>Eta ke banabi baraaa</span> */}
-        </h1>
-      </div>
-      <div>
-        <video
-          className={styles.hero_video}
-          data-v-27edef16=""
-          data-test="video-content"
-          preload="auto"
-          src={hero_video}
-          type="video/mp4"
-          loop="true"
-          draggable="false"
-          autoPlay="true"
-          muted="true"
-        ></video>
-      </div>
-    </div>
-  );
+  const { user, isAdmin } = useContext(DetailsContext);
+
+  console.log("User", user);
+
+  if (user === null){
+    return <Navigate to="/auth/signin" />;
+  }
+
+  if (user) {
+    if (isAdmin) {
+      return <Navigate to="/admin/dashboard" />;
+    } else {
+      return <Navigate to="/user/dashboard" />;
+    }
+  }
+
+
+  // if (!user){
+  //   return <Navigate to="/auth/signin" />;
+  // }
 };
 
 export default Home;

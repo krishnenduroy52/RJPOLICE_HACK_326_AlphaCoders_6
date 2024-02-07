@@ -151,9 +151,14 @@ const AccidentDetection = () => {
             autoPlay
             style={{ width: "100%", maxWidth: "400px", borderRadius: "5px" }}
           />
-          <button onClick={startWebCam}>Start Webcam</button>
-          <span className="font-bold">or</span>
-          <input type="file" accept="video/*" onChange={handleVideo} />
+
+          <button className="m-2 bg-[#365486] hover:bg-[#4970b4] text-white font-bold py-2 px-4 border-b-4 border-[#293f65] hover:border-[#365486] rounded-xl" onClick={startWebCam} type="button">
+            Start Webcam
+          </button>
+          <span className="font-bold mr-2">or</span>
+
+          <input style={{ border: "", borderRadius: "10px", padding: "5px", margin: "10px", width: "14rem", backgroundColor: "#7FC7D9" }} type="file" accept="video/*" onChange={handleVideo} />
+
         </div>
         <div className={style.evidence}>
           {cameraEvidence &&

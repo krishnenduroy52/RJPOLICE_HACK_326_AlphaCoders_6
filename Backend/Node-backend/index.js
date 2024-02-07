@@ -174,7 +174,7 @@ const CrimeEvidenceModel = require("./Models/CrimeEvidenceModel");
 const { sendNotification } = require("./notificationModule");
 
 app.get("/", async (req, res) => {
-  res.send("Hello, world!. Backend server of the Rajasthan hackathon app");
+  res.send("Welcome to the backend server of the Rajasthan hackathon app");
 });
 
 app.get("/sendnotification/:object", async (req, res) => {

@@ -1,13 +1,21 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './NavbarInMobile.module.css';
+import { DetailsContext } from "../../context/DetailsContext";
 
 const NavbarInMobile = () => {
+    const { user, isAdmin } = useContext(DetailsContext);
     const [isNavbarOpen, setNavbarOpen] = useState(false);
     const navActive = useRef(null);
 
     const toggleNavbar = () => {
-            setNavbarOpen(!isNavbarOpen);
+        setNavbarOpen(!isNavbarOpen);
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem("user");
+        localStorage.removeItem("isAdmin");
+        setUser(null);
     };
 
     return (
@@ -50,17 +58,34 @@ const NavbarInMobile = () => {
 
             </div>
             <div>
-                <div ref={navActive} className={`${styles.mobileMenu} ${isNavbarOpen ? styles.isOpen : ''}` }>
+                <div ref={navActive} className={`${styles.mobileMenu} ${isNavbarOpen ? styles.isOpen : ''}`}>
                     <div>
                         <li><Link to={'/'} className="menu__item">Home</Link></li>
+
+                        {isAdmin == true ? (
+                            <li>
+                                <Link to="/admin/dashboard">Admin</Link>
+                            </li>
+                        ) : isAdmin == false ? (
+                            <li>
+                                <Link to="/user/dashboard">Dashboard</Link>
+                            </li>
+                        ) : null}
 
                         <li><Link to={'/about-us'} className="menu__item">About Us</Link></li>
 
                         <li><Link to={'/contact-us'} className="menu__item">Contact Us</Link></li>
 
-                        <li><Link to={'/auth/signin'} className="menu__item">Login / Sign Up</Link></li>
+                        {!user ? (
+                            <li>
+                                <Link to="/auth/signin">Login / Sign Up</Link>
+                            </li>
+                        ) : (
+                            <li>
+                                <Link onClick={handleLogout}>Logout</Link>
+                            </li>
+                        )}
 
-                        <li><Link to={'/admin/dashboard'} className="menu__item">Admin</Link></li>
                     </div>
                 </div>
             </div>

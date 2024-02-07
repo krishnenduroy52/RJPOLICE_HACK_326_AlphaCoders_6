@@ -21,7 +21,7 @@ model = YOLO("best.pt")
 
 @app.route('/')
 def hello():
-    return "Hello hackathon"
+    return "Hello hackathon (flask backend)"
 
 
 classNames = ['Handgun', 'Knife', 'Short_rifle']
