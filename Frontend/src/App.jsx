@@ -66,6 +66,7 @@ function App() {
       const deviceToken = await getToken(messaging, {
         vapidKey: import.meta.env.VITE_APP_VAPID_KEY,
       });
+      localStorage.setItem("deviceToken", deviceToken);
       console.log("deviceID", deviceToken);
     } else if (permission === "denied") {
       alert("You have denied notification permission");
