@@ -7,7 +7,7 @@ function CameraModal({ camLink, closeModal }) {
   const [frame, setFrame] = useState("");
   
   const [error, setError] = useState(null);
-
+  console.log(camLink);
   if(!camLink) return;
     console.log(camLink)
 //   useEffect(() => {
