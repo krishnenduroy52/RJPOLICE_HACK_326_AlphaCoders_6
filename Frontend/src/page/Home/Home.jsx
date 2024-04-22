@@ -1,5 +1,5 @@
 import styles from "./Home.module.css";
-import hero_video from '../../assets/hero_image.mp4';
+import hero_video from "../../assets/hero_image.mp4";
 const Home = () => {
   return (
     <div className={styles.hero_container}>
@@ -19,7 +19,6 @@ const Home = () => {
           loop="true"
           draggable="false"
           autoPlay="true"
-          muted="true"
         ></video>
       </div>
     </div>
