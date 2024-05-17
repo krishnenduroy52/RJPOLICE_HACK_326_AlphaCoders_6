@@ -8,6 +8,10 @@ const GunDetection = () => {
   const { evidence, user } = useContext(DetailsContext);
   // evidence = [{...}, {...}, {...}]
 
+  useEffect(() => {
+    console.log(user);
+  }, []);
+
   const [cameraEvidence, setCameraEvidence] = useState([]);
 
   useEffect(() => {

@@ -217,7 +217,6 @@ app.get("/get/user/details/:id", async (req, res) => {
   }
 });
 
-
 // User Login
 app.post("/user/login", async (req, res) => {
   const { email, password } = req.body;
@@ -236,17 +235,18 @@ app.get("/getUserDetails", async (req, res) => {
     console.error(error);
     res.status(500).send("Internal Server Error");
   }
-})
+});
 
 // push crime evidence to database
 app.post("/crime/evidence", async (req, res) => {
+  console.log(req.body);
   try {
     const crimeEvidence = new CrimeEvidenceModel(req.body);
     await crimeEvidence.save();
     res.send("Success");
   } catch (error) {
     console.error(error);
-    res.status(500).send("Internal Server Error");
+    res.status(500).send(error);
   }
 });
 
@@ -257,7 +257,7 @@ app.get("/crime/evidence", async (req, res) => {
     res.status(200).json({ message: "Success", crimeEvidence: crimeEvidence });
   } catch (error) {
     console.error(error);
-    res.status(500).send("Internal Server Error");
+    res.status(500).send(error);
   }
 });
 
