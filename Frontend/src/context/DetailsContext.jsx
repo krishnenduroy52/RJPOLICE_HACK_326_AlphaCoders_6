@@ -41,6 +41,11 @@ const DetailsProvider = ({ children }) => {
     // console.log(JSON.parse(userDetails).camera);
     setUser(JSON.parse(userDetails));
   }, []);
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
+
   return (
     <DetailsContext.Provider
       value={{

@@ -5,13 +5,8 @@ import { DetailsContext } from "../../context/DetailsContext";
 
 const FireDetection = () => {
   const videoRef = useRef(null);
-  const { evidence,user } = useContext(DetailsContext);
+  const { evidence, user } = useContext(DetailsContext);
   // evidence = [{...}, {...}, {...}]
-
-  // useEffect(() => {
-  //   console.log(user)
-  //   console.log(user._id)
-  // }, [user])
 
   const [cameraEvidence, setCameraEvidence] = useState([]);
 
@@ -69,6 +64,7 @@ const FireDetection = () => {
       })
         .then((response) => response.json())
         .then(async (data) => {
+          console.log(data);
           if (data?.download_link) {
             const uploadCrime = await fetch(
               "http://localhost:8000/crime/evidence",
@@ -77,13 +73,11 @@ const FireDetection = () => {
                 body: JSON.stringify({
                   image: data.download_link,
                   location: {
-                    // latitude: 10.762622,
-                    // longitude: 106.660172,
                     latitude: user.camera.cameraLatitude,
                     longitude: user.camera.cameraLongitude,
                   },
                   time: new Date().toISOString().slice(0, 19).replace("T", " "),
-                  user: user._id,
+                  userid: user._id,
                   crime: "Fire detected",
                 }),
                 headers: {
@@ -91,7 +85,7 @@ const FireDetection = () => {
                 },
               }
             );
-
+            console.log("uploadCrime", uploadCrime);
             if (uploadCrime.status === 200) {
               setCameraEvidence((prev) => [
                 {
