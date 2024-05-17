@@ -21,7 +21,7 @@ easyocr==1.7.1
 eventlet==0.34.2
 filelock==3.13.1
 fire==0.5.0
-firebase-admin==6.3.0
+firebase-admin==6.4.0
 Flask==3.0.0
 Flask-Cors==4.0.0
 Flask-SocketIO==5.3.6
@@ -46,7 +46,7 @@ googleapis-common-protos==1.62.0
 greenlet==3.0.3
 grpcio==1.60.0
 grpcio-status==1.60.0
-gunicorn==21.2.0
+Gunicorn==21.2.0
 h11==0.14.0
 h5py==3.10.0
 httplib2==0.22.0
@@ -127,10 +127,13 @@ torchvision==0.16.2
 tqdm==4.66.1
 typing_extensions==4.9.0
 tzdata==2023.3
-ultralytics==8.0.229
+ultralytics==8.1.10
 uritemplate==4.1.1
 urllib3==1.26.18
 wcwidth==0.2.12
 Werkzeug==3.0.1
 wrapt==1.14.1
 wsproto==1.2.0
+Flask==3.0.0
+Flask-Cors==4.0.0
+numpy==1.26.2

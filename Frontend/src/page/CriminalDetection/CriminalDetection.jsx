@@ -9,6 +9,7 @@ import style from "./criminalDetection.module.css";
 import CardEvidence from "../../components/card/CardEvidence/CardEvidence";
 
 import { DetailsContext } from "../../context/DetailsContext";
+import Loader from "../../components/Loaders/Loader";
 
 const CriminalDetection = () => {
   const videoRef = useRef(null);
@@ -17,6 +18,7 @@ const CriminalDetection = () => {
   const [capturing, setCapturing] = useState(false);
   const { evidence,user } = useContext(DetailsContext);
   const [cameraEvidence, setCameraEvidence] = useState([]);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     setCameraEvidence(
@@ -144,6 +146,7 @@ const CriminalDetection = () => {
     }
     const file = imageInputRef.current.files[0];
     setRefImage(file);
+    setUploading(true);
   };
 
   useEffect(() => {
@@ -182,7 +185,7 @@ const CriminalDetection = () => {
             />
             <button className={style.upload_button} onClick={handleInput}>
               <span className={style.upload_icon}></span>
-              {refImage == null ? "Submit Image" : "Upload"}
+              {uploading ? <Loader/> : refImage == null ? "Submit Image" : "Upload"}
             </button>
           </div>
           {refImage && <h3>Image Preview</h3>}
